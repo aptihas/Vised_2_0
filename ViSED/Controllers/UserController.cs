@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ViSED.ProgramLogic;
 using ViSED.Models;
+using System.Web.Routing;
 
 namespace ViSED.Controllers
 {
@@ -152,6 +153,9 @@ namespace ViSED.Controllers
         [AllowAnonymous]
         public ActionResult DocViewPartial(int doc_id)
         {
+            string controller =  RouteData.GetRequiredString("controller");
+            string action = RouteData.GetRequiredString("action");
+
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
@@ -176,16 +180,23 @@ namespace ViSED.Controllers
             ViewBag.UserFrom = userFrom;
             ViewBag.DocType = doc_type;
             ViewBag.Msg = msg;
-            return View();
-            //if ((myAccount.user_id == msg.from_user_id) || (myAccount.user_id == msg.to_user_id))
-            //{
-            //    return View();
-            //}
-            //else
-            //{
-            //    return RedirectToAction("USerLK", "User", null);
-            //}
-
+            try
+            {
+                //запросе неявно передается второй параметр saved который представляет с собой hashcode записи vised+doc_id
+                //в методе проверяется данные переданные через параметрsaved с данными которые формируются точно также в методе если они совпадают то выдается страница если нет то нет
+                if (Request.QueryString.GetValues(1)[0] == "vised" + doc_id.ToString().GetHashCode().ToString())
+                {
+                    return View();
+                }
+                else
+                {
+                    return View("NotFound");
+                }
+            }
+            catch
+            {
+                return View("NotFound");
+            }
         }
 
         public ActionResult CorrespondenceList()
@@ -247,6 +258,7 @@ namespace ViSED.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SavePdf(int doc_id)
         {
             var msg = (from m in vsdEnt.Message
@@ -254,19 +266,17 @@ namespace ViSED.Controllers
                        select m).FirstOrDefault();
 
             string Host = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf("User") - 1);
-            string Zapros = Url.Action("DocViewPartial", "User", new { doc_id =msg.id });
+            string Zapros = Url.Action("DocViewPartial", "User", new { doc_id = msg.id,saved="vised"+msg.id.ToString().GetHashCode() });
 
             var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter();
             htmlToPdf.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
 
             byte[] pdfBytes = htmlToPdf.GeneratePdfFromFile(Host + Zapros, null);
 
-
             // return resulted pdf document 
             FileResult fileResult = new FileContentResult(pdfBytes, "application/pdf");
             fileResult.FileDownloadName = "Document_"+msg.id.ToString()+ ".pdf";
             return fileResult;
         }
-
     }
 }
