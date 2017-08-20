@@ -148,6 +148,44 @@ namespace ViSED.Controllers
                 return RedirectToAction("USerLK", "User", null);
             }
         }
+        
+        public ActionResult DocViewPartial(int doc_id)
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            var msg = (from m in vsdEnt.Message
+                       where m.id == doc_id
+                       select m).FirstOrDefault();
+
+            var doc_type = (from d in vsdEnt.DocType
+                            where msg.doc_type_id == d.id
+                            select d).FirstOrDefault();
+
+            var userFrom = (from u in vsdEnt.Users
+                            where u.id == msg.from_user_id
+                            select u).FirstOrDefault();
+
+            var userTo = (from u in vsdEnt.Users
+                          where u.id == msg.to_user_id
+                          select u).FirstOrDefault();
+
+            ViewBag.UserTo = userTo;
+            ViewBag.UserFrom = userFrom;
+            ViewBag.DocType = doc_type;
+            ViewBag.Text = msg.text;
+
+            if ((myAccount.user_id == msg.from_user_id) || (myAccount.user_id == msg.to_user_id))
+            {
+                return View(msg);
+            }
+            else
+            {
+                return RedirectToAction("USerLK", "User", null);
+            }
+
+        }
 
         public ActionResult CorrespondenceList()
         {
