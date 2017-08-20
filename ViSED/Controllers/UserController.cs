@@ -137,7 +137,8 @@ namespace ViSED.Controllers
             ViewBag.UserTo = userTo;
             ViewBag.UserFrom = userFrom;
             ViewBag.DocType = doc_type;
-            ViewBag.Text = msg.text;
+            ViewBag.Msg = msg;
+
 
             if ((myAccount.user_id == msg.from_user_id) || (myAccount.user_id == msg.to_user_id))
             {
@@ -148,7 +149,7 @@ namespace ViSED.Controllers
                 return RedirectToAction("USerLK", "User", null);
             }
         }
-        
+        [AllowAnonymous]
         public ActionResult DocViewPartial(int doc_id)
         {
             var myAccount = (from u in vsdEnt.Accounts
@@ -174,16 +175,16 @@ namespace ViSED.Controllers
             ViewBag.UserTo = userTo;
             ViewBag.UserFrom = userFrom;
             ViewBag.DocType = doc_type;
-            ViewBag.Text = msg.text;
-
-            if ((myAccount.user_id == msg.from_user_id) || (myAccount.user_id == msg.to_user_id))
-            {
-                return View(msg);
-            }
-            else
-            {
-                return RedirectToAction("USerLK", "User", null);
-            }
+            ViewBag.Msg = msg;
+            return View();
+            //if ((myAccount.user_id == msg.from_user_id) || (myAccount.user_id == msg.to_user_id))
+            //{
+            //    return View();
+            //}
+            //else
+            //{
+            //    return RedirectToAction("USerLK", "User", null);
+            //}
 
         }
 
@@ -245,6 +246,27 @@ namespace ViSED.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult SavePdf(int doc_id)
+        {
+            var msg = (from m in vsdEnt.Message
+                       where m.id == doc_id
+                       select m).FirstOrDefault();
+
+            string Host = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf("User") - 1);
+            string Zapros = Url.Action("DocViewPartial", "User", new { doc_id =msg.id });
+
+            var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter();
+            htmlToPdf.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
+
+            byte[] pdfBytes = htmlToPdf.GeneratePdfFromFile(Host + Zapros, null);
+
+
+            // return resulted pdf document 
+            FileResult fileResult = new FileContentResult(pdfBytes, "application/pdf");
+            fileResult.FileDownloadName = "Document_"+msg.id.ToString()+ ".pdf";
+            return fileResult;
+        }
 
     }
 }

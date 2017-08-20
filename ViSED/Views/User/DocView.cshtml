@@ -9,5 +9,10 @@
 }
 
 <h4>Просмотр документа</h4>
+@using (Html.BeginForm("SavePdf", "User", FormMethod.Post))
+{
+    <input type="hidden" value="@ViewBag.Msg.id" name="doc_id" />
+    <input type="submit" value="Сохранить" />
+}
 @Html.Partial("DocViewPartial")
 
