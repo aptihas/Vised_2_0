@@ -140,7 +140,7 @@ namespace ViSED.Controllers
             ViewBag.DocType = doc_type;
             ViewBag.Msg = msg;
 
-
+            //проверка относится ли пользователь к запрошиваемым документам. Если да то документ выводится
             if ((myAccount.user_id == msg.from_user_id) || (myAccount.user_id == msg.to_user_id))
             {
                 return View(msg);
