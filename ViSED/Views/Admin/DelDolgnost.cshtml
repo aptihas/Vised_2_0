@@ -1,0 +1,30 @@
+﻿@model ViSED.Models.Dolgnosti
+
+@{
+    ViewBag.Title = "Удалить должность";
+}
+
+<h4>Удалить должность</h4>
+
+<h3>Вы уверены что хотите удалить должность?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Наименование должности
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" />
+        </div>
+    }
+</div>

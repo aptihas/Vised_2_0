@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ViSED.Models.Users>
+
+<table class="table" id="results">
+    <tr>
+        <th>
+            Фамилия
+        </th>
+        <th>
+            Имя
+        </th>
+        <th>
+            Отчество
+        </th>
+        <th>
+            Должность
+        </th>
+        <th>
+            Подразделение
+        </th>
+        <th></th>
+    </tr>
+    
+    @foreach (ViSED.Models.Users item in ViewBag.Users)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.first_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.second_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.third_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dolgnosti.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Podrazdeleniya.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Изменить", "EditUser", "Admin", new { id = item.id }, null) |
+                @Html.ActionLink("Удалить", "DeleteUser", "Admin", new { id = item.id }, null)
+            </td>
+        </tr>
+    }
+</table>

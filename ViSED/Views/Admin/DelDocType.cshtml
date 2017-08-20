@@ -1,0 +1,37 @@
+﻿@model ViSED.Models.DocType
+
+@{
+    ViewBag.Title = "Удалить вид документа";
+}
+
+
+<h4>Вы уверены что хотите удалить вид документа?</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Наименование документа
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Используется бланок организации
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Use_Blank)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> 
+        </div>
+    }
+</div>

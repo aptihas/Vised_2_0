@@ -1,0 +1,12 @@
+﻿@model IEnumerable<ViSED.Models.DocType>
+
+@{
+    ViewBag.Title = "Выбор вида документа";
+}
+
+<h4>Выбор вида документа</h4>
+
+@foreach (var item in Model)
+{
+    <div onclick="location.href='@Url.Action("DocData","User", new { id=item.id })'" style="height:50px;display:inline;margin:10px;padding:10px;border:1px solid black;cursor:pointer; ">@item.Name</div>
+}

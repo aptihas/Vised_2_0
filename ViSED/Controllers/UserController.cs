@@ -1,0 +1,212 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using ViSED.ProgramLogic;
+using ViSED.Models;
+
+namespace ViSED.Controllers
+{
+
+    [ViSedRolesAttribute(Roles = "User")]
+    public class UserController : Controller
+    {
+        Models.ViSedDBEntities vsdEnt = new Models.ViSedDBEntities();
+        // GET: User
+        public ActionResult USerLK()//Личный кабинет
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            var msgToMe = from m in vsdEnt.Message
+                          where m.to_user_id == myAccount.Users.id && m.dateOfRead == null
+                          select m;
+
+            ViewBag.MsgToMe = msgToMe.Count();
+
+            return View();
+        }
+        public ActionResult DocSelect()//Страница списка документов для выбора
+        {
+            var docs = from d in vsdEnt.DocType
+                       select d;
+            return View(docs);
+        }
+        public ActionResult DocData(int id)//Страница указания данных для документа (получатель и текст)
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                         where u.login == User.Identity.Name
+                         select u).FirstOrDefault();
+
+            var myUser = (from u in vsdEnt.Users
+                          where u.id == myAccount.user_id
+                          select u).FirstOrDefault();
+
+            var doc = (from d in vsdEnt.DocType
+                       where d.id == id
+                       select d).FirstOrDefault();
+
+            var usr = from u in vsdEnt.Users
+                        from a in vsdEnt.Accounts
+                        from r in vsdEnt.Roles
+                        where u.id == a.user_id && a.role_id == r.id && r.RoleName == "User" && u.id!= myUser.id
+                      select new { id = u.id, Name = u.first_name + " " + u.second_name + " " + u.third_name };
+
+            SelectList users = new SelectList(usr, "id", "Name");
+            ViewBag.Users = users;
+
+            ViewBag.Doc = doc;
+            return View();
+        }
+
+        public ActionResult DocSave(int user_to_id, string text, int doc_id, HttpPostedFileBase attachment)
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            var myUser = (from u in vsdEnt.Users
+                          where u.id == myAccount.user_id
+                          select u).FirstOrDefault();
+
+            Message msg = new Message
+            {
+                from_user_id = myUser.id,
+                to_user_id = user_to_id,
+                doc_type_id = doc_id,
+                text = text,
+                attachedFile = null,
+                dateOfSend = DateTime.Now,
+                dateOfRead = null
+            };
+
+            vsdEnt.Message.Add(msg);
+            vsdEnt.SaveChanges();
+
+            if (attachment != null)
+            {
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
+                }
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments"));
+                }
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments/"+myUser.id.ToString())))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString()));
+                }
+                //обработка приложения
+                string extension = System.IO.Path.GetExtension(attachment.FileName);
+                // сохраняем файл в папку Files в проекте
+                attachment.SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString()+"/file_" + msg.id.ToString() + extension));
+
+                msg.attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + extension;
+                vsdEnt.SaveChanges();
+            //-------
+            }
+            
+            return RedirectToAction("DocView", "User", new { doc_id = msg.id });
+        }
+
+        public ActionResult DocView(int doc_id)
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            var msg = (from m in vsdEnt.Message
+                      where m.id==doc_id
+                      select m).FirstOrDefault();
+
+            var doc_type = (from d in vsdEnt.DocType
+                            where msg.doc_type_id == d.id
+                            select d).FirstOrDefault();
+            
+            var userFrom= (from u in vsdEnt.Users
+                           where u.id == msg.from_user_id
+                           select u).FirstOrDefault();
+
+            var userTo= (from u in vsdEnt.Users
+                         where u.id == msg.to_user_id
+                         select u).FirstOrDefault();
+
+            ViewBag.UserTo = userTo;
+            ViewBag.UserFrom = userFrom;
+            ViewBag.DocType = doc_type;
+            ViewBag.Text = msg.text;
+
+            if ((myAccount.user_id == msg.from_user_id) || (myAccount.user_id == msg.to_user_id))
+            {
+                return View(msg);
+            }
+            else
+            {
+                return RedirectToAction("USerLK", "User", null);
+            }
+        }
+
+        public ActionResult CorrespondenceList()
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            var idFrom = from p in vsdEnt.Message
+                            where p.from_user_id!=myAccount.user_id
+                            select p.from_user_id;
+
+            var idTo = from p in vsdEnt.Message
+                         where p.to_user_id != myAccount.user_id
+                         select p.to_user_id;
+
+            var idList = idFrom.Union<int>(idTo).Distinct();
+
+            var userList = from u in vsdEnt.Users
+                           from i in idList
+                           where u.id == i
+                           select u;
+
+            var msgToMe = from m in vsdEnt.Message
+                          where m.to_user_id == myAccount.Users.id && m.dateOfRead == null
+                          select m;
+
+            ViewBag.UserList = userList;
+
+
+            return View(msgToMe);
+        }
+
+        public ActionResult Dialog(int userId)
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            var msgs = from m in vsdEnt.Message
+                       where (m.from_user_id == userId && m.to_user_id == myAccount.user_id) || (m.to_user_id == userId && m.from_user_id == myAccount.user_id)
+                       select m;
+            ViewBag.Message = msgs;
+            ViewBag.MyAccount = myAccount;
+
+            var msgAnswers = from m in vsdEnt.Message
+                             where m.from_user_id == userId && m.to_user_id == myAccount.user_id && m.dateOfRead == null
+                             select m;
+
+            if (msgAnswers != null)
+            {
+                foreach (var m in msgAnswers)
+                {
+                    m.dateOfRead = DateTime.Now;
+                }
+                vsdEnt.SaveChanges();
+            }
+            return View();
+        }
+
+
+    }
+}

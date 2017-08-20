@@ -1,0 +1,21 @@
+﻿@model IEnumerable<ViSED.Models.Users>
+
+@{
+    ViewBag.Title = "Список пользователей";
+}
+
+<h4>Список пользователей</h4>
+
+<p>
+    @Html.ActionLink("Добавить пользователя", "AddUser", "Admin", null, null)
+</p>
+
+
+@using (Ajax.BeginForm("UserSearch", "Admin", null, new AjaxOptions { UpdateTargetId = "results" }, null))
+{
+    <input type="text" name="name" />
+    <input type="submit" value="Поиск" />
+}
+<div id="results">
+    @Html.Partial("UserSearch")
+</div>

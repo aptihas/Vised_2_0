@@ -1,0 +1,62 @@
+﻿@model ViSED.Models.Users
+
+@{
+    ViewBag.Title = "DeleteUser";
+}
+
+<h4>Удаление пользователя</h4>
+
+<h3>Вы действительно хотите удалить данного пользователя?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Фамилия
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.first_name)
+        </dd>
+
+        <dt>
+            Имя
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.second_name)
+        </dd>
+
+        <dt>
+            Отчество
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.third_name)
+        </dd>
+
+        <dt>
+            Дожность
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dolgnosti.Name)
+        </dd>
+
+        <dt>
+            Подразделение
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Podrazdeleniya.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" />         
+        </div>
+    }
+</div>

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<ViSED.ProgramLogic.AccountListModel>
+
+@{
+    ViewBag.Title = "Список учетных данных";
+}
+
+<h4>Список учетных данных</h4>
+
+@using (Ajax.BeginForm("AccountSearch", "Admin", null, new AjaxOptions { UpdateTargetId = "results" }, null))
+{
+    <input type="text" name="name" />
+    <input type="submit" value="Поиск" />
+}
+
+@Html.Partial("AccountSearch")

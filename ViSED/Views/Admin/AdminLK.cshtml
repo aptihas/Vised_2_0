@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Административная панель";
+}
+
+<h2>Административная панель</h2>
+
+<ul>
+    <li>@Html.ActionLink("Добавить подразделение", "AddPodrazdelenie", "Admin",null,null)</li>
+    <li>@Html.ActionLink("Список подразделений", "ListPodrazdelenie", "Admin", null, null)</li>
+
+    <li>@Html.ActionLink("Добавить должность", "AddDolgnost", "Admin", null, null)</li>
+    <li>@Html.ActionLink("Список должностей", "ListDolgnost", "Admin", null, null)</li>
+
+    <li>@Html.ActionLink("Добавить документ", "AddDocType", "Admin", null, null)</li>
+    <li>@Html.ActionLink("Список документов", "ListDocType", "Admin", null, null)</li>
+
+    <li>@Html.ActionLink("Добавить пользователя", "AddUser", "Admin", null, null)</li>
+    <li>@Html.ActionLink("Список пользователей", "ListUser", "Admin", null, null)</li>
+
+    <li>@Html.ActionLink("Список учетных данных", "ListAccounts", "Admin", null, null)</li>
+</ul>
+

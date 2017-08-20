@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ViSED.ProgramLogic.AccountListModel>
+
+<table class="table" id="results">
+    <tr>
+        <th>
+            Подразделение
+        </th>
+        <th>
+            Должность
+        </th>
+        <th>
+            Фамилия
+        </th>
+        <th>
+            Имя
+        </th>
+        <th>
+            Отчество
+        </th>
+        <th>
+            Логин
+        </th>
+        <th>
+            Пароль
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (ViSED.ProgramLogic.AccountListModel item in ViewBag.Accounts)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.podrazdelenie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dolgnst)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.first_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.second_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.third_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.login)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.password)
+            </td>
+        </tr>
+    }
+
+</table>
+

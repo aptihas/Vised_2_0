@@ -1,0 +1,33 @@
+﻿@model ViSED.Models.Podrazdeleniya
+
+@{
+    ViewBag.Title = "Удалить подразделение";
+}
+
+
+<h4>Вы уверены что хотите удалить подразделение?</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Наименование подразделения
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            Бланок организации
+        </dt>
+        <dd>
+            @System.IO.Path.GetFileName(Html.DisplayFor(model => model.Blank).ToString())
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" />
+        </div>
+    }
+</div>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ViSED.Models.Dolgnosti>
+
+    @{
+        ViewBag.Title = "Список должностей";
+    }
+
+    <h4>Список должностей</h4>
+<p>
+    @Html.ActionLink("Добавить должность", "AddDolgnost", "Admin", null, null)
+</p>
+
+    <table class="table">
+        <tr>
+            <th>
+                Наименование должности
+            </th>
+
+        </tr>
+
+        @foreach (ViSED.Models.Dolgnosti item in ViewBag.Dolgnosti)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить", "EditDolgnost", "Admin", new { id = item.id }, null) |
+                    @Html.ActionLink("Удалить", "DelDolgnost", "Admin", new { id = item.id }, null)
+                </td>
+            </tr>
+        }
+    </table>

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ViSED.Models.DocType>
+
+@{
+    ViewBag.Title = "Список документов";
+}
+
+<h4>Список документов</h4>
+<p>
+    @Html.ActionLink("Добавить документ", "AddDocType", "Admin", null, null)
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Наименование документа
+        </th>
+        <th>
+            Используется бланок организации
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Use_Blank)
+        </td>
+        <td>
+            @Html.ActionLink("Изменить", "EditDocType","Admin", new { id=item.id },null) |
+            @Html.ActionLink("Удалить", "DelDocType", "Admin", new { id=item.id },null)
+        </td>
+    </tr>
+}
+
+</table>
