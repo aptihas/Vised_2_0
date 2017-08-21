@@ -15,29 +15,18 @@ namespace ViSED.Models
 using System;
     using System.Collections.Generic;
     
-public partial class DocType
+public partial class Attachments
 {
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public DocType()
-    {
-
-        this.Message = new HashSet<Message>();
-
-    }
-
 
     public int id { get; set; }
 
-    public string Name { get; set; }
+    public int id_message { get; set; }
 
-    public bool Use_Blank { get; set; }
+    public string attachedFile { get; set; }
 
 
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Message> Message { get; set; }
+    public virtual Message Message { get; set; }
 
 }
 

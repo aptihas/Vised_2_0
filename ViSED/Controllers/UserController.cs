@@ -62,7 +62,7 @@ namespace ViSED.Controllers
             return View();
         }
 
-        public ActionResult DocSave(int user_to_id, string text, int doc_id, HttpPostedFileBase attachment)
+        public ActionResult DocSave(int user_to_id, string text, int doc_id, HttpPostedFileBase[] attachment)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -78,7 +78,6 @@ namespace ViSED.Controllers
                 to_user_id = user_to_id,
                 doc_type_id = doc_id,
                 text = text,
-                attachedFile = null,
                 dateOfSend = DateTime.Now,
                 dateOfRead = null
             };
@@ -100,14 +99,22 @@ namespace ViSED.Controllers
                 {
                     System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString()));
                 }
-                //обработка приложения
-                string extension = System.IO.Path.GetExtension(attachment.FileName);
-                // сохраняем файл в папку Files в проекте
-                attachment.SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString()+"/file_" + msg.id.ToString() + extension));
 
-                msg.attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + extension;
+                for(int i=0;i<attachment.Length;i++)
+                {
+                    //обработка приложения
+                    string extension = System.IO.Path.GetExtension(attachment[i].FileName);
+
+                    // сохраняем файл в папку Files в проекте
+                    attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString()+"_"+i.ToString() + extension));
+                    Attachments file = new Attachments { id_message = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension };
+                
+                    vsdEnt.Attachments.Add(file);
+                    
+                }
                 vsdEnt.SaveChanges();
-            //-------
+                
+                //-------
             }
             
             return RedirectToAction("DocView", "User", new { doc_id = msg.id });
@@ -239,6 +246,12 @@ namespace ViSED.Controllers
             var msgs = from m in vsdEnt.Message
                        where (m.from_user_id == userId && m.to_user_id == myAccount.user_id) || (m.to_user_id == userId && m.from_user_id == myAccount.user_id)
                        select m;
+
+            var attachments = from a in vsdEnt.Attachments
+                              from m in msgs
+                              where a.id_message == m.id
+                              select a;
+            ViewBag.Attachments = attachments;
             ViewBag.Message = msgs;
             ViewBag.MyAccount = myAccount;
 
@@ -268,13 +281,13 @@ namespace ViSED.Controllers
             string Host = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf("User") - 1);
             string Zapros = Url.Action("DocViewPartial", "User", new { doc_id = msg.id,saved="vised"+msg.id.ToString().GetHashCode() });
 
-            var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter();
+            var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter() {};
             htmlToPdf.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
 
             byte[] pdfBytes = htmlToPdf.GeneratePdfFromFile(Host + Zapros, null);
 
             // return resulted pdf document 
-            FileResult fileResult = new FileContentResult(pdfBytes, "application/pdf");
+            FileResult fileResult = new FileContentResult(pdfBytes, "application/pdf") {};
             fileResult.FileDownloadName = "Document_"+msg.id.ToString()+ ".pdf";
             return fileResult;
         }

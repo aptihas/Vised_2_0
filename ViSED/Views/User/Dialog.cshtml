@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "Диалог";
     ViSED.Models.Accounts account = ViewBag.MyAccount;
+    ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
+
+
 }
 
 <h4>Диалог</h4>
@@ -24,9 +27,20 @@
                     <div style="font-size:10px;">Прочитано</div>
                     <div style="font-size:10px;">@msg.dateOfRead.ToString() </div>
                 }
-                @if (msg.attachedFile != null)
+                @{ 
+                    var attachs = from a in vsdEnt.Attachments
+                                  where a.id_message == msg.id
+                                  select a;
+                }
+                @if (attachs != null)
                 {
-                <a href="@Url.Content(msg.attachedFile)">Приложение</a>
+                    int i = 1;
+                    foreach (ViSED.Models.Attachments a in attachs)
+                    {
+                        <a href="@Url.Content(a.attachedFile)">Приложение @i</a>
+                        i++;
+                    }
+
                 }
             </div>
         }
@@ -37,9 +51,21 @@
                 <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
                 <div style="font-size:10px;">Получено</div>
                 <div style="font-size:10px">@msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</div>
-                @if (msg.attachedFile != null)
+
+                @{
+                    var attachs = from a in vsdEnt.Attachments
+                                  where a.id_message == msg.id
+                                  select a;
+                }
+                @if (attachs != null)
                 {
-                    <a href="@Url.Content(msg.attachedFile)">Приложение</a>
+                    int i = 1;
+                    foreach (ViSED.Models.Attachments a in attachs)
+                    {
+                        <a href="@Url.Content(a.attachedFile)">Приложение @i</a>
+                        i++;
+                    }
+
                 }
             </div>
         }

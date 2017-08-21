@@ -15,6 +15,14 @@
           <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="passw" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Attachments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_message" Type="int" Nullable="false" />
+          <Property Name="attachedFile" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
         <EntityType Name="DocType">
           <Key>
             <PropertyRef Name="id" />
@@ -39,7 +47,6 @@
           <Property Name="to_user_id" Type="int" Nullable="false" />
           <Property Name="doc_type_id" Type="int" Nullable="false" />
           <Property Name="text" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="attachedFile" Type="nvarchar" MaxLength="500" />
           <Property Name="dateOfSend" Type="datetime" Nullable="false" />
           <Property Name="dateOfRead" Type="datetime" />
         </EntityType>
@@ -93,6 +100,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Attachments_Attachments">
+          <End Role="Message" Type="Self.Message" Multiplicity="1" />
+          <End Role="Attachments" Type="Self.Attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Attachments">
+              <PropertyRef Name="id_message" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Message_DocType">
           <End Role="DocType" Type="Self.DocType" Multiplicity="1" />
           <End Role="Message" Type="Self.Message" Multiplicity="*" />
@@ -105,7 +124,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Message_Message_From">
+        <Association Name="FK_Message_Message">
+          <End Role="Message" Type="Self.Message" Multiplicity="1" />
+          <End Role="Message1" Type="Self.Message" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_User_From">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Message" Type="Self.Message" Multiplicity="*" />
           <ReferentialConstraint>
@@ -155,6 +186,7 @@
         </Association>
         <EntityContainer Name="Хранилище ViSedDBModelContainer">
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocType" EntityType="Self.DocType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dolgnosti" EntityType="Self.Dolgnosti" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
@@ -169,11 +201,19 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Accounts" EntitySet="Accounts" />
           </AssociationSet>
+          <AssociationSet Name="FK_Attachments_Attachments" Association="Self.FK_Attachments_Attachments">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Attachments" EntitySet="Attachments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Message_DocType" Association="Self.FK_Message_DocType">
             <End Role="DocType" EntitySet="DocType" />
             <End Role="Message" EntitySet="Message" />
           </AssociationSet>
-          <AssociationSet Name="FK_Message_Message_From" Association="Self.FK_Message_Message_From">
+          <AssociationSet Name="FK_Message_Message" Association="Self.FK_Message_Message">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Message1" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_User_From" Association="Self.FK_Message_User_From">
             <End Role="Users" EntitySet="Users" />
             <End Role="Message" EntitySet="Message" />
           </AssociationSet>
@@ -196,6 +236,7 @@
       <Schema Namespace="ViSedDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ViSedDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="ViSedDBModel.Accounts" />
+          <EntitySet Name="Attachments" EntityType="ViSedDBModel.Attachments" />
           <EntitySet Name="DocType" EntityType="ViSedDBModel.DocType" />
           <EntitySet Name="Dolgnosti" EntityType="ViSedDBModel.Dolgnosti" />
           <EntitySet Name="Message" EntityType="ViSedDBModel.Message" />
@@ -210,6 +251,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Accounts" EntitySet="Accounts" />
           </AssociationSet>
+          <AssociationSet Name="FK_Attachments_Attachments" Association="ViSedDBModel.FK_Attachments_Attachments">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Attachments" EntitySet="Attachments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Message_DocType" Association="ViSedDBModel.FK_Message_DocType">
             <End Role="DocType" EntitySet="DocType" />
             <End Role="Message" EntitySet="Message" />
@@ -218,7 +263,11 @@
             <End Role="Dolgnosti" EntitySet="Dolgnosti" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-          <AssociationSet Name="FK_Message_Message_From" Association="ViSedDBModel.FK_Message_Message_From">
+          <AssociationSet Name="FK_Message_Message" Association="ViSedDBModel.FK_Message_Message">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Message1" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_User_From" Association="ViSedDBModel.FK_Message_User_From">
             <End Role="Users" EntitySet="Users" />
             <End Role="Message" EntitySet="Message" />
           </AssociationSet>
@@ -242,6 +291,15 @@
           <Property Name="passw" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Roles" Relationship="ViSedDBModel.FK_Accounts_Roles" FromRole="Accounts" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Accounts_Users" FromRole="Accounts" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Attachments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_message" Type="Int32" Nullable="false" />
+          <Property Name="attachedFile" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Attachments" ToRole="Message" />
         </EntityType>
         <EntityType Name="DocType">
           <Key>
@@ -269,11 +327,13 @@
           <Property Name="to_user_id" Type="Int32" Nullable="false" />
           <Property Name="doc_type_id" Type="Int32" Nullable="false" />
           <Property Name="text" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="attachedFile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="dateOfSend" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="dateOfRead" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Attachments" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Message" ToRole="Attachments" />
           <NavigationProperty Name="DocType" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="Message" ToRole="DocType" />
-          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Message_Message_From" FromRole="Message" ToRole="Users" />
+          <NavigationProperty Name="Message1" Relationship="ViSedDBModel.FK_Message_Message" FromRole="Message" ToRole="Message1" />
+          <NavigationProperty Name="Message2" Relationship="ViSedDBModel.FK_Message_Message" FromRole="Message1" ToRole="Message" />
+          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Message" ToRole="Users" />
           <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Message" ToRole="Users" />
         </EntityType>
         <EntityType Name="Podrazdeleniya">
@@ -305,7 +365,7 @@
           <Property Name="third_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Accounts" Relationship="ViSedDBModel.FK_Accounts_Users" FromRole="Users" ToRole="Accounts" />
           <NavigationProperty Name="Dolgnosti" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Users" ToRole="Dolgnosti" />
-          <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Message_Message_From" FromRole="Users" ToRole="Message" />
+          <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Users" ToRole="Message" />
           <NavigationProperty Name="Message1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Users" ToRole="Message" />
           <NavigationProperty Name="Podrazdeleniya" Relationship="ViSedDBModel.FK_Users_Podrazdeleniya" FromRole="Users" ToRole="Podrazdeleniya" />
         </EntityType>
@@ -333,6 +393,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Attachments_Attachments">
+          <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="1" />
+          <End Type="ViSedDBModel.Attachments" Role="Attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Attachments">
+              <PropertyRef Name="id_message" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Message_DocType">
           <End Type="ViSedDBModel.DocType" Role="DocType" Multiplicity="1" />
           <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="*" />
@@ -357,7 +429,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Message_Message_From">
+        <Association Name="FK_Message_Message">
+          <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="1" />
+          <End Type="ViSedDBModel.Message" Role="Message1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_User_From">
           <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
           <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="*" />
           <ReferentialConstraint>
@@ -410,6 +494,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Attachments">
+            <EntityTypeMapping TypeName="ViSedDBModel.Attachments">
+              <MappingFragment StoreEntitySet="Attachments">
+                <ScalarProperty Name="attachedFile" ColumnName="attachedFile" />
+                <ScalarProperty Name="id_message" ColumnName="id_message" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DocType">
             <EntityTypeMapping TypeName="ViSedDBModel.DocType">
               <MappingFragment StoreEntitySet="DocType">
@@ -432,7 +525,6 @@
               <MappingFragment StoreEntitySet="Message">
                 <ScalarProperty Name="dateOfRead" ColumnName="dateOfRead" />
                 <ScalarProperty Name="dateOfSend" ColumnName="dateOfSend" />
-                <ScalarProperty Name="attachedFile" ColumnName="attachedFile" />
                 <ScalarProperty Name="text" ColumnName="text" />
                 <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
                 <ScalarProperty Name="to_user_id" ColumnName="to_user_id" />

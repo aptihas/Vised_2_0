@@ -180,6 +180,9 @@
     <Compile Include="Models\Accounts.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Attachments.cs">
+      <DependentUpon>ViSedDbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DocType.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
