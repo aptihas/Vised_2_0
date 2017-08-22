@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using ViSED.ProgramLogic;
 using ViSED.Models;
 using System.Web.Routing;
+using NPetrovichLite;
+using BLL.Declension;
 
 namespace ViSED.Controllers
 {
@@ -142,8 +144,9 @@ namespace ViSED.Controllers
                          where u.id == msg.to_user_id
                          select u).FirstOrDefault();
 
-            ViewBag.UserTo = userTo;
-            ViewBag.UserFrom = userFrom;
+
+            ViewBag.UserTo = SklonenieTo(userTo);
+            ViewBag.UserFrom = SklonenieFrom(userFrom);
             ViewBag.DocType = doc_type;
             ViewBag.Msg = msg;
 
@@ -183,8 +186,8 @@ namespace ViSED.Controllers
                           where u.id == msg.to_user_id
                           select u).FirstOrDefault();
 
-            ViewBag.UserTo = userTo;
-            ViewBag.UserFrom = userFrom;
+            ViewBag.UserTo = SklonenieTo(userTo);
+            ViewBag.UserFrom = SklonenieFrom(userFrom);
             ViewBag.DocType = doc_type;
             ViewBag.Msg = msg;
             try
@@ -290,6 +293,33 @@ namespace ViSED.Controllers
             FileResult fileResult = new FileContentResult(pdfBytes, "application/pdf") {};
             fileResult.FileDownloadName = "Document_"+msg.id.ToString()+ ".pdf";
             return fileResult;
+        }
+        private UserModelFoSklonen SklonenieTo(Users user)
+        {
+            UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost = user.Dolgnosti.Name, Podrazdelenie = user.Podrazdeleniya.Name, FirstName = user.first_name, SecondName = user.second_name, ThirdName = user.third_name , Blank=user.Podrazdeleniya.Blank};
+            usr.Dolgnost = DeclensionBLL.GetAppointmentDeclension(usr.Dolgnost, DeclensionCase.Datel);
+            usr.Podrazdelenie = DeclensionBLL.GetOfficeDeclension(usr.Podrazdelenie, DeclensionCase.Rodit);
+
+            Petrovich petrovich = new Petrovich();
+            usr.FirstName = petrovich.Inflect(usr.FirstName, NamePart.LastName, NPetrovichLite.Case.Dative);
+            usr.SecondName = petrovich.Inflect(usr.SecondName, NamePart.FirstName, NPetrovichLite.Case.Dative);
+            usr.ThirdName = petrovich.Inflect(usr.ThirdName, NamePart.MiddleName, NPetrovichLite.Case.Dative);
+
+            return usr;
+        }
+
+        private UserModelFoSklonen SklonenieFrom(Users user)
+        {
+            UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost= user.Dolgnosti.Name, Podrazdelenie=user.Podrazdeleniya.Name,FirstName=user.first_name,SecondName=user.second_name,ThirdName=user.third_name, Blank = user.Podrazdeleniya.Blank };
+
+            usr.Dolgnost = DeclensionBLL.GetAppointmentDeclension(usr.Dolgnost, DeclensionCase.Rodit);
+            usr.Podrazdelenie = DeclensionBLL.GetOfficeDeclension(usr.Podrazdelenie, DeclensionCase.Rodit);
+
+            Petrovich petrovich = new Petrovich();
+            usr.FirstName = petrovich.Inflect(usr.FirstName, NamePart.LastName, NPetrovichLite.Case.Genitive);
+            usr.SecondName = petrovich.Inflect(usr.SecondName, NamePart.FirstName, NPetrovichLite.Case.Genitive);
+            usr.ThirdName = petrovich.Inflect(usr.ThirdName, NamePart.MiddleName, NPetrovichLite.Case.Genitive);
+            return usr;
         }
     }
 }

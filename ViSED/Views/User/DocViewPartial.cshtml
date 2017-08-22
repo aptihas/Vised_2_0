@@ -1,7 +1,7 @@
-﻿@{
+﻿@{    
     Layout = null;
-    ViSED.Models.Users userTo = ViewBag.UserTo;
-    ViSED.Models.Users userFrom = ViewBag.UserFrom;
+    ViSED.ProgramLogic.UserModelFoSklonen userTo = ViewBag.UserTo;
+    ViSED.ProgramLogic.UserModelFoSklonen userFrom = ViewBag.UserFrom;
     ViSED.Models.DocType docType = ViewBag.DocType;
 }
 
@@ -11,7 +11,7 @@
             <td style="text-align:center;vertical-align:top; padding:2em 2em 1em 1em;">
                 @if (docType.Use_Blank == true)
                 {
-                    <img src="@Url.Content(userFrom.Podrazdeleniya.Blank)" />
+                    <img src="@Url.Content(userFrom.Blank)" />
                 }
                 else
                 {
@@ -19,17 +19,17 @@
                 }
             </td>
             <td style="text-align:right;font-size:14pt;height:450px;vertical-align:top;padding-top:3em;padding-left:3em;padding-right:2em;padding-bottom:2em;">
-                @userTo.Dolgnosti.Name
+                @userTo.Dolgnost
                 <br />
-                @userTo.Podrazdeleniya.Name
+                @userTo.Podrazdelenie
                 <br />
-                @userTo.first_name @userTo.second_name @userTo.third_name
+                @userTo.FirstName @userTo.SecondName @userTo.ThirdName
                 <br />
-                @userFrom.Dolgnosti.Name
+                @userFrom.Dolgnost
                 <br />
-                @userFrom.Podrazdeleniya.Name
+                @userFrom.Podrazdelenie
                 <br />
-                @userFrom.first_name @userFrom.second_name @userFrom.third_name
+                @userFrom.FirstName @userFrom.SecondName @userFrom.ThirdName
                 <br />
             </td>
         </tr>
