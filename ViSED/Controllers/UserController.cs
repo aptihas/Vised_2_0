@@ -303,6 +303,7 @@ namespace ViSED.Controllers
             return Task.Run(()=>htmlToPdf.GeneratePdfFromFile(put, null));
         }
 
+        [AllowAnonymous]
         private UserModelFoSklonen SklonenieTo(Users user)
         {
             UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost = user.Dolgnosti.Name, Podrazdelenie = user.Podrazdeleniya.Name, FirstName = user.first_name, SecondName = user.second_name, ThirdName = user.third_name , Blank=user.Podrazdeleniya.Blank};
@@ -317,6 +318,7 @@ namespace ViSED.Controllers
             return usr;
         }
 
+        [AllowAnonymous]
         private UserModelFoSklonen SklonenieFrom(Users user)
         {
             UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost= user.Dolgnosti.Name, Podrazdelenie=user.Podrazdeleniya.Name,FirstName=user.first_name,SecondName=user.second_name,ThirdName=user.third_name, Blank = user.Podrazdeleniya.Blank };
