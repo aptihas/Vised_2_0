@@ -67,7 +67,7 @@ namespace ViSED.Controllers
             return View();
         }
 
-        public ActionResult DocSave(int user_to_id, string text, int doc_id, HttpPostedFileBase[] attachment)
+        public ActionResult DocSave(int[] user_to_id, string text, int doc_id, HttpPostedFileBase[] attachment)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -77,18 +77,24 @@ namespace ViSED.Controllers
                           where u.id == myAccount.user_id
                           select u).FirstOrDefault();
 
-            Message msg = new Message
+            List<Message> msgList = new List<Message>();
+            for (int i = 0; i < user_to_id.Length; i++)
             {
-                from_user_id = myUser.id,
-                to_user_id = user_to_id,
-                doc_type_id = doc_id,
-                text = text,
-                dateOfSend = DateTime.Now,
-                dateOfRead = null
-            };
+                Message msg = new Message
+                {
+                    from_user_id = myUser.id,
+                    to_user_id = user_to_id[i],
+                    doc_type_id = doc_id,
+                    text = text,
+                    dateOfSend = DateTime.Now,
+                    dateOfRead = null
+                };
+                vsdEnt.Message.Add(msg);
+                vsdEnt.SaveChanges();
+                msgList.Add(msg);
+            }
 
-            vsdEnt.Message.Add(msg);
-            vsdEnt.SaveChanges();
+
 
             if (attachment != null)
             {
@@ -107,14 +113,17 @@ namespace ViSED.Controllers
 
                 for(int i=0;i<attachment.Length;i++)
                 {
-                    //обработка приложения
-                    string extension = System.IO.Path.GetExtension(attachment[i].FileName);
+                    foreach (Message msg in msgList)
+                    {
+                        //обработка приложения
+                        string extension = System.IO.Path.GetExtension(attachment[i].FileName);
+                    
+                        // сохраняем файл в папку Files в проекте
+                        attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
+                        Attachments file = new Attachments { id_message = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension };
 
-                    // сохраняем файл в папку Files в проекте
-                    attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString()+"_"+i.ToString() + extension));
-                    Attachments file = new Attachments { id_message = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension };
-                
-                    vsdEnt.Attachments.Add(file);
+                        vsdEnt.Attachments.Add(file);
+                    }
                     
                 }
                 vsdEnt.SaveChanges();
@@ -122,7 +131,7 @@ namespace ViSED.Controllers
                 //-------
             }
             
-            return RedirectToAction("DocView", "User", new { doc_id = msg.id });
+            return RedirectToAction("DocView", "User", new { doc_id = msgList[0].id });
         }
 
         public ActionResult DocView(int doc_id)
@@ -219,12 +228,12 @@ namespace ViSED.Controllers
                              select u).FirstOrDefault();
 
             var idFrom = from p in vsdEnt.Message
-                            where p.from_user_id!=myAccount.user_id
-                            select p.from_user_id;
+                            where p.from_user_id!=myAccount.user_id && p.to_user_id== myAccount.user_id
+                         select p.from_user_id;
 
             var idTo = from p in vsdEnt.Message
-                         where p.to_user_id != myAccount.user_id
-                         select p.to_user_id;
+                         where p.to_user_id != myAccount.user_id && p.from_user_id== myAccount.user_id
+                       select p.to_user_id;
 
             var idList = idFrom.Union<int>(idTo).Distinct();
 

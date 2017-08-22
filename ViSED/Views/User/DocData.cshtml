@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
 
     <p>Получатель</p>
-    @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, null)
+    @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple" })
     <input name="doc_id" type="text" value="@ViewBag.Doc.id" style="visibility:hidden;" />
     <br />
     <br />
