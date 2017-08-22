@@ -304,7 +304,7 @@ namespace ViSED.Controllers
         }
 
         [AllowAnonymous]
-        private UserModelFoSklonen SklonenieTo(Users user)
+        public UserModelFoSklonen SklonenieTo(Users user)
         {
             UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost = user.Dolgnosti.Name, Podrazdelenie = user.Podrazdeleniya.Name, FirstName = user.first_name, SecondName = user.second_name, ThirdName = user.third_name , Blank=user.Podrazdeleniya.Blank};
             usr.Dolgnost = DeclensionBLL.GetAppointmentDeclension(usr.Dolgnost, DeclensionCase.Datel);
@@ -319,7 +319,7 @@ namespace ViSED.Controllers
         }
 
         [AllowAnonymous]
-        private UserModelFoSklonen SklonenieFrom(Users user)
+        public UserModelFoSklonen SklonenieFrom(Users user)
         {
             UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost= user.Dolgnosti.Name, Podrazdelenie=user.Podrazdeleniya.Name,FirstName=user.first_name,SecondName=user.second_name,ThirdName=user.third_name, Blank = user.Podrazdeleniya.Blank };
 
