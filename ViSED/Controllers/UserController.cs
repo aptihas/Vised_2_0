@@ -8,6 +8,9 @@ using ViSED.Models;
 using System.Web.Routing;
 using NPetrovichLite;
 using BLL.Declension;
+using System.Threading;
+using System.Threading.Tasks;
+using NReco.PdfGenerator;
 
 namespace ViSED.Controllers
 {
@@ -275,7 +278,7 @@ namespace ViSED.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SavePdf(int doc_id)
+        public async  Task<ActionResult> SavePdf(int doc_id)
         {
             var msg = (from m in vsdEnt.Message
                        where m.id == doc_id
@@ -286,14 +289,20 @@ namespace ViSED.Controllers
 
             var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter() {};
             htmlToPdf.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
-
-            byte[] pdfBytes = htmlToPdf.GeneratePdfFromFile(Host + Zapros, null);
+            string put = Host + Zapros;
+            byte[] pdfBytes = await HtmlToPdf(put, htmlToPdf);
 
             // return resulted pdf document 
             FileResult fileResult = new FileContentResult(pdfBytes, "application/pdf") {};
             fileResult.FileDownloadName = "Document_"+msg.id.ToString()+ ".pdf";
             return fileResult;
         }
+
+        private Task<byte[]> HtmlToPdf(string put, HtmlToPdfConverter htmlToPdf)
+        {
+            return Task.Run(()=>htmlToPdf.GeneratePdfFromFile(put, null));
+        }
+
         private UserModelFoSklonen SklonenieTo(Users user)
         {
             UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost = user.Dolgnosti.Name, Podrazdelenie = user.Podrazdeleniya.Name, FirstName = user.first_name, SecondName = user.second_name, ThirdName = user.third_name , Blank=user.Podrazdeleniya.Blank};
