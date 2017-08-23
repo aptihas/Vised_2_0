@@ -252,7 +252,7 @@ namespace ViSED.Controllers
             return View(msgToMe);
         }
 
-        public ActionResult Dialog(int userId)
+        public ActionResult Dialog(int userId, int msgCount)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -260,6 +260,37 @@ namespace ViSED.Controllers
 
             var msgs = from m in vsdEnt.Message
                        where (m.from_user_id == userId && m.to_user_id == myAccount.user_id) || (m.to_user_id == userId && m.from_user_id == myAccount.user_id)
+                       orderby m.id
+                       select m;
+
+            var attachments = from a in vsdEnt.Attachments
+                              from m in msgs
+                              where a.id_message == m.id
+                              select a;
+            
+            ViewBag.Attachments = attachments;
+            ViewBag.MyAccount = myAccount;
+            ViewBag.Message = msgs.Skip<Message>(msgs.Count() - msgCount);
+            ViewBag.UserId = userId;
+            ViewBag.MsgCount = msgCount;
+   
+
+            var msgAnswers = from m in vsdEnt.Message
+                             where m.from_user_id == userId && m.to_user_id == myAccount.user_id && m.dateOfRead == null
+                             select m;
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult DialogPartial(int userId, int msgCount)
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            var msgs = from m in vsdEnt.Message
+                       where (m.from_user_id == userId && m.to_user_id == myAccount.user_id) || (m.to_user_id == userId && m.from_user_id == myAccount.user_id)
+                       orderby m.id
                        select m;
 
             var attachments = from a in vsdEnt.Attachments
@@ -267,8 +298,17 @@ namespace ViSED.Controllers
                               where a.id_message == m.id
                               select a;
             ViewBag.Attachments = attachments;
-            ViewBag.Message = msgs;
+            if (msgCount <= msgs.Count())
+            {
+                ViewBag.Message = msgs.Skip<Message>(msgs.Count() - msgCount);
+            }
+            else
+            {
+                ViewBag.Message = msgs;
+            }
+            ViewBag.UserId = userId;
             ViewBag.MyAccount = myAccount;
+            ViewBag.MsgCount = msgCount;
 
             var msgAnswers = from m in vsdEnt.Message
                              where m.from_user_id == userId && m.to_user_id == myAccount.user_id && m.dateOfRead == null
@@ -282,7 +322,8 @@ namespace ViSED.Controllers
                 }
                 vsdEnt.SaveChanges();
             }
-            return View();
+
+            return PartialView();
         }
 
         [HttpPost]

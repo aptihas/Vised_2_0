@@ -1,0 +1,78 @@
+﻿@{ 
+    ViSED.Models.Accounts account = ViewBag.MyAccount;
+    ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
+    int msgCountr = ViewBag.MsgCount;
+}
+
+
+
+<div id="results">
+    @using (Ajax.BeginForm("DialogPartial", "User", new { userId = ViewBag.UserId, msgCount = msgCountr + 3 }, new AjaxOptions { UpdateTargetId = "results" }, null))
+    {
+        <input type="submit" value="Загрузить еще" />
+    }
+
+
+    @foreach (ViSED.Models.Message msg in ViewBag.Message)
+    {
+        if (msg.from_user_id == account.user_id)
+        {
+            <div onclick="location.href='@Url.Action("DocView","User", new { doc_id=msg.id })'" style="width:200px; border:1px solid black;border-radius:20px 20px 0px 20px; padding:10px;margin:10px;margin-left:60%;">
+                <div style="text-align:right;">@msg.DocType.Name</div>
+                <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
+
+                @if (msg.dateOfRead == null)
+                {
+                    <div style="font-size:10px;">Доставлено</div>
+                    <div style="font-size:10px;">@msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</div>
+                }
+                else
+                {
+                    <div style="font-size:10px;">Прочитано</div>
+                    <div style="font-size:10px;">@msg.dateOfRead.ToString() </div>
+                }
+                @{
+                    var attachs = from a in vsdEnt.Attachments
+                                  where a.id_message == msg.id
+                                  select a;
+                }
+                @if (attachs != null)
+                {
+                    int i = 1;
+                    foreach (ViSED.Models.Attachments a in attachs)
+                    {
+                        <a href="@Url.Content(a.attachedFile)">Приложение @i</a>
+                        i++;
+                    }
+
+                }
+            </div>
+                    }
+                    else
+                    {
+                        <div onclick="location.href='@Url.Action("DocView","User", new { doc_id=msg.id })'" style="width:200px;border:1px solid black;border-radius:0px 20px 20px 20px; padding:10px;margin:10px;">
+                            <div style="text-align:left;">@msg.DocType.Name</div>
+                            <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
+                            <div style="font-size:10px;">Получено</div>
+                            <div style="font-size:10px">@msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</div>
+
+                            @{
+                                var attachs = from a in vsdEnt.Attachments
+                                              where a.id_message == msg.id
+                                              select a;
+                            }
+                            @if (attachs != null)
+                            {
+                                int i = 1;
+                                foreach (ViSED.Models.Attachments a in attachs)
+                                {
+                                    <a href="@Url.Content(a.attachedFile)">Приложение @i</a>
+                                    i++;
+                                }
+
+                            }
+                        </div>
+                                    }
+                                }
+</div>
+
