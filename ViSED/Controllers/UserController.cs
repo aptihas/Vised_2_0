@@ -270,7 +270,14 @@ namespace ViSED.Controllers
             
             ViewBag.Attachments = attachments;
             ViewBag.MyAccount = myAccount;
-            ViewBag.Message = msgs.Skip<Message>(msgs.Count() - msgCount);
+            if (msgCount <= msgs.Count())
+            {
+                ViewBag.Message = msgs.Skip<Message>(msgs.Count() - msgCount);
+            }
+            else
+            {
+                ViewBag.Message = msgs;
+            }
             ViewBag.UserId = userId;
             ViewBag.MsgCount = msgCount;
    
