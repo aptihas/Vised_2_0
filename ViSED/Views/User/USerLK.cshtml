@@ -7,9 +7,11 @@
 <div><span id="notification" style="color:red;font-size:15px;"></span></div>
 
 <ul>
-    <li>@Html.ActionLink("Моя корреспонденция", "CorrespondenceList", "User", null, null) <span id="messageCount">(Не прочитано @ViewBag.MsgToMe)</span></li>
+    <li>@Html.ActionLink("Корреспонденция", "CorrespondenceList", "User", null, null) <span id="messageCount">(Не прочитано @ViewBag.MsgToMe)</span></li>
 
-    <li>@Html.ActionLink("Отправить документ","DocSelect","User",null,null)</li>
+    <li>@Html.ActionLink("Новый документ","DocSelect","User",null,null)</li>
 
-    <li>@Html.ActionLink("Мои документы", "MyDocs", "User", null, null)</li>
+    <li>@Html.ActionLink("Почтовый клиент", "EmailData", "Mail", null, null)</li>
+
+    <li>@Html.ActionLink("Мои документы", "MyDocList", "MyDocument", null, null)</li>
 </ul>

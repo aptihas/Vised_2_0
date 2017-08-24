@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "IndexEmail";
+}
+
+<h4>IndexEmail</h4>
+<ul>
+    <li>@Html.ActionLink("Новое письмо", "EmailData", "Mail", null, null)</li>
+
+    <li>@Html.ActionLink("Входящие", "MyDocList", "MyDocument", null, null)</li>
+
+    <li>@Html.ActionLink("Отправленные", "MyDocList", "MyDocument", null, null)</li>
+</ul>
