@@ -43,8 +43,8 @@ namespace ViSED.Controllers
         public ActionResult DocData(int id)//Страница указания данных для документа (получатель и текст)
         {
             var myAccount = (from u in vsdEnt.Accounts
-                         where u.login == User.Identity.Name
-                         select u).FirstOrDefault();
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
 
             var myUser = (from u in vsdEnt.Users
                           where u.id == myAccount.user_id
@@ -59,9 +59,9 @@ namespace ViSED.Controllers
                          select m;
 
             var usr = from u in vsdEnt.Users
-                        from a in vsdEnt.Accounts
-                        from r in vsdEnt.Roles
-                        where u.id == a.user_id && a.role_id == r.id && r.RoleName == "User" && u.id!= myUser.id
+                      from a in vsdEnt.Accounts
+                      from r in vsdEnt.Roles
+                      where u.id == a.user_id && a.role_id == r.id && r.RoleName == "User" && u.id != myUser.id
                       select new { id = u.id, Name = u.first_name + " " + u.second_name + " " + u.third_name };
 
             SelectList users = new SelectList(usr, "id", "Name");
@@ -71,7 +71,7 @@ namespace ViSED.Controllers
             return View();
         }
 
-        public ActionResult DocSave(int[] user_to_id, int[] myDocs,  string text, int doc_id, HttpPostedFileBase[] attachment)
+        public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -98,68 +98,65 @@ namespace ViSED.Controllers
                 msgList.Add(msg);
             }
 
-
-
-                if (attachment.Length > 0)
+            if (attachment[0] != null)
+            {
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
                 {
-                    if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
-                    {
-                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
-                    }
-                    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments")))
-                    {
-                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments"));
-                    }
-                    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString())))
-                    {
-                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString()));
-                    }
-
-                    for (int i = 0; i < attachment.Length; i++)
-                    {
-                        foreach (Message msg in msgList)
-                        {
-                            //обработка приложения
-                            string extension = System.IO.Path.GetExtension(attachment[i].FileName);
-                            string attachmnetName = System.IO.Path.GetFileName(attachment[i].FileName);
-                            // сохраняем файл в папку Files в проекте
-                            attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
-                            Attachments file = new Attachments { id_message = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension, attachedName = attachmnetName };
-
-                            vsdEnt.Attachments.Add(file);
-                        }
-
-                    }
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
                 }
 
-                if (myDocs.Length > 0)
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments")))
                 {
-                    for (int i = 0; i < myDocs.Length; i++)
-                    {
-                        int id_mydoc = myDocs[i];
-                        var md = (from m in vsdEnt.MyDocs
-                                  where m.id == id_mydoc
-                                  select m).FirstOrDefault();
-
-                        foreach (Message msg in msgList)
-                        {
-                            //обработка приложения
-                            string extension = System.IO.Path.GetExtension(md.myDoc);
-                            string attachmnetName = md.myDocName;
-                            // сохраняем файл в папку Files в проекте
-                            //attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
-                            Attachments file = new Attachments { id_message = msg.id, attachedFile = md.myDoc, attachedName = attachmnetName };
-
-                            vsdEnt.Attachments.Add(file);
-                        }
-                    }
-                    vsdEnt.SaveChanges();
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments"));
                 }
-                
-                
-                //-------
-            
-            
+
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString())))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString()));
+                }
+
+                for (int i = 0; i < attachment.Length; i++)
+                {
+                    foreach (Message msg in msgList)
+                    {
+                        //обработка приложения
+                        string extension = System.IO.Path.GetExtension(attachment[i].FileName);
+                        string attachmnetName = System.IO.Path.GetFileName(attachment[i].FileName);
+                        // сохраняем файл в папку Files в проекте
+                        attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
+                        Attachments file = new Attachments { id_message = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension, attachedName = attachmnetName };
+
+                        vsdEnt.Attachments.Add(file);
+                    }
+
+                }
+                vsdEnt.SaveChanges();
+            }
+
+            if (myDocs?.Length!=null && myDocs.Length > 0)
+            {
+                for (int i = 0; i < myDocs.Length; i++)
+                {
+                    int id_mydoc = myDocs[i];
+                    var md = (from m in vsdEnt.MyDocs
+                              where m.id == id_mydoc
+                              select m).FirstOrDefault();
+
+                    foreach (Message msg in msgList)
+                    {
+                        //обработка приложения
+                        string extension = System.IO.Path.GetExtension(md.myDoc);
+                        string attachmnetName = md.myDocName;
+                        // сохраняем файл в папку Files в проекте
+                        //attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
+                        Attachments file = new Attachments { id_message = msg.id, attachedFile = md.myDoc, attachedName = attachmnetName };
+
+                        vsdEnt.Attachments.Add(file);
+                    }
+                }
+                vsdEnt.SaveChanges();
+            }
+            //-------
             return RedirectToAction("DocView", "User", new { doc_id = msgList[0].id });
         }
 
@@ -170,20 +167,20 @@ namespace ViSED.Controllers
                              select u).FirstOrDefault();
 
             var msg = (from m in vsdEnt.Message
-                      where m.id==doc_id
-                      select m).FirstOrDefault();
+                       where m.id == doc_id
+                       select m).FirstOrDefault();
 
             var doc_type = (from d in vsdEnt.DocType
                             where msg.doc_type_id == d.id
                             select d).FirstOrDefault();
-            
-            var userFrom= (from u in vsdEnt.Users
-                           where u.id == msg.from_user_id
-                           select u).FirstOrDefault();
 
-            var userTo= (from u in vsdEnt.Users
-                         where u.id == msg.to_user_id
-                         select u).FirstOrDefault();
+            var userFrom = (from u in vsdEnt.Users
+                            where u.id == msg.from_user_id
+                            select u).FirstOrDefault();
+
+            var userTo = (from u in vsdEnt.Users
+                          where u.id == msg.to_user_id
+                          select u).FirstOrDefault();
 
 
             ViewBag.UserTo = SklonenieTo(userTo);
@@ -204,7 +201,7 @@ namespace ViSED.Controllers
         [AllowAnonymous]
         public ActionResult DocViewPartial(int doc_id)
         {
-            string controller =  RouteData.GetRequiredString("controller");
+            string controller = RouteData.GetRequiredString("controller");
             string action = RouteData.GetRequiredString("action");
 
             var myAccount = (from u in vsdEnt.Accounts
@@ -257,11 +254,11 @@ namespace ViSED.Controllers
                              select u).FirstOrDefault();
 
             var idFrom = from p in vsdEnt.Message
-                            where p.from_user_id!=myAccount.user_id && p.to_user_id== myAccount.user_id
+                         where p.from_user_id != myAccount.user_id && p.to_user_id == myAccount.user_id
                          select p.from_user_id;
 
             var idTo = from p in vsdEnt.Message
-                         where p.to_user_id != myAccount.user_id && p.from_user_id== myAccount.user_id
+                       where p.to_user_id != myAccount.user_id && p.from_user_id == myAccount.user_id
                        select p.to_user_id;
 
             var idList = idFrom.Union<int>(idTo).Distinct();
@@ -296,7 +293,7 @@ namespace ViSED.Controllers
                               from m in msgs
                               where a.id_message == m.id
                               select a;
-            
+
             ViewBag.Attachments = attachments;
             ViewBag.MyAccount = myAccount;
             if (msgCount <= msgs.Count())
@@ -309,11 +306,20 @@ namespace ViSED.Controllers
             }
             ViewBag.UserId = userId;
             ViewBag.MsgCount = msgCount;
-   
+
 
             var msgAnswers = from m in vsdEnt.Message
                              where m.from_user_id == userId && m.to_user_id == myAccount.user_id && m.dateOfRead == null
                              select m;
+
+            if (msgAnswers != null)
+            {
+                foreach (var m in msgAnswers)
+                {
+                    m.dateOfRead = DateTime.Now;
+                }
+                vsdEnt.SaveChanges();
+            }
 
             return View();
         }
@@ -364,35 +370,35 @@ namespace ViSED.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async  Task<ActionResult> SavePdf(int doc_id)
+        public async Task<ActionResult> SavePdf(int doc_id)
         {
             var msg = (from m in vsdEnt.Message
                        where m.id == doc_id
                        select m).FirstOrDefault();
 
             string Host = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf("User") - 1);
-            string Zapros = Url.Action("DocViewPartial", "User", new { doc_id = msg.id,saved="vised"+msg.id.ToString().GetHashCode() });
+            string Zapros = Url.Action("DocViewPartial", "User", new { doc_id = msg.id, saved = "vised" + msg.id.ToString().GetHashCode() });
 
-            var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter() {};
+            var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter() { };
             htmlToPdf.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
             string put = Host + Zapros;
             byte[] pdfBytes = await HtmlToPdf(put, htmlToPdf);
 
             // return resulted pdf document 
-            FileResult fileResult = new FileContentResult(pdfBytes, "application/pdf") {};
-            fileResult.FileDownloadName = "Document_"+msg.id.ToString()+ ".pdf";
+            FileResult fileResult = new FileContentResult(pdfBytes, "application/pdf") { };
+            fileResult.FileDownloadName = "Document_" + msg.id.ToString() + ".pdf";
             return fileResult;
         }
 
         private Task<byte[]> HtmlToPdf(string put, HtmlToPdfConverter htmlToPdf)
         {
-            return Task.Run(()=>htmlToPdf.GeneratePdfFromFile(put, null));
+            return Task.Run(() => htmlToPdf.GeneratePdfFromFile(put, null));
         }
 
         [AllowAnonymous]
         public UserModelFoSklonen SklonenieTo(Users user)
         {
-            UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost = user.Dolgnosti.Name, Podrazdelenie = user.Podrazdeleniya.Name, FirstName = user.first_name, SecondName = user.second_name, ThirdName = user.third_name , Blank=user.Podrazdeleniya.Blank};
+            UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost = user.Dolgnosti.Name, Podrazdelenie = user.Podrazdeleniya.Name, FirstName = user.first_name, SecondName = user.second_name, ThirdName = user.third_name, Blank = user.Podrazdeleniya.Blank };
             usr.Dolgnost = DeclensionBLL.GetAppointmentDeclension(usr.Dolgnost, DeclensionCase.Datel);
             usr.Podrazdelenie = DeclensionBLL.GetOfficeDeclension(usr.Podrazdelenie, DeclensionCase.Rodit);
 
@@ -407,7 +413,7 @@ namespace ViSED.Controllers
         [AllowAnonymous]
         public UserModelFoSklonen SklonenieFrom(Users user)
         {
-            UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost= user.Dolgnosti.Name, Podrazdelenie=user.Podrazdeleniya.Name,FirstName=user.first_name,SecondName=user.second_name,ThirdName=user.third_name, Blank = user.Podrazdeleniya.Blank };
+            UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost = user.Dolgnosti.Name, Podrazdelenie = user.Podrazdeleniya.Name, FirstName = user.first_name, SecondName = user.second_name, ThirdName = user.third_name, Blank = user.Podrazdeleniya.Blank };
 
             usr.Dolgnost = DeclensionBLL.GetAppointmentDeclension(usr.Dolgnost, DeclensionCase.Rodit);
             usr.Podrazdelenie = DeclensionBLL.GetOfficeDeclension(usr.Podrazdelenie, DeclensionCase.Rodit);
