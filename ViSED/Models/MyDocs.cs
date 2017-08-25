@@ -15,20 +15,20 @@ namespace ViSED.Models
 using System;
     using System.Collections.Generic;
     
-public partial class Attachments
+public partial class MyDocs
 {
 
     public int id { get; set; }
 
-    public int id_message { get; set; }
+    public int user_id { get; set; }
 
-    public string attachedFile { get; set; }
+    public string myDoc { get; set; }
 
-    public string attachedName { get; set; }
+    public string myDocName { get; set; }
 
 
 
-    public virtual Message Message { get; set; }
+    public virtual Users Users { get; set; }
 
 }
 

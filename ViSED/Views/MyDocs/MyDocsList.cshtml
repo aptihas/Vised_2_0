@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ViSED.Models.MyDocs>
+
+@{
+    ViewBag.Title = "Мои документы";
+}
+
+<h4>Мои документы</h4>
+
+<p>
+    @Html.ActionLink("Добавить новый документ", "AddDoc","MyDocs",null,null)
+</p>
+<table class="table">
+
+    <tr>
+        <th>
+            Наименование документа
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.myDocName)
+        </td>
+        <td>
+            <a href="@Url.Content(item.myDoc)">Скачать</a> |
+            @Html.ActionLink("Удалить", "DocDelete","MyDocs", new { id=item.id },null)
+        </td>
+    </tr>
+}
+</table>

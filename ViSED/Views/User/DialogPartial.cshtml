@@ -41,7 +41,7 @@
                     int i = 1;
                     foreach (ViSED.Models.Attachments a in attachs)
                     {
-                        <a href="@Url.Content(a.attachedFile)">Приложение @i</a>
+                        <a href="@Url.Content(a.attachedFile)">Приложение @i (@a.attachedName)</a>
                         i++;
                     }
 

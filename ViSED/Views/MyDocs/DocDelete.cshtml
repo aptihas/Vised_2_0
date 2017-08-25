@@ -1,0 +1,27 @@
+﻿@model ViSED.Models.MyDocs
+
+@{
+    ViewBag.Title = "Удалить документ";
+}
+
+<h4>Вы уверены, что хотите удалить этот документ?</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Документ
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.myDocName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" />
+        </div>
+    }
+</div>

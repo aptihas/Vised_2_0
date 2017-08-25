@@ -117,10 +117,10 @@ namespace ViSED.Controllers
                     {
                         //обработка приложения
                         string extension = System.IO.Path.GetExtension(attachment[i].FileName);
-                    
+                        string attachmnetName = System.IO.Path.GetFileName(attachment[i].FileName);
                         // сохраняем файл в папку Files в проекте
                         attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
-                        Attachments file = new Attachments { id_message = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension };
+                        Attachments file = new Attachments { id_message = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension, attachedName=attachmnetName };
 
                         vsdEnt.Attachments.Add(file);
                     }

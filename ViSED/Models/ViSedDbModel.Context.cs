@@ -42,6 +42,8 @@ public partial class ViSedDBEntities : DbContext
 
     public virtual DbSet<Message> Message { get; set; }
 
+    public virtual DbSet<MyDocs> MyDocs { get; set; }
+
     public virtual DbSet<Podrazdeleniya> Podrazdeleniya { get; set; }
 
     public virtual DbSet<Roles> Roles { get; set; }
