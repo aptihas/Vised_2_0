@@ -54,6 +54,10 @@ namespace ViSED.Controllers
                        where d.id == id
                        select d).FirstOrDefault();
 
+            var myDocs = from m in vsdEnt.MyDocs
+                         where m.user_id == myAccount.user_id
+                         select m;
+
             var usr = from u in vsdEnt.Users
                         from a in vsdEnt.Accounts
                         from r in vsdEnt.Roles
@@ -62,12 +66,12 @@ namespace ViSED.Controllers
 
             SelectList users = new SelectList(usr, "id", "Name");
             ViewBag.Users = users;
-
+            ViewBag.MyDocs = myDocs;
             ViewBag.Doc = doc;
             return View();
         }
 
-        public ActionResult DocSave(int[] user_to_id, string text, int doc_id, HttpPostedFileBase[] attachment)
+        public ActionResult DocSave(int[] user_to_id, int[] myDocs,  string text, int doc_id, HttpPostedFileBase[] attachment)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -96,40 +100,65 @@ namespace ViSED.Controllers
 
 
 
-            if (attachment != null)
-            {
-                if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
+                if (attachment.Length > 0)
                 {
-                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
-                }
-                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments")))
-                {
-                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments"));
-                }
-                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments/"+myUser.id.ToString())))
-                {
-                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString()));
-                }
-
-                for(int i=0;i<attachment.Length;i++)
-                {
-                    foreach (Message msg in msgList)
+                    if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
                     {
-                        //обработка приложения
-                        string extension = System.IO.Path.GetExtension(attachment[i].FileName);
-                        string attachmnetName = System.IO.Path.GetFileName(attachment[i].FileName);
-                        // сохраняем файл в папку Files в проекте
-                        attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
-                        Attachments file = new Attachments { id_message = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension, attachedName=attachmnetName };
-
-                        vsdEnt.Attachments.Add(file);
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
                     }
-                    
+                    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments")))
+                    {
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments"));
+                    }
+                    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString())))
+                    {
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString()));
+                    }
+
+                    for (int i = 0; i < attachment.Length; i++)
+                    {
+                        foreach (Message msg in msgList)
+                        {
+                            //обработка приложения
+                            string extension = System.IO.Path.GetExtension(attachment[i].FileName);
+                            string attachmnetName = System.IO.Path.GetFileName(attachment[i].FileName);
+                            // сохраняем файл в папку Files в проекте
+                            attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
+                            Attachments file = new Attachments { id_message = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension, attachedName = attachmnetName };
+
+                            vsdEnt.Attachments.Add(file);
+                        }
+
+                    }
                 }
-                vsdEnt.SaveChanges();
+
+                if (myDocs.Length > 0)
+                {
+                    for (int i = 0; i < myDocs.Length; i++)
+                    {
+                        int id_mydoc = myDocs[i];
+                        var md = (from m in vsdEnt.MyDocs
+                                  where m.id == id_mydoc
+                                  select m).FirstOrDefault();
+
+                        foreach (Message msg in msgList)
+                        {
+                            //обработка приложения
+                            string extension = System.IO.Path.GetExtension(md.myDoc);
+                            string attachmnetName = md.myDocName;
+                            // сохраняем файл в папку Files в проекте
+                            //attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
+                            Attachments file = new Attachments { id_message = msg.id, attachedFile = md.myDoc, attachedName = attachmnetName };
+
+                            vsdEnt.Attachments.Add(file);
+                        }
+                    }
+                    vsdEnt.SaveChanges();
+                }
+                
                 
                 //-------
-            }
+            
             
             return RedirectToAction("DocView", "User", new { doc_id = msgList[0].id });
         }

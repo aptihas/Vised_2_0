@@ -20,12 +20,20 @@
 
     </textarea>
     <br />
-    
+
     <div class="form-group">
         <div class="col-md-10">
             <input type="file" name="attachment" multiple />
         </div>
     </div>
+
+    <select name="myDocs" multiple>
+        <option value="null">Не выбрано</option>
+        @foreach (ViSED.Models.MyDocs m in ViewBag.MyDocs)
+        {
+            <option value="@m.id">@m.myDocName</option>
+        }
+    </select>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
