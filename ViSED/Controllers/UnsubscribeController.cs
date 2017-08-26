@@ -63,7 +63,10 @@ namespace ViSED.Controllers
                 vsdEnt.SaveChanges();
                 uscList.Add(usc);
             }
-
+            if (attachment[0] != null && myDocs?.Length == null || myDocs.Length == 0)
+            {
+                return RedirectToAction("UnsubcribeSelect", "Unsubscribe", null);
+            }
             if (attachment[0] != null)
             {
                 if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
@@ -90,7 +93,7 @@ namespace ViSED.Controllers
                         string attachmnetName = System.IO.Path.GetFileName(attachment[i].FileName);
                         // сохраняем файл в папку Files в проекте
                         attachment[i].SaveAs(Server.MapPath("~/Files/UnsubscribeAttachments/" + myAccount.user_id.ToString() + "/file_" + usc.id.ToString() + "_" + i.ToString() + extension));
-                        UnsubAttachments file = new UnsubAttachments { id_unsubcribe = usc.id, attachedFile = "~/Files/Attachments/" + myAccount.user_id.ToString() + "/file_" + usc.id.ToString() + "_" + i.ToString() + extension, attachedName = attachmnetName };
+                        UnsubAttachments file = new UnsubAttachments { id_unsubcribe = usc.id, attachedFile = "~/Files/UnsubscribeAttachments/" + myAccount.user_id.ToString() + "/file_" + usc.id.ToString() + "_" + i.ToString() + extension, attachedName = attachmnetName };
 
                         vsdEnt.UnsubAttachments.Add(file);
                     }
@@ -141,6 +144,12 @@ namespace ViSED.Controllers
                      where u.to_user_id == myAccount.user_id
                      select u;
 
+            var uscAttachs = from u in usc
+                             from ua in vsdEnt.UnsubAttachments
+                             where ua.id_unsubcribe == u.id
+                             select ua;
+
+            ViewBag.UscAttachs = uscAttachs;
 
             return View(usc);
         }
@@ -155,8 +164,30 @@ namespace ViSED.Controllers
                       where u.from_user_id == myAccount.user_id
                       select u;
 
+            var uscAttachs = from u in usc
+                             from ua in vsdEnt.UnsubAttachments
+                             where ua.id_unsubcribe == u.id
+                             select ua;
+
+            ViewBag.UscAttachs = uscAttachs;
 
             return View(usc);
+        }
+        public ActionResult EndSubscribe(int id)
+        {
+            var usb = (from u in vsdEnt.Unsubscribe
+                       where u.id == id
+                       select u).FirstOrDefault();
+            if(usb.executed == true)
+            {
+                usb.executed = false;
+            }
+            else
+            {
+                usb.executed = true;
+            }
+            vsdEnt.SaveChanges();
+            return RedirectToAction("UnsubcribeIn", "Unsubscribe", null);
         }
     }
 }

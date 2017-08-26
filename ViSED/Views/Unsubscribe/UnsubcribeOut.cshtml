@@ -19,11 +19,19 @@
             Дата завершения
         </th>
         <th>
+            Прикрепленные файлы
+        </th>
+        <th>
             Завершено
         </th>
     </tr>
 
 @foreach (var item in Model) {
+    IQueryable<ViSED.Models.UnsubAttachments> AllFiles = ViewBag.UscAttachs;
+
+    var files = from a in AllFiles
+                where a.id_unsubcribe == item.id
+                select a;
     <tr>
 
         <td>
@@ -34,6 +42,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.date_of_execution)
+        </td>
+        <td>
+            @foreach (ViSED.Models.UnsubAttachments ua in files)
+            {
+                <a href="@Url.Content(ua.attachedFile)">@ua.attachedName</a><br />
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.executed)
