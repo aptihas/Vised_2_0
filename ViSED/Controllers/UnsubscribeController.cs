@@ -127,22 +127,26 @@ namespace ViSED.Controllers
                 vsdEnt.SaveChanges();
             }
 
-            return RedirectToAction("UnsubcribeSelect", "Unsubscribe",null);
+            return RedirectToAction("UnsubcribeSelect", "Unsubscribe", null);
         }
         public ActionResult UnsubcribeSelect()
         {
             return View();
         }
 
-        public ActionResult UnsubcribeIn()
+        public ActionResult UnsubcribeIn(int userId)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
+            var user = (from u in vsdEnt.Users
+                        where u.id == userId
+                        select u).FirstOrDefault();
+
             var usc = from u in vsdEnt.Unsubscribe
-                     where u.to_user_id == myAccount.user_id
-                     select u;
+                      where u.to_user_id == myAccount.user_id && u.from_user_id==user.id
+                      select u;
 
             var uscAttachs = from u in usc
                              from ua in vsdEnt.UnsubAttachments
@@ -154,14 +158,18 @@ namespace ViSED.Controllers
             return View(usc);
         }
 
-        public ActionResult UnsubcribeOut()
+        public ActionResult UnsubcribeOut(int userId)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
+            var user = (from u in vsdEnt.Users
+                        where u.id == userId
+                        select u).FirstOrDefault();
+
             var usc = from u in vsdEnt.Unsubscribe
-                      where u.from_user_id == myAccount.user_id
+                      where u.from_user_id == myAccount.user_id && u.to_user_id==user.id
                       select u;
 
             var uscAttachs = from u in usc
@@ -178,7 +186,7 @@ namespace ViSED.Controllers
             var usb = (from u in vsdEnt.Unsubscribe
                        where u.id == id
                        select u).FirstOrDefault();
-            if(usb.executed == true)
+            if (usb.executed == true)
             {
                 usb.executed = false;
             }
@@ -188,6 +196,46 @@ namespace ViSED.Controllers
             }
             vsdEnt.SaveChanges();
             return RedirectToAction("UnsubcribeIn", "Unsubscribe", null);
+        }
+
+        public ActionResult SubscribeCorrespondence()
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            var idFrom = from p in vsdEnt.Unsubscribe
+                         where p.from_user_id != myAccount.user_id && p.to_user_id == myAccount.user_id
+                         select p.from_user_id;
+
+            var idTo = from p in vsdEnt.Unsubscribe
+                       where p.to_user_id != myAccount.user_id && p.from_user_id == myAccount.user_id
+                       select p.to_user_id;
+
+            var idList = idFrom.Union<int>(idTo).Distinct();
+
+            var userList = from u in vsdEnt.Users
+                           from i in idList
+                           where u.id == i
+                           select u;
+
+            var msgToMe = from m in vsdEnt.Unsubscribe
+                          where m.to_user_id == myAccount.Users.id && m.executed == false
+                          select m;
+
+            ViewBag.UserList = userList;
+
+            return View();
+        }
+
+        public ActionResult SubscribeUser(int userId)
+        {
+            var user= (from u in vsdEnt.Users
+                      where u.id==userId
+                      select u).FirstOrDefault();
+
+            ViewBag.User = user;
+            return View();
         }
     }
 }

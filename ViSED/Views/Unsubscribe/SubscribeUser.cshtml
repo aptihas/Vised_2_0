@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Отписанные документы";
+
+    ViSED.Models.Users user = ViewBag.User;
+
+    string userName = user.first_name + " " + user.second_name.Substring(0, 1) + ". " + user.third_name.Substring(0, 1) + ".";
+}
+
+<h4>Отписанные документы</h4>
+<hr />
+@Html.ActionLink("Отписанные на меня "+ userName, "UnsubcribeIn", "Unsubscribe", new { userId = user.id }, null)
+<hr />
+@Html.ActionLink("Отписанные мной на "+ userName, "UnsubcribeOut", "Unsubscribe", new { userId = user.id }, null)

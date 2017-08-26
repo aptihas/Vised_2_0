@@ -281,10 +281,11 @@
     <Content Include="Views\MyDocs\DocDelete.cshtml" />
     <Content Include="Views\MyDocs\AddDoc.cshtml" />
     <Content Include="Views\Unsubscribe\UnsubcribeData.cshtml" />
-    <Content Include="Views\Unsubscribe\UnsubcribeSelect.cshtml" />
     <Content Include="Views\Unsubscribe\UnsubcribeList.cshtml" />
     <Content Include="Views\Unsubscribe\UnsubcribeIn.cshtml" />
     <Content Include="Views\Unsubscribe\UnsubcribeOut.cshtml" />
+    <Content Include="Views\Unsubscribe\SubscribeCorrespondence.cshtml" />
+    <Content Include="Views\Unsubscribe\SubscribeUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
