@@ -30,6 +30,10 @@ public partial class Users
 
         this.MyDocs = new HashSet<MyDocs>();
 
+        this.Unsubscribe = new HashSet<Unsubscribe>();
+
+        this.Unsubscribe1 = new HashSet<Unsubscribe>();
+
     }
 
 
@@ -66,6 +70,14 @@ public partial class Users
     public virtual ICollection<MyDocs> MyDocs { get; set; }
 
     public virtual Podrazdeleniya Podrazdeleniya { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Unsubscribe> Unsubscribe { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Unsubscribe> Unsubscribe1 { get; set; }
 
 }
 

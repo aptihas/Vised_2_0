@@ -179,6 +179,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\MyDocsController.cs" />
+    <Compile Include="Controllers\UnsubscribeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,6 +206,12 @@
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Roles.cs">
+      <DependentUpon>ViSedDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UnsubAttachments.cs">
+      <DependentUpon>ViSedDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Unsubscribe.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Users.cs">
@@ -273,6 +280,11 @@
     <Content Include="Views\MyDocs\MyDocsList.cshtml" />
     <Content Include="Views\MyDocs\DocDelete.cshtml" />
     <Content Include="Views\MyDocs\AddDoc.cshtml" />
+    <Content Include="Views\Unsubscribe\UnsubcribeData.cshtml" />
+    <Content Include="Views\Unsubscribe\UnsubcribeSelect.cshtml" />
+    <Content Include="Views\Unsubscribe\UnsubcribeList.cshtml" />
+    <Content Include="Views\Unsubscribe\UnsubcribeIn.cshtml" />
+    <Content Include="Views\Unsubscribe\UnsubcribeOut.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

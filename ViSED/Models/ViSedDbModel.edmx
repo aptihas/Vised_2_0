@@ -75,6 +75,26 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="15" Nullable="false" />
         </EntityType>
+        <EntityType Name="UnsubAttachments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_unsubcribe" Type="int" Nullable="false" />
+          <Property Name="attachedFile" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="attachedName" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Unsubscribe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="from_user_id" Type="int" Nullable="false" />
+          <Property Name="to_user_id" Type="int" Nullable="false" />
+          <Property Name="date_of_unsub" Type="date" Nullable="false" />
+          <Property Name="date_of_execution" Type="date" Nullable="false" />
+          <Property Name="executed" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="id" />
@@ -182,6 +202,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Unsers_Unsubscribe_from_user">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Unsubscribe" Type="Self.Unsubscribe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Unsubscribe">
+              <PropertyRef Name="from_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnsubAttachments_UnsubAttachments">
+          <End Role="Unsubscribe" Type="Self.Unsubscribe" Multiplicity="1" />
+          <End Role="UnsubAttachments" Type="Self.UnsubAttachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unsubscribe">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UnsubAttachments">
+              <PropertyRef Name="id_unsubcribe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Dolgnosti">
           <End Role="Dolgnosti" Type="Self.Dolgnosti" Multiplicity="1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -206,6 +250,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Unsubscribe_to_user">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Unsubscribe" Type="Self.Unsubscribe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Unsubscribe">
+              <PropertyRef Name="to_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище ViSedDBModelContainer">
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
@@ -215,6 +271,8 @@
           <EntitySet Name="MyDocs" EntityType="Self.MyDocs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Podrazdeleniya" EntityType="Self.Podrazdeleniya" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnsubAttachments" EntityType="Self.UnsubAttachments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unsubscribe" EntityType="Self.Unsubscribe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Accounts_Roles" Association="Self.FK_Accounts_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -248,6 +306,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="MyDocs" EntitySet="MyDocs" />
           </AssociationSet>
+          <AssociationSet Name="FK_Unsers_Unsubscribe_from_user" Association="Self.FK_Unsers_Unsubscribe_from_user">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnsubAttachments_UnsubAttachments" Association="Self.FK_UnsubAttachments_UnsubAttachments">
+            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
+            <End Role="UnsubAttachments" EntitySet="UnsubAttachments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Dolgnosti" Association="Self.FK_Users_Dolgnosti">
             <End Role="Dolgnosti" EntitySet="Dolgnosti" />
             <End Role="Users" EntitySet="Users" />
@@ -255,6 +321,10 @@
           <AssociationSet Name="FK_Users_Podrazdeleniya" Association="Self.FK_Users_Podrazdeleniya">
             <End Role="Podrazdeleniya" EntitySet="Podrazdeleniya" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Unsubscribe_to_user" Association="Self.FK_Users_Unsubscribe_to_user">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -270,6 +340,8 @@
           <EntitySet Name="MyDocs" EntityType="ViSedDBModel.MyDocs" />
           <EntitySet Name="Podrazdeleniya" EntityType="ViSedDBModel.Podrazdeleniya" />
           <EntitySet Name="Roles" EntityType="ViSedDBModel.Roles" />
+          <EntitySet Name="UnsubAttachments" EntityType="ViSedDBModel.UnsubAttachments" />
+          <EntitySet Name="Unsubscribe" EntityType="ViSedDBModel.Unsubscribe" />
           <EntitySet Name="Users" EntityType="ViSedDBModel.Users" />
           <AssociationSet Name="FK_Accounts_Roles" Association="ViSedDBModel.FK_Accounts_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -310,6 +382,18 @@
           <AssociationSet Name="FK_Users_Podrazdeleniya" Association="ViSedDBModel.FK_Users_Podrazdeleniya">
             <End Role="Podrazdeleniya" EntitySet="Podrazdeleniya" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnsubAttachments_UnsubAttachments" Association="ViSedDBModel.FK_UnsubAttachments_UnsubAttachments">
+            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
+            <End Role="UnsubAttachments" EntitySet="UnsubAttachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Unsers_Unsubscribe_from_user" Association="ViSedDBModel.FK_Unsers_Unsubscribe_from_user">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Unsubscribe_to_user" Association="ViSedDBModel.FK_Users_Unsubscribe_to_user">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Accounts">
@@ -396,6 +480,30 @@
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Accounts" Relationship="ViSedDBModel.FK_Accounts_Roles" FromRole="Roles" ToRole="Accounts" />
         </EntityType>
+        <EntityType Name="UnsubAttachments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_unsubcribe" Type="Int32" Nullable="false" />
+          <Property Name="attachedFile" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="attachedName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Unsubscribe" Relationship="ViSedDBModel.FK_UnsubAttachments_UnsubAttachments" FromRole="UnsubAttachments" ToRole="Unsubscribe" />
+        </EntityType>
+        <EntityType Name="Unsubscribe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="from_user_id" Type="Int32" Nullable="false" />
+          <Property Name="to_user_id" Type="Int32" Nullable="false" />
+          <Property Name="date_of_unsub" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="date_of_execution" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="executed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UnsubAttachments" Relationship="ViSedDBModel.FK_UnsubAttachments_UnsubAttachments" FromRole="Unsubscribe" ToRole="UnsubAttachments" />
+          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Unsers_Unsubscribe_from_user" FromRole="Unsubscribe" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Users_Unsubscribe_to_user" FromRole="Unsubscribe" ToRole="Users" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="id" />
@@ -412,6 +520,8 @@
           <NavigationProperty Name="Message1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Users" ToRole="Message" />
           <NavigationProperty Name="MyDocs" Relationship="ViSedDBModel.FK_MyDocs_Users" FromRole="Users" ToRole="MyDocs" />
           <NavigationProperty Name="Podrazdeleniya" Relationship="ViSedDBModel.FK_Users_Podrazdeleniya" FromRole="Users" ToRole="Podrazdeleniya" />
+          <NavigationProperty Name="Unsubscribe" Relationship="ViSedDBModel.FK_Unsers_Unsubscribe_from_user" FromRole="Users" ToRole="Unsubscribe" />
+          <NavigationProperty Name="Unsubscribe1" Relationship="ViSedDBModel.FK_Users_Unsubscribe_to_user" FromRole="Users" ToRole="Unsubscribe" />
         </EntityType>
         <Association Name="FK_Accounts_Roles">
           <End Type="ViSedDBModel.Roles" Role="Roles" Multiplicity="1" />
@@ -533,6 +643,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UnsubAttachments_UnsubAttachments">
+          <End Type="ViSedDBModel.Unsubscribe" Role="Unsubscribe" Multiplicity="1" />
+          <End Type="ViSedDBModel.UnsubAttachments" Role="UnsubAttachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unsubscribe">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UnsubAttachments">
+              <PropertyRef Name="id_unsubcribe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Unsers_Unsubscribe_from_user">
+          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ViSedDBModel.Unsubscribe" Role="Unsubscribe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Unsubscribe">
+              <PropertyRef Name="from_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Unsubscribe_to_user">
+          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ViSedDBModel.Unsubscribe" Role="Unsubscribe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Unsubscribe">
+              <PropertyRef Name="to_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -613,6 +759,28 @@
             <EntityTypeMapping TypeName="ViSedDBModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnsubAttachments">
+            <EntityTypeMapping TypeName="ViSedDBModel.UnsubAttachments">
+              <MappingFragment StoreEntitySet="UnsubAttachments">
+                <ScalarProperty Name="attachedName" ColumnName="attachedName" />
+                <ScalarProperty Name="attachedFile" ColumnName="attachedFile" />
+                <ScalarProperty Name="id_unsubcribe" ColumnName="id_unsubcribe" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Unsubscribe">
+            <EntityTypeMapping TypeName="ViSedDBModel.Unsubscribe">
+              <MappingFragment StoreEntitySet="Unsubscribe">
+                <ScalarProperty Name="executed" ColumnName="executed" />
+                <ScalarProperty Name="date_of_execution" ColumnName="date_of_execution" />
+                <ScalarProperty Name="date_of_unsub" ColumnName="date_of_unsub" />
+                <ScalarProperty Name="to_user_id" ColumnName="to_user_id" />
+                <ScalarProperty Name="from_user_id" ColumnName="from_user_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

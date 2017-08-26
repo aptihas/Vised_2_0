@@ -8,10 +8,10 @@
 <ul>
     <li>@Html.ActionLink("Корреспонденция", "CorrespondenceList", "User", null, null) <span id="messageCount">(Не прочитано @ViewBag.MsgToMe)</span></li>
 
-    <li>@Html.ActionLink("Отписать документ", "EmailData", "Mail", null, null)</li>
-    
-    <li>@Html.ActionLink("Новый документ","DocSelect","User",null,null)</li>
+    <li>@Html.ActionLink("Новый документ", "DocSelect", "User", null, null)</li>
 
+    <li>@Html.ActionLink("Отписать документ", "UnsubcribeSelect", "Unsubscribe", null, null)</li>
+    
     <li>@Html.ActionLink("Почтовый клиент", "EmailData", "Mail", null, null)</li>
 
     <li>@Html.ActionLink("Мои документы", "MyDocsList", "MyDocs", null, null)</li>

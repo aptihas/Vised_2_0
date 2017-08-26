@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Выбор документа";
+}
+
+<h4>Выберите получателя</h4>
+
+@using (Html.BeginForm("UnsubcribeData", "Unsubscribe", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <p>Получатель</p>
+    @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple" })
+    <br />
+    <br />
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="file" name="attachment" multiple />
+        </div>
+    </div>
+    <br />
+    <input type="date" name="date_of_unsub" атрибуты>
+    <br />
+    <br />
+    <select name="myDocs" multiple>
+        <option value="null">Не выбрано</option>
+        @foreach (ViSED.Models.MyDocs m in ViewBag.MyDocs)
+        {
+            <option value="@m.id">@m.myDocName</option>
+        }
+    </select>
+    <br />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Отправить" class="btn btn-default" />
+        </div>
+    </div>
+}

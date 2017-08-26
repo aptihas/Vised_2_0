@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ViSED.Models.Unsubscribe>
+
+@{
+    ViewBag.Title = "Отписано мною";
+}
+
+<h4>Отписано мною</h4>
+
+<table class="table">
+
+    <tr>
+        <th>
+            Ответственный
+        </th>
+        <th>
+            Дата отписания
+        </th>
+        <th>
+            Дата завершения
+        </th>
+        <th>
+            Завершено
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @item.Users1.first_name @item.Users1.second_name @item.Users1.third_name
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_of_unsub)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_of_execution)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.executed)
+        </td>
+    </tr>
+}
+</table>

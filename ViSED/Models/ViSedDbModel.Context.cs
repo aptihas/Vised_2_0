@@ -48,6 +48,10 @@ public partial class ViSedDBEntities : DbContext
 
     public virtual DbSet<Roles> Roles { get; set; }
 
+    public virtual DbSet<UnsubAttachments> UnsubAttachments { get; set; }
+
+    public virtual DbSet<Unsubscribe> Unsubscribe { get; set; }
+
     public virtual DbSet<Users> Users { get; set; }
 
 }
