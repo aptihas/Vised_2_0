@@ -11,31 +11,59 @@
     <script src="~/Scripts/modernizr-2.8.3.js" type="text/javascript"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="navbar-brand">Vi Sed</div>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+    <div class="shapkaConteiner">
+        <div class="logoVised">
+            <img src="~/Content/icons/logo.png" height="50" />
+        </div>
+        <div class="ulContainer">
+            @Html.Partial("_LoginPartial")
         </div>
     </div>
+    <div class="gridVised">
+        @if (Request.IsAuthenticated)
+        {
+            ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - А.С-А. Хасухаджиев</p>
-        </footer>
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            var msgToMe = from m in vsdEnt.Message
+                          where m.to_user_id == myAccount.Users.id && m.dateOfRead == null
+                          select m;
+
+            string msg = "";
+            if (msgToMe != null && msgToMe.Count() > 0)
+            {
+                msg = "Корреспонденция " + msgToMe.Count().ToString();
+            }
+            else
+            {
+                msg = "Корреспонденция";
+            }
+
+            <div class="menuSleva grid-item">
+                <ul>
+                    <li>@Html.ActionLink(msg, "CorrespondenceList", "User", null, null) </li>
+
+                    <li>@Html.ActionLink("Новый документ", "DocSelect", "User", null, null)</li>
+
+                    <li>@Html.ActionLink("Отписать документ", "SubscribeCorrespondence", "Unsubscribe", null, null)</li>
+
+                    <li>@Html.ActionLink("Почтовый клиент", "EmailData", "Mail", null, null)</li>
+
+                    <li>@Html.ActionLink("Мои документы", "MyDocsList", "MyDocs", null, null)</li>
+                </ul>
+            </div>
+        }
+        <div class="renderBody grid-item">
+            @RenderBody()
+        </div>
     </div>
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - А.С-А. Хасухаджиев</p>
+    </footer>
 
 
 </body>

@@ -17,7 +17,7 @@
     {
         if (msg.from_user_id == account.user_id)
         {
-            <div onclick="location.href='@Url.Action("DocView","User", new { doc_id=msg.id })'" style="width:200px; border:1px solid black;border-radius:20px 20px 0px 20px; padding:10px;margin:10px;margin-left:60%;">
+            <div class="bumagaA4Right" onclick="location.href='@Url.Action("DocView","User", new { doc_id=msg.id })'">
                 <div style="text-align:right;">@msg.DocType.Name</div>
                 <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
 
@@ -41,38 +41,42 @@
                     int i = 1;
                     foreach (ViSED.Models.Attachments a in attachs)
                     {
-                        <a href="@Url.Content(a.attachedFile)">Приложение @i (@a.attachedName)</a>
+                        <hr />
+                        <a href="@Url.Content(a.attachedFile)">Приложение @i <br /> @a.attachedName</a>
                         i++;
+
                     }
 
                 }
+
             </div>
-                    }
-                    else
-                    {
-                        <div onclick="location.href='@Url.Action("DocView","User", new { doc_id=msg.id })'" style="width:200px;border:1px solid black;border-radius:0px 20px 20px 20px; padding:10px;margin:10px;">
-                            <div style="text-align:left;">@msg.DocType.Name</div>
-                            <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
-                            <div style="font-size:10px;">Получено</div>
-                            <div style="font-size:10px">@msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</div>
+             }
+             else
+             {
+                 <div class="bumagaA4" onclick="location.href='@Url.Action("DocView","User", new { doc_id=msg.id })'">
+                     <div style="text-align:left;">@msg.DocType.Name</div>
+                     <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
+                     <div style="font-size:10px;">Получено</div>
+                     <div style="font-size:10px">@msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</div>
 
-                            @{
-                                var attachs = from a in vsdEnt.Attachments
-                                              where a.id_message == msg.id
-                                              select a;
-                            }
-                            @if (attachs != null)
-                            {
-                                int i = 1;
-                                foreach (ViSED.Models.Attachments a in attachs)
-                                {
-                                    <a href="@Url.Content(a.attachedFile)">Приложение @i (@a.attachedName)</a>
-                                    i++;
-                                }
+                     @{
+                         var attachs = from a in vsdEnt.Attachments
+                                       where a.id_message == msg.id
+                                       select a;
+                     }
+                     @if (attachs != null)
+                     {
+                         int i = 1;
+                         foreach (ViSED.Models.Attachments a in attachs)
+                         {
+                             <hr />
+                             <a href="@Url.Content(a.attachedFile)">Приложение @i <br /> @a.attachedName</a>
+                             i++;
+                         }
 
-                            }
-                        </div>
-                                    }
-                                }
+                     }
+                 </div>
+                     }
+                 }
 </div>
 

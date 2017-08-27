@@ -22,16 +22,6 @@ namespace ViSED.Controllers
         // GET: User
         public ActionResult USerLK()//Личный кабинет
         {
-            var myAccount = (from u in vsdEnt.Accounts
-                             where u.login == User.Identity.Name
-                             select u).FirstOrDefault();
-
-            var msgToMe = from m in vsdEnt.Message
-                          where m.to_user_id == myAccount.Users.id && m.dateOfRead == null
-                          select m;
-
-            ViewBag.MsgToMe = msgToMe.Count();
-
             return View();
         }
         public ActionResult DocSelect()//Страница списка документов для выбора

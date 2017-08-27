@@ -8,14 +8,14 @@
                      select u).FirstOrDefault();
 }
 
-<h4>Моя корреспонденция</h4>
+<h4 class="zagolovki">Моя корреспонденция</h4>
 @foreach (ViSED.Models.Users item in ViewBag.UserList)
 {
     var msgCount = from m in vsdEnt.Message
                    where m.from_user_id == item.id && m.to_user_id == myAccount.user_id && m.dateOfRead==null
                    select m;
 
-    <div onclick="location.href='@Url.Action("Dialog","User", new { userId =item.id, msgCount=5 })'" style="border:1px solid black;cursor:pointer;padding:10px;margin:10px;">@item.first_name @item.second_name.Substring(0,1). @item.third_name.Substring(0,1). (Не прочитано @msgCount.Count())
+    <div onclick="location.href='@Url.Action("Dialog","User", new { userId =item.id, msgCount=5 })'" class="correspondenceItem">@item.first_name @item.second_name.Substring(0,1). @item.third_name.Substring(0,1). (Не прочитано @msgCount.Count())
         <div style="font-size:10px;">@item.Dolgnosti.Name</div>
         <div style="font-size:10px;">@item.Podrazdeleniya.Name</div>
     </div>

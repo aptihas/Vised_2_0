@@ -1,19 +1,226 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-    
-}
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
+﻿
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
+select{
     max-width: 280px;
 }
+body {
+    background-color: #f1f4f9 !important;
+}
+/*Стили для ссылок*/
+.ssilka {
+    box-shadow: 0px 0px 1px 1px #abc4ed;
+    padding: 8px;
+    font-weight: 600;
+    margin: 10px;
+    transition: 0.3s;
+    text-decoration: none;
+}
+.ssilka:hover {
+    box-shadow: 0px 0px 1px 1px #abc4ed;
+    padding: 8px;
+    transition: 0.3s;
+    color:#fff;
+    background-color:#34425a;
+    text-decoration: none;
+}
 
+/* С этого места начинаются мои стили */
+/*Начало верхней шапки*/
+.loginPartial {
+    list-style-type: none;
+    empty-cells: hide;
+}
+.loginPartial li:nth-child(1) {
+    text-align:right;
+    display: inline-block;
+    padding-right:10px;
+    font-style:italic;
+    font-weight:600;
+    color:#899dc1;
+}
+.loginPartial li{
+    text-align:center;
+    display: inline-block;
+}
+
+.loginPartial li a{
+    text-align:center;
+    display: inline-block;
+    height:60px;
+    padding:20px 10px 10px 10px;
+    margin-left:-4px;
+    min-width:100px;
+    color:#899dc1;
+    font-weight:600;
+    transition: 0.3s;
+}
+
+.loginPartial li a:hover{
+    transition: 0.3s;
+    background-color:#2b384e;
+    cursor:pointer;
+    color:#fff;
+    text-decoration:none;
+}
+
+.ulContainer{
+    float:right;
+}
+
+.shapkaConteiner {
+    width: 100%;
+    background-color: #34425a;
+    height: 60px;
+}
+
+/*Конец верхней шапки*/
+.zagolovki {
+    color: #4E5E6A;
+    font-weight: 600;
+}
+.menuSleva {
+    width: 180px;
+    margin-top:-3px;
+    padding-left:-3px;
+    background-color: #34425a;
+    text-align: left;
+}
+
+.menuSleva ul{
+    padding-left:0px;
+    list-style-type:none;
+}
+.menuSleva ul li a{
+    display:block;
+    text-decoration:none;
+    color:#899dc1;
+    font-weight:600;
+    transition: 0.3s;
+    height:60px;
+    padding:20px 10px 10px 10px;
+    margin:3px;
+}
+.menuSleva ul li a:hover {
+    display: block;
+    height: 60px;
+    transition: 0.3s;
+    color:#fff;
+    background-color:#2b384e;
+    padding: 20px 10px 10px 10px;
+    margin: 3px;
+}
+
+.renderBody{
+    padding:20px;
+}
+
+.logoVised {
+    width: 180px;
+    float: left;
+    height: 60px;
+    padding-left: 20px;
+    background-color: #2b384e;
+}
+
+.gridVised {
+    display: grid;
+    height:100%;
+    width: 100%;
+    grid-template-columns: 180px 1fr;
+}
+/* ------------*/
+.correspondenceItem{
+    background-color:#fff;
+    padding:15px;
+    transition: 0.3s;
+    font-size:12pt;
+    margin:10px;
+    box-shadow:0px 0px 2px 2px  #dfe4ed;
+}
+.correspondenceItem:hover {
+    padding: 15px;
+    font-size: 12pt;
+    transition: 0.3s;
+    cursor:pointer;
+    margin: 10px;
+    box-shadow: 0px 0px 1px 2px #abc4ed;
+}
+.correspondenceItem div {
+    background-color: #fff;
+    padding: 5px;
+    font-size: 9pt !important;
+    box-shadow: 0px 0px 1px 1px #e8f0ff;
+}
+
+
+.bumagaA4 {
+    width: 250px;
+    min-height: 350px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 2px 2px 15px 5px #e8f0ff;
+}
+.bumagaA4:hover {
+    width: 250px;
+    min-height: 350px;
+    margin: 20px;
+    cursor:pointer;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 1px 2px #abc4ed;
+}
+
+.bumagaA4Right {
+    width: 250px;
+    min-height: 350px;
+    margin: 20px;
+    margin-left:80%;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 2px 2px 15px 5px #e8f0ff;
+}
+.bumagaA4Right:hover {
+    width: 250px;
+    min-height: 350px;
+    margin: 20px;
+ 
+    float: right;
+    cursor:pointer;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 1px 2px #abc4ed;
+}
+
+.table_col {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 14px;
+    background: white;
+    text-align: left;
+    border-collapse: collapse;
+    color: #4E5E6A;
+    margin:10px;
+    width:100%;
+    box-shadow: 0px 0px 2px 2px #dfe4ed;
+}
+
+    .table_col th:first-child, .table_col td:first-child {
+        color: #4E5E6A;
+        border-left: none;
+    }
+
+    .table_col th {
+        font-weight: 600;
+        border-bottom: 2px solid #4E5E6A;
+        border-right: 20px solid white;
+        border-left: 20px solid white;
+        padding: 8px 10px;
+    }
+
+    .table_col td {
+        border-right: 20px solid white;
+        border-left: 20px solid white;
+        padding: 12px 10px;
+        color: #8b8e91;
+    }

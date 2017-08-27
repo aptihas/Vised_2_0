@@ -68,8 +68,7 @@ namespace ViSED.Controllers
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();

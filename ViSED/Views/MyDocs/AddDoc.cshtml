@@ -4,14 +4,13 @@
     ViewBag.Title = "Добавить документ";
 }
 
-<h4>Добавить документ</h4>
+<h4  class="zagolovki">Добавить документ</h4>
 
 @using (Html.BeginForm("AddDoc", "MyDocs", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <br />
 

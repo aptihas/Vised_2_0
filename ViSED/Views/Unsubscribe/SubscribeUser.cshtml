@@ -4,11 +4,15 @@
 
     ViSED.Models.Users user = ViewBag.User;
 
-    string userName = user.first_name + " " + user.second_name.Substring(0, 1) + ". " + user.third_name.Substring(0, 1) + ".";
+    NPetrovichLite.Petrovich petrovich = new NPetrovichLite.Petrovich();
+
+    string userNameFrom = petrovich.Inflect(user.first_name, NPetrovichLite.NamePart.LastName, NPetrovichLite.Case.Instrumental) + " " + user.second_name.Substring(0, 1) + ". " + user.third_name.Substring(0, 1) + ".";
+    string userNameTo = petrovich.Inflect(user.first_name, NPetrovichLite.NamePart.LastName, NPetrovichLite.Case.Accusative) + " " + user.second_name.Substring(0, 1) + ". " + user.third_name.Substring(0, 1) + ".";
+
 }
 
-<h4>Отписанные документы</h4>
-<hr />
-@Html.ActionLink("Отписанные на меня "+ userName, "UnsubcribeIn", "Unsubscribe", new { userId = user.id }, null)
-<hr />
-@Html.ActionLink("Отписанные мной на "+ userName, "UnsubcribeOut", "Unsubscribe", new { userId = user.id }, null)
+<h4 class="zagolovki">Отписанные документы</h4>
+<br />
+@Html.ActionLink("Отписанные на меня "+ userNameFrom, "UnsubcribeIn", "Unsubscribe", new { userId = user.id }, new {@class= "ssilka" })
+<br /><br />
+@Html.ActionLink("Отписанные мной на "+ userNameTo, "UnsubcribeOut", "Unsubscribe", new { userId = user.id }, new { @class = "ssilka" })

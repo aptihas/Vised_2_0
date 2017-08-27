@@ -1,41 +1,40 @@
 ﻿@if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-        @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @{
-                    ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
+        <ul class="loginPartial">
 
-                    var user = (from u in vsdEnt.Accounts
-                                where u.login == User.Identity.Name
-                                select u).FirstOrDefault();
+            @{
+                ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
 
-                    var userRole = (from ur in vsdEnt.Roles
-                                    where ur.id == user.role_id
-                                    select ur).FirstOrDefault();
-                    if (userRole.RoleName == "Admin")
-                    {
-                        @Html.ActionLink("Личный кабинет", "AdminLK", "Admin", routeValues: null, htmlAttributes: new { title = "Manage" })
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Личный кабинет", "UserLK", "User", routeValues: null, htmlAttributes: new { title = "Manage" })
-                    }
+                var myAccount = (from u in vsdEnt.Accounts where u.login == User.Identity.Name select u).FirstOrDefault();
+
+                var myUser = (from u in vsdEnt.Users where u.id == myAccount.user_id select u).FirstOrDefault();
+
+                var userRole = (from ur in vsdEnt.Roles where ur.id == myAccount.role_id select ur).FirstOrDefault();
+
+
+                if (userRole.RoleName == "Admin")
+                {
+                    <li>@Html.ActionLink("Панель администратора", "AdminLK", "Admin", null, null) </li>
                 }
-                
-                
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
-        </ul>
-    }
-}
-else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
-}
+                else
+                {
+                    <li>
+                        @myUser.first_name @myUser.second_name.Substring(0, 1). @myUser.third_name.Substring(0, 1).
 
+                    </li>
+                    <li>@Html.ActionLink("Личный кабинет", "UserLK", "User",null,null)</li>
+
+                }
+            }
+
+            <li>@Html.ActionLink("Выйти", "LogOff", "Account", null, null)</li>
+        </ul>
+ }
+ else
+ {
+     <ul class="loginPartial">
+         <li></li>
+         <li>@Html.ActionLink("Выполнить вход", "Login", "Account",null, null)</li>
+     </ul>
+ }
