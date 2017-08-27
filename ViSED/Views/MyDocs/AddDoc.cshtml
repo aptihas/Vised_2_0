@@ -3,26 +3,34 @@
 @{
     ViewBag.Title = "Добавить документ";
 }
+<script>
+    function getFileName() {
+        var file = document.getElementById('uploaded-file').value;
+        file = file.replace(/\\/g, "/").split('/').pop();
+        document.getElementById('file-name').innerHTML = 'Имя файла: ' + file;
+    }
+</script>
+<h4 class="zagolovki">Добавить документ</h4>
 
-<h4  class="zagolovki">Добавить документ</h4>
-
-@using (Html.BeginForm("AddDoc", "MyDocs", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+@using (Html.BeginForm("AddDoc", "MyDocs", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <br />
+        <div class="file-upload">
+            <label>
+                <input type="file" name="myDocs" multiple onchange="getFileName ();" id="uploaded-file">
+                <span>Выберите файл</span>
+            </label>
+        </div>
 
-        <div class="form-group">
-            <div class="col-md-10">
-                <input type="file" name="myDocs" multiple />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Добавить" class="btn btn-default" />
-            </div>
-        </div>
+        <div id="file-name"></div>
+
+        <br />
+
+        <input type="submit" value="Добавить" class="knopka" />
+
     </div>
 }

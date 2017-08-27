@@ -1,9 +1,10 @@
 ﻿
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select{
+select {
     max-width: 280px;
 }
+
 body {
     background-color: #f1f4f9 !important;
 }
@@ -16,14 +17,15 @@ body {
     transition: 0.3s;
     text-decoration: none;
 }
-.ssilka:hover {
-    box-shadow: 0px 0px 1px 1px #abc4ed;
-    padding: 8px;
-    transition: 0.3s;
-    color:#fff;
-    background-color:#34425a;
-    text-decoration: none;
-}
+
+    .ssilka:hover {
+        box-shadow: 0px 0px 1px 1px #abc4ed;
+        padding: 8px;
+        transition: 0.3s;
+        color: #fff;
+        background-color: #34425a;
+        text-decoration: none;
+    }
 
 /* С этого места начинаются мои стили */
 /*Начало верхней шапки*/
@@ -31,41 +33,43 @@ body {
     list-style-type: none;
     empty-cells: hide;
 }
-.loginPartial li:nth-child(1) {
-    text-align:right;
-    display: inline-block;
-    padding-right:10px;
-    font-style:italic;
-    font-weight:600;
-    color:#899dc1;
-}
-.loginPartial li{
-    text-align:center;
-    display: inline-block;
-}
 
-.loginPartial li a{
-    text-align:center;
-    display: inline-block;
-    height:60px;
-    padding:20px 10px 10px 10px;
-    margin-left:-4px;
-    min-width:100px;
-    color:#899dc1;
-    font-weight:600;
-    transition: 0.3s;
-}
+    .loginPartial li:nth-child(1) {
+        text-align: right;
+        display: inline-block;
+        padding-right: 10px;
+        font-style: italic;
+        font-weight: 600;
+        color: #899dc1;
+    }
 
-.loginPartial li a:hover{
-    transition: 0.3s;
-    background-color:#2b384e;
-    cursor:pointer;
-    color:#fff;
-    text-decoration:none;
-}
+    .loginPartial li {
+        text-align: center;
+        display: inline-block;
+    }
 
-.ulContainer{
-    float:right;
+        .loginPartial li a {
+            text-align: center;
+            display: inline-block;
+            height: 60px;
+            padding: 20px 10px 10px 10px;
+            margin-left: -4px;
+            min-width: 100px;
+            color: #899dc1;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+            .loginPartial li a:hover {
+                transition: 0.3s;
+                background-color: #2b384e;
+                cursor: pointer;
+                color: #fff;
+                text-decoration: none;
+            }
+
+.ulContainer {
+    float: right;
 }
 
 .shapkaConteiner {
@@ -79,40 +83,84 @@ body {
     color: #4E5E6A;
     font-weight: 600;
 }
+.profil {
+    width: 180px;
+    min-height:150px;
+    max-height:250px;
+    margin:5px;
+    margin-left:0px;
+    margin-top:2px;
+    padding:5px;
+    padding-left: -3px;
+    z-index:10;
+    background-color: #34425a;
+    text-align: center;
+}
+
+.profileImg {
+    width: 60px;
+    margin: 10px;
+    border-radius: 50px;
+    clear: both;
+}
+
+.profileFio {
+    color: #899dc1;
+    font-weight:600;
+}
+.profileDolgnost {
+    margin-top:3px;
+    color: #899dc1;
+    font-weight: 600;
+    font-size:12px;
+}
+.profilePodrazdeleniya {
+    margin-top: 3px;
+    color: #899dc1;
+    font-weight: 600;
+    font-size: 10px;
+}
+
+
+
+
 .menuSleva {
     width: 180px;
-    margin-top:-3px;
-    padding-left:-3px;
+    margin-top: -3px;
+    padding-left: -3px;
     background-color: #34425a;
     text-align: left;
 }
 
-.menuSleva ul{
-    padding-left:0px;
-    list-style-type:none;
+.menuSleva ul {
+    padding-left: 0px;
+    list-style-type: none;
 }
-.menuSleva ul li a{
-    display:block;
-    text-decoration:none;
-    color:#899dc1;
-    font-weight:600;
-    transition: 0.3s;
-    height:60px;
-    padding:20px 10px 10px 10px;
-    margin:3px;
-}
-.menuSleva ul li a:hover {
+
+.menuSleva ul li a {
     display: block;
-    height: 60px;
+    text-decoration: none;
+    color: #899dc1;
+    font-weight: 600;
     transition: 0.3s;
-    color:#fff;
-    background-color:#2b384e;
+    height: 60px;
     padding: 20px 10px 10px 10px;
     margin: 3px;
 }
 
-.renderBody{
-    padding:20px;
+.menuSleva ul li a:hover {
+    display: block;
+    height: 60px;
+    transition: 0.3s;
+    color: #fff;
+    background-color: #2b384e;
+    padding: 20px 10px 10px 10px;
+    margin: 3px;
+}
+
+.renderBody {
+    padding: 20px;
+    margin-top:-160px;
 }
 
 .logoVised {
@@ -125,33 +173,35 @@ body {
 
 .gridVised {
     display: grid;
-    height:100%;
+    height: 100%;
     width: 100%;
     grid-template-columns: 180px 1fr;
 }
 /* ------------*/
-.correspondenceItem{
-    background-color:#fff;
-    padding:15px;
-    transition: 0.3s;
-    font-size:12pt;
-    margin:10px;
-    box-shadow:0px 0px 2px 2px  #dfe4ed;
-}
-.correspondenceItem:hover {
-    padding: 15px;
-    font-size: 12pt;
-    transition: 0.3s;
-    cursor:pointer;
-    margin: 10px;
-    box-shadow: 0px 0px 1px 2px #abc4ed;
-}
-.correspondenceItem div {
+.correspondenceItem {
     background-color: #fff;
-    padding: 5px;
-    font-size: 9pt !important;
-    box-shadow: 0px 0px 1px 1px #e8f0ff;
+    padding: 15px;
+    transition: 0.3s;
+    font-size: 12pt;
+    margin: 10px;
+    box-shadow: 0px 0px 2px 2px #dfe4ed;
 }
+
+    .correspondenceItem:hover {
+        padding: 15px;
+        font-size: 12pt;
+        transition: 0.3s;
+        cursor: pointer;
+        margin: 10px;
+        box-shadow: 0px 0px 1px 2px #abc4ed;
+    }
+
+    .correspondenceItem div {
+        background-color: #fff;
+        padding: 5px;
+        font-size: 9pt !important;
+        box-shadow: 0px 0px 1px 1px #e8f0ff;
+    }
 
 
 .bumagaA4 {
@@ -162,36 +212,37 @@ body {
     background-color: #fff;
     box-shadow: 2px 2px 15px 5px #e8f0ff;
 }
-.bumagaA4:hover {
-    width: 250px;
-    min-height: 350px;
-    margin: 20px;
-    cursor:pointer;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 0px 1px 2px #abc4ed;
-}
+
+    .bumagaA4:hover {
+        width: 250px;
+        min-height: 350px;
+        margin: 20px;
+        cursor: pointer;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 0px 1px 2px #abc4ed;
+    }
 
 .bumagaA4Right {
     width: 250px;
     min-height: 350px;
     margin: 20px;
-    margin-left:80%;
+    margin-left: 70%;
     padding: 20px;
     background-color: #fff;
     box-shadow: 2px 2px 15px 5px #e8f0ff;
 }
-.bumagaA4Right:hover {
-    width: 250px;
-    min-height: 350px;
-    margin: 20px;
- 
-    float: right;
-    cursor:pointer;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 0px 1px 2px #abc4ed;
-}
+
+    .bumagaA4Right:hover {
+        width: 250px;
+        min-height: 350px;
+        margin: 20px;
+        margin-left: 70%;
+        cursor: pointer;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 0px 1px 2px #abc4ed;
+    }
 
 .table_col {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -200,8 +251,8 @@ body {
     text-align: left;
     border-collapse: collapse;
     color: #4E5E6A;
-    margin:10px;
-    width:100%;
+    margin: 10px;
+    width: 100%;
     box-shadow: 0px 0px 2px 2px #dfe4ed;
 }
 
@@ -224,3 +275,141 @@ body {
         padding: 12px 10px;
         color: #8b8e91;
     }
+
+.docSelectItem {
+    box-shadow: 0px 0px 2px 2px #dfe4ed;
+    margin: 10px;
+    width: 200px;
+    padding: 10px;
+    max-width: 400px;
+    box-shadow: 0px 0px 2px 2px #dfe4ed;
+    height: 70px;
+    color: #4E5E6A;
+    float: left;
+    font-weight: 600;
+    text-align: center;
+    padding-top: 25px;
+    max-height: 150px;
+    background-color: #fff;
+}
+
+    .docSelectItem:hover {
+        box-shadow: 0px 0px 2px 2px #dfe4ed;
+        margin: 10px;
+        width: 200px;
+        padding: 10px;
+        max-width: 400px;
+        box-shadow: 0px 0px 2px 2px #dfe4ed;
+        height: 70px;
+        color: #4E5E6A;
+        float: left;
+        font-weight: 600;
+        text-align: center;
+        padding-top: 25px;
+        max-height: 150px;
+        cursor: pointer;
+        background-color: #fff;
+        box-shadow: 0px 0px 1px 2px #abc4ed;
+    }
+
+.knopka {
+    background-color: #fff;
+    font-weight: 600;
+    padding: 5px 15px 5px 15px;
+    overflow: hidden;
+    color: #4E5E6A;
+    box-shadow: 0px 0px 1px 1px #abc4ed;
+    border: 0px solid #ccc;
+}
+
+.knopka:hover {
+    background-color: #fff;
+    font-weight: 600;
+    padding: 5px 15px 5px 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0px 0px 1px 1px #abc4ed;
+    border:none;
+    color: #fff;
+    background-color: #34425a;
+}
+
+
+.select {
+    display: block;
+    background-color: #fff;
+    box-shadow: 0px 0px 1px 1px #abc4ed;
+    border:none;
+    width: 300px;
+    padding: 4px 15px 4px 10px;
+    color: #444;
+    /*
+		Супер финт обрезаем текст
+		чтобы не вылезал за рамку
+	*/
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+
+.file-upload input[type="file"] {
+    display: none; /* скрываем input file */
+}
+
+/* задаем стили кнопки выбора файла*/
+
+.file-upload {
+    position: relative;
+    overflow: hidden;
+    height: 40px;
+    width:150px;
+    background: #fff;
+    box-shadow: 0px 0px 1px 1px #abc4ed;
+    color: #4E5E6A;
+    text-align: center;
+}
+
+.file-upload:hover {
+    background-color: #34425a;
+    color:#fff;
+}
+
+/* Растягиваем label на всю область блока .file-upload */
+
+.file-upload label {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* стиль текста на кнопке*/
+
+.file-upload span {
+    line-height: 40px;
+    font-weight: bold;
+}
+
+.textArea {
+    background: #fff;
+    box-shadow: 0px 0px 1px 1px #abc4ed;
+    border:none;
+}
+
+.datetime {
+    background: #fff;
+    box-shadow: 0px 0px 1px 1px #abc4ed;
+    border: none;
+}
+
+.footer {
+    text-align: right;
+    color: #4E5E6A;
+    font-size:10px;
+    padding: 10px;
+    font-weight:600;
+}

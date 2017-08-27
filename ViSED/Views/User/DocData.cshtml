@@ -1,8 +1,14 @@
 ﻿@{
     ViewBag.Title = "Данные документа";
 }
-
-<h4  class="zagolovki">Данные документа</h4>
+<script>
+    function getFileName() {
+        var file = document.getElementById('uploaded-file').value;
+        file = file.replace(/\\/g, "/").split ('/').pop ();
+        document.getElementById('file-name').innerHTML = 'Имя файла: ' + file;
+    }
+</script>
+<h4 class="zagolovki">Данные документа</h4>
 
 
 
@@ -11,31 +17,34 @@
     @Html.AntiForgeryToken()
 
     <p>Получатель</p>
-    @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple" })
+    @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select" })
     <input name="doc_id" type="text" value="@ViewBag.Doc.id" style="visibility:hidden;" />
     <br />
-    <br />
+
     <p>Текст документа</p>
-    <textarea name="text" cols="45" rows="20" style="width:600px !important;"> </textarea>
-    <br />
+    <textarea name="text" cols="45" rows="20" class="textArea"> </textarea>
+    <br /><br />
 
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="file" name="attachment" multiple />
-        </div>
-    </div>
-    <br />
-    <select name="myDocs" multiple>
-        <option value="null">Не выбрано</option>
-        @foreach (ViSED.Models.MyDocs m in ViewBag.MyDocs)
-        {
-            <option value="@m.id">@m.myDocName</option>
-        }
-    </select>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Отправить" class="btn btn-default" />
-        </div>
+    <div class="file-upload">
+        <label>
+            <input type="file" name="attachment" multiple onchange="getFileName ();" id="uploaded-file">
+            <span>Выберите файл</span>
+        </label>
     </div>
+
+    <div id="file-name"></div>
+
+    <br />
+            <select name="myDocs" multiple class="select">
+                <option value="null">Не выбрано</option>
+                @foreach (ViSED.Models.MyDocs m in ViewBag.MyDocs)
+                {
+                    <option value="@m.id">@m.myDocName</option>
+                }
+            </select>
+            <br /> 
+
+            <input type="submit" value="Отправить" class="knopka" />
+
 }

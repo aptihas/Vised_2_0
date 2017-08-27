@@ -2,6 +2,13 @@
 @{
     ViewBag.Title = "Выбор документа";
 }
+<script>
+    function getFileName() {
+        var file = document.getElementById('uploaded-file').value;
+        file = file.replace(/\\/g, "/").split('/').pop();
+        document.getElementById('file-name').innerHTML = 'Имя файла: ' + file;
+    }
+</script>
 
 <h4>Выберите получателя</h4>
 
@@ -10,19 +17,23 @@
     @Html.AntiForgeryToken()
 
     <p>Получатель</p>
-    @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple" })
+    @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select" })
     <br />
     <br />
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="file" name="attachment" multiple />
-        </div>
+    <div class="file-upload">
+        <label>
+            <input type="file" name="attachment" multiple onchange="getFileName ();" id="uploaded-file">
+            <span>Выберите файл</span>
+        </label>
     </div>
+
+    <div id="file-name"></div>
+
     <br />
-    <input type="date" name="date_of_unsub" атрибуты>
+    <input type="date" class="datetime" name="date_of_unsub" атрибуты>
     <br />
     <br />
-    <select name="myDocs" multiple>
+    <select name="myDocs" class = "select"  multiple>
         <option value="null">Не выбрано</option>
         @foreach (ViSED.Models.MyDocs m in ViewBag.MyDocs)
         {
@@ -31,9 +42,7 @@
     </select>
     <br />
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Отправить" class="btn btn-default" />
-        </div>
-    </div>
+
+            <input type="submit" value="Отправить" class="knopka" />
+
 }

@@ -4,11 +4,11 @@
     ViewBag.Title = "Удалить документ";
 }
 
-<h4>Вы уверены, что хотите удалить этот документ?</h4>
+<h4  class="zagolovki">Вы уверены, что хотите удалить этот документ?</h4>
+<br />
 <div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
+    <dl>
+        <dt  class="zagolovki">
             Документ
         </dt>
         <dd>
@@ -20,8 +20,6 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Удалить" class="btn btn-default" />
-        </div>
+            <input type="submit" value="Удалить" class="knopka" />
     }
 </div>

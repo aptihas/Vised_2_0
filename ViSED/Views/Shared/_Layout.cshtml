@@ -19,6 +19,23 @@
             @Html.Partial("_LoginPartial")
         </div>
     </div>
+    <div class="profil">
+        @if (Request.IsAuthenticated)
+        {
+            ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
+
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+            var user = (from u in vsdEnt.Users
+                        where u.id == myAccount.user_id
+                        select u).FirstOrDefault();
+                <img class="profileImg" src="~/Content/icons/profile.png" />
+                <div class="profileFio">@user.first_name @user.second_name.Substring(0, 1). @user.third_name.Substring(0, 1).</div>
+                <div class="profileDolgnost">@user.Dolgnosti.Name</div>
+                <div class="profilePodrazdeleniya">@user.Podrazdeleniya.Name</div>
+        }
+    </div>
     <div class="gridVised">
         @if (Request.IsAuthenticated)
         {
@@ -61,9 +78,9 @@
         </div>
     </div>
     <hr />
-    <footer>
+    <div class="footer">
         <p>&copy; @DateTime.Now.Year - А.С-А. Хасухаджиев</p>
-    </footer>
+    </div>
 
 
 </body>
