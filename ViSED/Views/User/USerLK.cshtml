@@ -3,7 +3,6 @@
     ViewBag.Title = "Личный кабинет";
 }
 <h4>Личный кабинет</h4>
-<div><span id="notification" style="color:red;font-size:15px;"></span></div>
 
 <ul>
     <li>@Html.ActionLink("Корреспонденция", "CorrespondenceList", "User", null, null) <span id="messageCount">(Не прочитано @ViewBag.MsgToMe)</span></li>
