@@ -16,23 +16,24 @@
 {
     @Html.AntiForgeryToken()
 
-    <p>Получатель</p>
+    <p>Получатели</p>
     @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select" })
     <br />
-    <br />
+    <p>Установить срок до...</p>
+    <input type="date" class="datetime" name="date_of_unsub">
+    <br /><br />
+
+    <p>Приложения</p>
     <div class="file-upload">
         <label>
             <input type="file" name="attachment" multiple onchange="getFileName ();" id="uploaded-file">
-            <span>Выберите файл</span>
+            <span>Загрузить файлы</span>
         </label>
     </div>
-
     <div id="file-name"></div>
 
     <br />
-    <input type="date" class="datetime" name="date_of_unsub" атрибуты>
-    <br />
-    <br />
+    <p>Выбрать файл из моих документов</p>
     <select name="myDocs" class = "select"  multiple>
         <option value="null">Не выбрано</option>
         @foreach (ViSED.Models.MyDocs m in ViewBag.MyDocs)

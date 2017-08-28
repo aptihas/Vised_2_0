@@ -34,39 +34,45 @@ body {
     empty-cells: hide;
 }
 
-    .loginPartial li:nth-child(1) {
-        text-align: right;
-        display: inline-block;
-        padding-right: 10px;
-        font-style: italic;
-        font-weight: 600;
-        color: #899dc1;
-    }
 
-    .loginPartial li {
-        text-align: center;
-        display: inline-block;
-    }
 
-        .loginPartial li a {
-            text-align: center;
-            display: inline-block;
-            height: 60px;
-            padding: 20px 10px 10px 10px;
-            margin-left: -4px;
-            min-width: 100px;
-            color: #899dc1;
-            font-weight: 600;
-            transition: 0.3s;
-        }
+.loginPartial li {
+    text-align: center;
+    display: inline-block;
+}
 
-            .loginPartial li a:hover {
-                transition: 0.3s;
-                background-color: #2b384e;
-                cursor: pointer;
-                color: #fff;
-                text-decoration: none;
-            }
+.loginPartial li a {
+    text-align: center;
+    display: inline-block;
+    height: 60px;
+    padding: 20px 10px 10px 10px;
+    margin-left: -4px;
+    min-width: 100px;
+    color: #899dc1;
+    font-weight: 600;
+    transition: 0.3s;
+    margin:-3px;
+}
+.loginPartial li a img {
+    width: 25px;
+    margin: 3px;
+    -webkit-filter: brightness(0.9);
+    filter: brightness(0.9);
+    margin-top: 0px;
+}
+.loginPartial li a:hover {
+    transition: 0.3s;
+    background-color: #2b384e;
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+}
+.loginPartial li a:hover img {
+    -webkit-filter: brightness(1.1);
+    filter: brightness(1.1);
+    -webkit-filter: contrast(1.5);
+    filter: contrast(1.5);
+}
 
 .ulContainer {
     float: right;
@@ -84,7 +90,7 @@ body {
     font-weight: 600;
 }
 .profil {
-    width: 180px;
+    width: 200px;
     min-height:150px;
     max-height:250px;
     margin:5px;
@@ -125,7 +131,7 @@ body {
 
 
 .menuSleva {
-    width: 180px;
+    width: 200px;
     margin-top: -3px;
     padding-left: -3px;
     background-color: #34425a;
@@ -144,8 +150,15 @@ body {
     font-weight: 600;
     transition: 0.3s;
     height: 60px;
-    padding: 20px 10px 10px 10px;
+    padding: 15px 10px 10px 10px;
     margin: 3px;
+}
+.menuSleva ul li a img {
+    width:25px;
+    margin: 3px;
+    -webkit-filter: brightness(0.9);
+    filter: brightness(0.9);
+    margin-top:0px;
 }
 
 .menuSleva ul li a:hover {
@@ -154,8 +167,14 @@ body {
     transition: 0.3s;
     color: #fff;
     background-color: #2b384e;
-    padding: 20px 10px 10px 10px;
+    padding: 15px 10px 10px 10px;
     margin: 3px;
+}
+.menuSleva ul li a:hover img {
+    -webkit-filter: brightness(1.1);
+    filter: brightness(1.1);
+    -webkit-filter: contrast(1.5);
+    filter: contrast(1.5);
 }
 
 .renderBody {
@@ -164,7 +183,7 @@ body {
 }
 
 .logoVised {
-    width: 180px;
+    width: 200px;
     float: left;
     height: 60px;
     padding-left: 20px;
@@ -175,7 +194,7 @@ body {
     display: grid;
     height: 100%;
     width: 100%;
-    grid-template-columns: 180px 1fr;
+    grid-template-columns: 200px 1fr;
 }
 /* ------------*/
 .correspondenceItem {

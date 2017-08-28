@@ -130,7 +130,15 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\icons\correspondeciya.png" />
+    <Content Include="Content\icons\elPochta.png" />
+    <Content Include="Content\icons\kabinet.png" />
+    <Content Include="Content\icons\korrespondence.png" />
+    <Content Include="Content\icons\logo.png" />
+    <Content Include="Content\icons\myDocs.png" />
+    <Content Include="Content\icons\newdoc.png" />
+    <Content Include="Content\icons\otpisatDoc.png" />
+    <Content Include="Content\icons\profile.png" />
+    <Content Include="Content\icons\vihod.png" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

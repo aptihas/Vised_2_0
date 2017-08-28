@@ -25,17 +25,18 @@
     <textarea name="text" cols="45" rows="20" class="textArea"> </textarea>
     <br /><br />
 
-
+    <p>Приложения</p>
     <div class="file-upload">
         <label>
             <input type="file" name="attachment" multiple onchange="getFileName ();" id="uploaded-file">
-            <span>Выберите файл</span>
+            <span>Загрузить файлы</span>
         </label>
     </div>
 
     <div id="file-name"></div>
 
     <br />
+    <p>Выбрать файл из моих документов</p>
             <select name="myDocs" multiple class="select">
                 <option value="null">Не выбрано</option>
                 @foreach (ViSED.Models.MyDocs m in ViewBag.MyDocs)

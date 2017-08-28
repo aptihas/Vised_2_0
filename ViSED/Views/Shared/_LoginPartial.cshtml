@@ -21,7 +21,12 @@
                 {
                     <li>
                     </li>
-                    <li>@Html.ActionLink("Личный кабинет", "UserLK", "User",null,null)</li>
+                    <li>
+                        <a href="@Url.Action("UserLK", "User", null, null)">
+                            <img src="~/Content/icons/kabinet.png" />
+                            Личный кабинет
+                        </a>
+                    </li>
 
                 }
             }

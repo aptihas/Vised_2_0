@@ -61,15 +61,40 @@
 
             <div class="menuSleva grid-item">
                 <ul>
-                    <li>@Html.ActionLink(msg, "CorrespondenceList", "User", null, null) </li>
+                    <li>
+                    <a href="@Url.Action("CorrespondenceList", "User", null, null)">
+                        <img src="~/Content/icons/korrespondence.png" />
+                        @msg
+                    </a>
+                    </li>
 
-                    <li>@Html.ActionLink("Новый документ", "DocSelect", "User", null, null)</li>
+                    <li>
+                        <a href="@Url.Action("DocSelect", "User", null, null)">
+                            <img src="~/Content/icons/newdoc.png" />
+                            Новый документ
+                        </a>
+                    </li>
 
-                    <li>@Html.ActionLink("Отписать документ", "SubscribeCorrespondence", "Unsubscribe", null, null)</li>
+                    <li>
+                        <a href="@Url.Action("SubscribeCorrespondence", "Unsubscribe", null, null)">
+                            <img src="~/Content/icons/otpisatDoc.png" />
+                            Отписать документ
+                        </a>
+                    </li>
 
-                    <li>@Html.ActionLink("Почтовый клиент", "EmailData", "Mail", null, null)</li>
+                    <li>
+                        <a href="@Url.Action("EmailData", "Mail", null, null)">
+                            <img src="~/Content/icons/elPochta.png" />
+                            Почтовый клиент
+                        </a>
+                    </li>
 
-                    <li>@Html.ActionLink("Мои документы", "MyDocsList", "MyDocs", null, null)</li>
+                    <li>
+                        <a href="@Url.Action("MyDocsList", "MyDocs", null, null)">
+                            <img src="~/Content/icons/myDocs.png" />
+                            Мои документы
+                        </a>
+                    </li>
                 </ul>
             </div>
         }
