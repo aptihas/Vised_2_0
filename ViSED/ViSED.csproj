@@ -130,6 +130,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\icons\archiv.png" />
     <Content Include="Content\icons\elPochta.png" />
     <Content Include="Content\icons\kabinet.png" />
     <Content Include="Content\icons\korrespondence.png" />
@@ -138,7 +139,9 @@
     <Content Include="Content\icons\newdoc.png" />
     <Content Include="Content\icons\otpisatDoc.png" />
     <Content Include="Content\icons\profile.png" />
+    <Content Include="Content\icons\vhod.png" />
     <Content Include="Content\icons\vihod.png" />
+    <Content Include="Content\login-style.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -187,6 +190,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\MailController.cs" />
+    <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MyDocsController.cs" />
     <Compile Include="Controllers\UnsubscribeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -194,6 +198,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Accounts.cs">
+      <DependentUpon>ViSedDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Admins.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Attachments.cs">
@@ -295,6 +302,9 @@
     <Content Include="Views\Unsubscribe\UnsubcribeOut.cshtml" />
     <Content Include="Views\Unsubscribe\SubscribeCorrespondence.cshtml" />
     <Content Include="Views\Unsubscribe\SubscribeUser.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Manager\ManagerLK.cshtml" />
+    <Content Include="Views\Shared\_LayoutManager.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -313,6 +323,25 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

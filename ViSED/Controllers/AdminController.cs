@@ -27,7 +27,7 @@ namespace ViSED.Controllers
         [HttpPost]
         public ActionResult AddPodrazdelenie(Models.Podrazdeleniya model, HttpPostedFileBase Blank)
         {
-            if (model.Name!="" && model.Name != null && model.Blank!=null && model.Blank!="")
+            if (model.Name != "" && model.Name != null && model.Blank != null && model.Blank != "")
             {
                 vsdEnt.Podrazdeleniya.Add(model);
                 vsdEnt.SaveChanges();
@@ -42,13 +42,13 @@ namespace ViSED.Controllers
                 // получаем имя файла
                 string extension = System.IO.Path.GetExtension(Blank.FileName);
                 // сохраняем файл в папку Files в проекте
-                Blank.SaveAs(Server.MapPath("~/Files/BlanksOfPodrazdeleni/" + "Blank_"+ model.id.ToString()+extension));
+                Blank.SaveAs(Server.MapPath("~/Files/BlanksOfPodrazdeleni/" + "Blank_" + model.id.ToString() + extension));
 
                 var ob = (from p in vsdEnt.Podrazdeleniya
-                         where p.id==model.id
-                         select p).FirstOrDefault();
+                          where p.id == model.id
+                          select p).FirstOrDefault();
 
-                ob.Blank= "~/Files/BlanksOfPodrazdeleni/" + "Blank_" + model.id.ToString() + extension;
+                ob.Blank = "~/Files/BlanksOfPodrazdeleni/" + "Blank_" + model.id.ToString() + extension;
                 vsdEnt.SaveChanges();
 
             }
@@ -60,8 +60,7 @@ namespace ViSED.Controllers
         {
             //Находим подразделения пользователей
             var podrazdels = from p in vsdEnt.Podrazdeleniya
-                      where p.Name.ToString().ToLower().IndexOf("админ")==-1
-                      select p;
+                             select p;
 
             return View(podrazdels);
         }
@@ -71,8 +70,8 @@ namespace ViSED.Controllers
         public ActionResult EditPodrazdelenie(int id)
         {
             var podrazdel = (from d in vsdEnt.Podrazdeleniya
-                       where d.id == id
-                       select d).FirstOrDefault();
+                             where d.id == id
+                             select d).FirstOrDefault();
 
             return View(podrazdel);
         }
@@ -80,8 +79,8 @@ namespace ViSED.Controllers
         public ActionResult EditPodrazdelenie(Models.Podrazdeleniya model, HttpPostedFileBase Blank)
         {
             var podrazdel = (from d in vsdEnt.Podrazdeleniya
-                       where d.id == model.id
-                       select d).FirstOrDefault();
+                             where d.id == model.id
+                             select d).FirstOrDefault();
 
             podrazdel.Name = model.Name;
             if (model.Blank != null && model.Blank != "")
@@ -97,6 +96,7 @@ namespace ViSED.Controllers
                 // получаем имя файла
                 string extension = System.IO.Path.GetExtension(Blank.FileName);
                 // сохраняем файл в папку Files в проекте/ если файл с таким же именем есть то он перезаписывается
+                System.IO.File.Delete(Server.MapPath("~/Files/BlanksOfPodrazdeleni/" + "Blank_" + podrazdel.id.ToString() + extension));
                 Blank.SaveAs(Server.MapPath("~/Files/BlanksOfPodrazdeleni/" + "Blank_" + podrazdel.id.ToString() + extension));
 
                 var ob = (from p in vsdEnt.Podrazdeleniya
@@ -114,8 +114,8 @@ namespace ViSED.Controllers
         public ActionResult DelPodrazdelenie(int id)
         {
             var podrazdel = (from d in vsdEnt.Podrazdeleniya
-                       where d.id == id
-                       select d).FirstOrDefault();
+                             where d.id == id
+                             select d).FirstOrDefault();
 
             return View(podrazdel);
         }
@@ -123,8 +123,8 @@ namespace ViSED.Controllers
         public ActionResult DelPodrazdelenie(Models.Podrazdeleniya model)
         {
             var podrazdel = (from d in vsdEnt.Podrazdeleniya
-                       where d.id == model.id
-                       select d).FirstOrDefault();
+                             where d.id == model.id
+                             select d).FirstOrDefault();
 
             vsdEnt.Podrazdeleniya.Remove(podrazdel);
 
@@ -137,7 +137,7 @@ namespace ViSED.Controllers
             }
             finally
             {
-                vsdEnt.SaveChanges();                
+                vsdEnt.SaveChanges();
             }
             return RedirectToAction("ListPodrazdelenie", "Admin");
         }
@@ -162,7 +162,7 @@ namespace ViSED.Controllers
         public ActionResult ListDocType()
         {
             var docs = from d in vsdEnt.DocType
-                            select d;
+                       select d;
             ViewBag.Docs = docs;
 
             return View(docs);
@@ -171,8 +171,8 @@ namespace ViSED.Controllers
         public ActionResult EditDocType(int id)
         {
             var doc = (from d in vsdEnt.DocType
-                             where d.id == id
-                             select d).FirstOrDefault();
+                       where d.id == id
+                       select d).FirstOrDefault();
 
             return View(doc);
         }
@@ -218,7 +218,6 @@ namespace ViSED.Controllers
         public ActionResult AddDolgnost()
         {
             var dolgnosti = from d in vsdEnt.Dolgnosti
-                            where d.Name.ToString().ToLower().IndexOf("админ") == -1
                             select d;
 
             ViewBag.Dolgnosti = dolgnosti;
@@ -239,7 +238,6 @@ namespace ViSED.Controllers
         public ActionResult ListDolgnost()
         {
             var dolgnosti = from d in vsdEnt.Dolgnosti
-                            where d.Name.ToString().ToLower().IndexOf("админ")==-1
                             select d;
 
             ViewBag.Dolgnosti = dolgnosti;
@@ -259,9 +257,9 @@ namespace ViSED.Controllers
         [HttpPost]
         public ActionResult EditDolgnost(Models.Dolgnosti model)
         {
-            var _dolgnosti= (from d in vsdEnt.Dolgnosti
-                            where d.id==model.id
-                            select d).FirstOrDefault();
+            var _dolgnosti = (from d in vsdEnt.Dolgnosti
+                              where d.id == model.id
+                              select d).FirstOrDefault();
 
             _dolgnosti.Name = model.Name;
             vsdEnt.SaveChanges();
@@ -292,14 +290,12 @@ namespace ViSED.Controllers
         public ActionResult AddUser()
         {
             var podrazdeleniya = from p in vsdEnt.Podrazdeleniya
-                                 where p.Name.ToString().ToLower().IndexOf("админ") == -1
                                  select p;
 
             SelectList podrazdeleniyaSL = new SelectList(podrazdeleniya, "id", "Name");
             ViewBag.Podrazdeleniya = podrazdeleniyaSL;
 
             var dolgnosti = from d in vsdEnt.Dolgnosti
-                            where d.Name.ToString().ToLower().IndexOf("админ") == -1
                             select d;
 
             SelectList dolgnostiSL = new SelectList(dolgnosti, "id", "Name");
@@ -309,26 +305,37 @@ namespace ViSED.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddUser(Models.Users model)
+        public ActionResult AddUser(Models.Users model, HttpPostedFileBase foto)
         {
-            var podrazdeleniya = from p in vsdEnt.Podrazdeleniya
-                                 where p.Name.ToString().ToLower().IndexOf("админ") == -1
-                                 select p;
-
-            SelectList podrazdeleniyaSL = new SelectList(podrazdeleniya, "id", "Name");
-            ViewBag.Podrazdeleniya = podrazdeleniyaSL;
-
-            var dolgnosti = from d in vsdEnt.Dolgnosti
-                            where d.Name.ToString().ToLower().IndexOf("админ") == -1
-                            select d;
-
-            SelectList dolgnostiSL = new SelectList(dolgnosti, "id", "Name");
-            ViewBag.Dolgnosti = dolgnostiSL;
-
             if (model.first_name != "" && model.second_name != "")
             {
+                model.foto = "null";
                 vsdEnt.Users.Add(model);
                 vsdEnt.SaveChanges();
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
+                }
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Users")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Users"));
+                }
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Users/Foto")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Users/Foto"));
+                }
+                // получаем имя файла
+                string extension = System.IO.Path.GetExtension(foto.FileName);
+                // сохраняем файл в папку Files в проекте
+                foto.SaveAs(Server.MapPath("~/Files/Users/Foto/" + "Foto_user_" + model.id.ToString() + extension));
+
+                var ob = (from p in vsdEnt.Users
+                          where p.id == model.id
+                          select p).FirstOrDefault();
+
+                ob.foto = "~/Files/Users/Foto/" + "Foto_user_" + model.id.ToString() + extension;
+                vsdEnt.SaveChanges();
+
                 GenerateAccount(model.id);
             }
 
@@ -338,10 +345,10 @@ namespace ViSED.Controllers
         public ActionResult ListUser()
         {
             var users = from u in vsdEnt.Users
-                          from a in vsdEnt.Accounts
-                          from r in vsdEnt.Roles
-                          where u.id == a.user_id && a.role_id == r.id && r.RoleName == "User"
-                          select u;
+                        from a in vsdEnt.Accounts
+                        from r in vsdEnt.Roles
+                        where u.id == a.user_id && a.role_id == r.id && r.RoleName == "User"
+                        select u;
 
             ViewBag.Users = users;
 
@@ -355,11 +362,11 @@ namespace ViSED.Controllers
                         select r).FirstOrDefault();
 
             var accounts = from a in vsdEnt.Accounts
-                        from u in vsdEnt.Users
-                        from d in vsdEnt.Dolgnosti
-                        from p in vsdEnt.Podrazdeleniya
-                        where a.role_id != role.id && a.user_id == u.id && u.podrazdelenie_id==p.id && u.dolgnst_id==d.id
-                        select new AccountListModel {podrazdelenie=p.Name,dolgnst=d.Name,first_name=u.first_name,second_name=u.second_name,third_name=u.third_name,login=a.login,password=a.passw };
+                           from u in vsdEnt.Users
+                           from d in vsdEnt.Dolgnosti
+                           from p in vsdEnt.Podrazdeleniya
+                           where a.role_id != role.id && a.user_id == u.id && u.podrazdelenie_id == p.id && u.dolgnst_id == d.id
+                           select new AccountListModel { podrazdelenie = p.Name, dolgnst = d.Name, first_name = u.first_name, second_name = u.second_name, third_name = u.third_name, login = a.login, password = a.passw };
 
             ViewBag.Accounts = accounts;
 
@@ -376,12 +383,12 @@ namespace ViSED.Controllers
 
             if (name != "")
             {
-               var accounts = from a in vsdEnt.Accounts
+                var accounts = from a in vsdEnt.Accounts
                                from u in vsdEnt.Users
                                from d in vsdEnt.Dolgnosti
                                from p in vsdEnt.Podrazdeleniya
-                               where a.role_id != role.id && a.user_id == u.id && u.podrazdelenie_id == p.id && u.dolgnst_id == d.id && ( u.first_name == name || u.second_name == name)
-                              select new AccountListModel { podrazdelenie = p.Name, dolgnst = d.Name, first_name = u.first_name, second_name = u.second_name, third_name = u.third_name, login = a.login, password = a.passw };
+                               where a.role_id != role.id && a.user_id == u.id && u.podrazdelenie_id == p.id && u.dolgnst_id == d.id && (u.first_name == name || u.second_name == name)
+                               select new AccountListModel { podrazdelenie = p.Name, dolgnst = d.Name, first_name = u.first_name, second_name = u.second_name, third_name = u.third_name, login = a.login, password = a.passw };
 
                 ViewBag.Accounts = accounts;
             }
@@ -402,14 +409,12 @@ namespace ViSED.Controllers
         public ActionResult EditUser(int id)
         {
             var podrazdeleniya = from p in vsdEnt.Podrazdeleniya
-                                 where p.Name.ToString().ToLower().IndexOf("админ") == -1
                                  select p;
 
             SelectList podrazdeleniyaSL = new SelectList(podrazdeleniya, "id", "Name");
             ViewBag.Podrazdeleniya = podrazdeleniyaSL;
 
             var dolgnosti = from d in vsdEnt.Dolgnosti
-                            where d.Name.ToString().ToLower().IndexOf("админ") == -1
                             select d;
 
             SelectList dolgnostiSL = new SelectList(dolgnosti, "id", "Name");
@@ -423,35 +428,48 @@ namespace ViSED.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditUser(Models.Users model)
+        public ActionResult EditUser(Models.Users model, HttpPostedFileBase foto)
         {
-            var podrazdeleniya = from p in vsdEnt.Podrazdeleniya
-                                 where p.Name.ToString().ToLower().IndexOf("админ") == -1
-                                 select p;
-
-            SelectList podrazdeleniyaSL = new SelectList(podrazdeleniya, "id", "Name");
-            ViewBag.Podrazdeleniya = podrazdeleniyaSL;
-
-            var dolgnosti = from d in vsdEnt.Dolgnosti
-                            where d.Name.ToString().ToLower().IndexOf("админ") == -1
-                            select d;
-
-            SelectList dolgnostiSL = new SelectList(dolgnosti, "id", "Name");
-            ViewBag.Dolgnosti = dolgnostiSL;
-
-
-            var user = (from u in vsdEnt.Users
-                        where u.id == model.id
-                        select u).FirstOrDefault();
-
-
             if (model.first_name != "" && model.second_name != "")
             {
+                var user = (from p in vsdEnt.Users
+                          where p.id == model.id
+                          select p).FirstOrDefault();
+
+                if (foto != null)
+                {
+                    if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
+                    {
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
+                    }
+                    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Users")))
+                    {
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Users"));
+                    }
+                    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Users/Foto")))
+                    {
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Users/Foto"));
+                    }
+
+                        // получаем имя файла
+                        string extension = System.IO.Path.GetExtension(foto.FileName);
+                        // сохраняем файл в папку Files в проекте
+                        System.IO.File.Delete(Server.MapPath("~/Files/Users/Foto/" + "Foto_user_" + model.id.ToString() + extension));
+
+                        foto.SaveAs(Server.MapPath("~/Files/Users/Foto/" + "Foto_user_" + model.id.ToString() + extension));
+                        user.foto = "~/Files/Users/Foto/" + "Foto_user_" + model.id.ToString() + extension;
+                }
+
+                
+
+
                 user.first_name = model.first_name;
                 user.second_name = model.second_name;
                 user.third_name = model.third_name;
                 user.podrazdelenie_id = model.podrazdelenie_id;
                 user.dolgnst_id = model.dolgnst_id;
+                user.indexNum = model.indexNum;
+                
 
                 vsdEnt.SaveChanges();
             }
@@ -463,14 +481,12 @@ namespace ViSED.Controllers
         public ActionResult DeleteUser(int id)
         {
             var podrazdeleniya = from p in vsdEnt.Podrazdeleniya
-                                 where p.Name.ToString().ToLower().IndexOf("админ") == -1
                                  select p;
 
             SelectList podrazdeleniyaSL = new SelectList(podrazdeleniya, "id", "Name");
             ViewBag.Podrazdeleniya = podrazdeleniyaSL;
 
             var dolgnosti = from d in vsdEnt.Dolgnosti
-                            where d.Name.ToString().ToLower().IndexOf("админ") == -1
                             select d;
 
             SelectList dolgnostiSL = new SelectList(dolgnosti, "id", "Name");
@@ -490,8 +506,10 @@ namespace ViSED.Controllers
                         where u.id == model.id
                         select u).FirstOrDefault();
             var account = (from a in vsdEnt.Accounts
-                        where a.user_id == model.id
-                        select a).FirstOrDefault();
+                           where a.user_id == model.id
+                           select a).FirstOrDefault();
+
+            System.IO.File.Delete(Server.MapPath(model.foto));
 
             vsdEnt.Accounts.Remove(account);
             vsdEnt.Users.Remove(user);
@@ -505,14 +523,12 @@ namespace ViSED.Controllers
             if (name != "")
             {
                 var usrs = from u in vsdEnt.Users
-                           where u.first_name.ToString().ToLower().IndexOf("админ") == -1 && u.first_name == name || u.second_name == name
                            select u;
                 ViewBag.Users = usrs;
             }
             else
             {
                 var usrs = from u in vsdEnt.Users
-                           where u.first_name.ToString().ToLower().IndexOf("админ") == -1
                            select u;
                 ViewBag.Users = usrs;
             }
@@ -521,17 +537,17 @@ namespace ViSED.Controllers
         public void GenerateAccount(int user_id)
         {
             var role = (from r in vsdEnt.Roles
-                       where r.RoleName == "User"
-                       select r).FirstOrDefault();
+                        where r.RoleName == "User"
+                        select r).FirstOrDefault();
 
             var loginList = from l in vsdEnt.Accounts
                             select l.login;
-            string _login = GetLogin(6), _password= GetPass(8);
+            string _login = GetLogin(6), _password = GetPass(8);
             while (loginList.Contains(_login))
             {
                 _login = GetLogin(6);
             }
-            var account = new Models.Accounts {role_id= role.id, user_id=user_id,login=_login,passw=_password};
+            var account = new Models.Accounts { role_id = role.id, user_id = user_id, login = _login, passw = _password };
             vsdEnt.Accounts.Add(account);
             vsdEnt.SaveChanges();
         }
@@ -555,7 +571,7 @@ namespace ViSED.Controllers
             while (login.Length < x)
             {
                 login += r.Next(0, 9).ToString();
-                
+
             }
             return login;
         }

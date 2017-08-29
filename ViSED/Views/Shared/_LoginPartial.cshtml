@@ -7,31 +7,41 @@
                 ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
 
                 var myAccount = (from u in vsdEnt.Accounts where u.login == User.Identity.Name select u).FirstOrDefault();
+                if(myAccount!=null)
+                { 
 
-                var myUser = (from u in vsdEnt.Users where u.id == myAccount.user_id select u).FirstOrDefault();
+                    if (myAccount.Roles.RoleName == "User")
+                    {
+                        <li>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("UserLK", "User", null, null)">
+                                <img src="~/Content/icons/kabinet.png" />
+                                Личный кабинет
+                            </a>
+                        </li>
+                        <li>@Html.ActionLink("Выйти", "LogOff", "Account", null, null)</li>
+                    }
 
-                var userRole = (from ur in vsdEnt.Roles where ur.id == myAccount.role_id select ur).FirstOrDefault();
-
-
-                if (userRole.RoleName == "Admin")
-                {
-                    <li>@Html.ActionLink("Панель администратора", "AdminLK", "Admin", null, null) </li>
                 }
                 else
                 {
-                    <li>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("UserLK", "User", null, null)">
-                            <img src="~/Content/icons/kabinet.png" />
-                            Личный кабинет
-                        </a>
-                    </li>
+                    var myAdmins = (from u in vsdEnt.Admins where u.login == User.Identity.Name select u).FirstOrDefault();
+
+                    if (myAdmins.Roles.RoleName == "Manager")
+                    {
+                        <li>@Html.ActionLink("Панель управления", "AdminLK", "Admin", null, null) </li>
+                        <li>@Html.ActionLink("Выйти", "LogOff", "Account", null, null)</li>
+                    }
+                    else if (myAdmins.Roles.RoleName == "Admin")
+                    {
+                        <li>@Html.ActionLink("Панель администратора", "AdminLK", "Admin", null, null) </li>
+                        <li>@Html.ActionLink("Выйти", "LogOff", "Account", null, null)</li>
+                    }
 
                 }
-            }
 
-            <li>@Html.ActionLink("Выйти", "LogOff", "Account", null, null)</li>
+            }
         </ul>
  }
  else

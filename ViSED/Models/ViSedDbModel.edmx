@@ -15,6 +15,18 @@
           <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="passw" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="thirdName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Attachments">
           <Key>
             <PropertyRef Name="id" />
@@ -105,6 +117,8 @@
           <Property Name="first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="second_name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="third_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="indexNum" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="foto" Type="nvarchar" MaxLength="300" Nullable="false" />
         </EntityType>
         <Association Name="FK_Accounts_Roles">
           <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
@@ -127,6 +141,18 @@
             </Principal>
             <Dependent Role="Accounts">
               <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Admins_Roles1">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Admins" Type="Self.Admins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Admins">
+              <PropertyRef Name="role_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -264,6 +290,7 @@
         </Association>
         <EntityContainer Name="Хранилище ViSedDBModelContainer">
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocType" EntityType="Self.DocType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dolgnosti" EntityType="Self.Dolgnosti" Schema="dbo" store:Type="Tables" />
@@ -281,6 +308,10 @@
           <AssociationSet Name="FK_Accounts_Users" Association="Self.FK_Accounts_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Admins_Roles1" Association="Self.FK_Admins_Roles1">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Admins" EntitySet="Admins" />
           </AssociationSet>
           <AssociationSet Name="FK_Attachments_Attachments" Association="Self.FK_Attachments_Attachments">
             <End Role="Message" EntitySet="Message" />
@@ -333,6 +364,7 @@
       <Schema Namespace="ViSedDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ViSedDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="ViSedDBModel.Accounts" />
+          <EntitySet Name="Admins" EntityType="ViSedDBModel.Admins" />
           <EntitySet Name="Attachments" EntityType="ViSedDBModel.Attachments" />
           <EntitySet Name="DocType" EntityType="ViSedDBModel.DocType" />
           <EntitySet Name="Dolgnosti" EntityType="ViSedDBModel.Dolgnosti" />
@@ -350,6 +382,10 @@
           <AssociationSet Name="FK_Accounts_Users" Association="ViSedDBModel.FK_Accounts_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Admins_Roles1" Association="ViSedDBModel.FK_Admins_Roles1">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Admins" EntitySet="Admins" />
           </AssociationSet>
           <AssociationSet Name="FK_Attachments_Attachments" Association="ViSedDBModel.FK_Attachments_Attachments">
             <End Role="Message" EntitySet="Message" />
@@ -407,6 +443,19 @@
           <Property Name="passw" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Roles" Relationship="ViSedDBModel.FK_Accounts_Roles" FromRole="Accounts" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Accounts_Users" FromRole="Accounts" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <Property Name="login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="firstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="thirdName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roles" Relationship="ViSedDBModel.FK_Admins_Roles1" FromRole="Admins" ToRole="Roles" />
         </EntityType>
         <EntityType Name="Attachments">
           <Key>
@@ -479,6 +528,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Accounts" Relationship="ViSedDBModel.FK_Accounts_Roles" FromRole="Roles" ToRole="Accounts" />
+          <NavigationProperty Name="Admins" Relationship="ViSedDBModel.FK_Admins_Roles1" FromRole="Roles" ToRole="Admins" />
         </EntityType>
         <EntityType Name="UnsubAttachments">
           <Key>
@@ -514,6 +564,8 @@
           <Property Name="first_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="second_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="third_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="indexNum" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="foto" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Accounts" Relationship="ViSedDBModel.FK_Accounts_Users" FromRole="Users" ToRole="Accounts" />
           <NavigationProperty Name="Dolgnosti" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Users" ToRole="Dolgnosti" />
           <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Users" ToRole="Message" />
@@ -544,6 +596,18 @@
             </Principal>
             <Dependent Role="Accounts">
               <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Admins_Roles1">
+          <End Type="ViSedDBModel.Roles" Role="Roles" Multiplicity="1" />
+          <End Type="ViSedDBModel.Admins" Role="Admins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Admins">
+              <PropertyRef Name="role_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -696,6 +760,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="ViSedDBModel.Admins">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="thirdName" ColumnName="thirdName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Attachments">
             <EntityTypeMapping TypeName="ViSedDBModel.Attachments">
               <MappingFragment StoreEntitySet="Attachments">
@@ -788,6 +865,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ViSedDBModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="indexNum" ColumnName="indexNum" />
                 <ScalarProperty Name="third_name" ColumnName="third_name" />
                 <ScalarProperty Name="second_name" ColumnName="second_name" />
                 <ScalarProperty Name="first_name" ColumnName="first_name" />

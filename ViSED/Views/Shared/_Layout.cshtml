@@ -30,7 +30,7 @@
             var user = (from u in vsdEnt.Users
                         where u.id == myAccount.user_id
                         select u).FirstOrDefault();
-                <img class="profileImg" src="~/Content/icons/profile.png" />
+                <img class="profileImg" src="@Url.Content(user.foto)" />
                 <div class="profileFio">@user.first_name @user.second_name.Substring(0, 1). @user.third_name.Substring(0, 1).</div>
                 <div class="profileDolgnost">@user.Dolgnosti.Name</div>
                 <div class="profilePodrazdeleniya">@user.Podrazdeleniya.Name</div>
@@ -93,6 +93,12 @@
                         <a href="@Url.Action("MyDocsList", "MyDocs", null, null)">
                             <img src="~/Content/icons/myDocs.png" />
                             Мои документы
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("MyDocsList", "MyDocs", null, null)">
+                            <img src="~/Content/icons/archiv.png" />
+                            Архив
                         </a>
                     </li>
                 </ul>

@@ -39,8 +39,22 @@ namespace ViSED.ProgramLogic
                 }
                 else
                 {
-                    return false;
+                    var usrAdmin = (from l in vsdEnt.Admins
+                                    where l.login == httpContext.User.Identity.Name
+                                    select l).FirstOrDefault();
+
+                    if (rl != null && usrAdmin != null && rl.id == usrAdmin.role_id)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
+
+
+
             }
             else
             {

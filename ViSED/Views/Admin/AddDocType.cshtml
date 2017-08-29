@@ -3,14 +3,16 @@
 @{
     ViewBag.Title = "Добавить вид документа";
 }
-
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Добавить вид документа</h4>
+        <h4 class="zagolovki">Добавить вид документа</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

@@ -26,13 +26,32 @@ namespace ViSED.Controllers
             {
                 if (ValidateUser(model.UserName, model.Password))
                 {
+                    ViSED.Models.Roles userRole;
                     var user = (from u in vsdEnt.Accounts
                                 where u.login == model.UserName && u.passw == model.Password
                                 select u).FirstOrDefault();
 
-                    var userRole = (from ur in vsdEnt.Roles
-                                    where ur.id == user.role_id
+                    var admin = (from u in vsdEnt.Admins
+                                 where u.login == model.UserName && u.password == model.Password
+                                 select u).FirstOrDefault();
+                    if (user != null)
+                    {
+                        userRole = (from ur in vsdEnt.Roles
+                                   where ur.id == user.role_id
+                                   select ur).FirstOrDefault();
+                    }
+                    else if (admin !=null)
+                    {
+                        userRole = (from ur in vsdEnt.Roles
+                                    where ur.id == admin.role_id
                                     select ur).FirstOrDefault();
+                    }
+                    else
+                    {
+                        FormsAuthentication.SignOut();
+                        return RedirectToAction("Login", "Account");
+                    }
+                     
 
                     FormsAuthentication.SetAuthCookie(model.UserName, true);
                     if (Url.IsLocalUrl(returnUrl))
@@ -45,6 +64,10 @@ namespace ViSED.Controllers
                         if(userRole.RoleName=="Admin")
                         {
                             return RedirectToAction("AdminLK", "Admin");
+                        }
+                        else if(userRole.RoleName == "Manager")
+                        {
+                            return RedirectToAction("ManagerLK", "Manager");
                         }
                         else if(userRole.RoleName == "User")
                         {
@@ -87,6 +110,16 @@ namespace ViSED.Controllers
                 if (user != null)
                 {
                     isValid = true;
+                }
+                else
+                {
+                    var admin = (from u in vsdEnt.Admins
+                                where u.login == login && u.password == password
+                                select u).FirstOrDefault();
+                    if (admin != null)
+                    {
+                        isValid = true;
+                    }
                 }
             }
             catch

@@ -49,6 +49,10 @@ public partial class Users
 
     public string third_name { get; set; }
 
+    public string indexNum { get; set; }
+
+    public string foto { get; set; }
+
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

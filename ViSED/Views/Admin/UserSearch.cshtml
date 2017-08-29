@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<ViSED.Models.Users>
 
+
 <table class="table" id="results">
     <tr>
         <th>
@@ -17,7 +18,15 @@
         <th>
             Подразделение
         </th>
-        <th></th>
+        <th>
+            Индекс
+        </th>
+        <th>
+            Фотография
+        </th>
+        <th>
+            Действия
+        </th>
     </tr>
     
     @foreach (ViSED.Models.Users item in ViewBag.Users)
@@ -37,6 +46,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Podrazdeleniya.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.indexNum)
+            </td>
+            <td>
+                <img style="width:25px;border-radius:50px;" src="@Url.Content(item.foto)" />
             </td>
             <td>
                 @Html.ActionLink("Изменить", "EditUser", "Admin", new { id = item.id }, null) |

@@ -24,6 +24,8 @@ public partial class Roles
 
         this.Accounts = new HashSet<Accounts>();
 
+        this.Admins = new HashSet<Admins>();
+
     }
 
 
@@ -36,6 +38,10 @@ public partial class Roles
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Accounts> Accounts { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Admins> Admins { get; set; }
 
 }
 

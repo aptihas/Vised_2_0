@@ -3,7 +3,9 @@
 @{
     ViewBag.Title = "Изменить подразделение";
 }
-
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
 <h4>Изменить подразделение</h4>
 
 @using (Html.BeginForm("EditPodrazdelenie", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))

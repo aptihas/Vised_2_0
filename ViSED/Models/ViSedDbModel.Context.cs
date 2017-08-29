@@ -34,6 +34,8 @@ public partial class ViSedDBEntities : DbContext
 
     public virtual DbSet<Accounts> Accounts { get; set; }
 
+    public virtual DbSet<Admins> Admins { get; set; }
+
     public virtual DbSet<Attachments> Attachments { get; set; }
 
     public virtual DbSet<DocType> DocType { get; set; }

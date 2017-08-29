@@ -194,7 +194,7 @@ body {
     display: grid;
     height: 100%;
     width: 100%;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 200px 0.8fr;
 }
 /* ------------*/
 .correspondenceItem {
@@ -224,44 +224,74 @@ body {
 
 
 .bumagaA4 {
-    width: 250px;
-    min-height: 350px;
+    width: 70%;
     margin: 20px;
     padding: 20px;
     background-color: #fff;
+    border-radius: 0px 15px 15px 15px;
     box-shadow: 2px 2px 15px 5px #e8f0ff;
 }
+.bumagaA4 a {
+    font-size:11px;
+}
+.dialogImgRight {
+    width: 40px;
+    border-radius: 50px;
+    float: right;
+    margin-top: -50px;
+    box-shadow: 0px 0px 1px 2px #abc4ed;
+    clear: both;
+}
+.dialogImg {
+    width: 40px;
+    border-radius: 50px;
+    float: left;
+    margin-top: -50px;
+    box-shadow: 0px 0px 1px 2px #abc4ed;
+    clear: both;
+}
 
-    .bumagaA4:hover {
-        width: 250px;
-        min-height: 350px;
-        margin: 20px;
-        cursor: pointer;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0px 0px 1px 2px #abc4ed;
-    }
+.bumagaA4:hover {
+    width: 70%;
+    margin: 20px;
+    padding: 20px;
+    margin: 20px;
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 0px 15px 15px 15px;
+    background-color: #fff;
+    box-shadow: 0px 0px 1px 2px #abc4ed;
+}
 
 .bumagaA4Right {
-    width: 250px;
-    min-height: 350px;
+    width: 70%;
     margin: 20px;
-    margin-left: 70%;
+    margin-left: 30%;
     padding: 20px;
     background-color: #fff;
+    border-radius:15px 15px 0px 15px;
     box-shadow: 2px 2px 15px 5px #e8f0ff;
 }
+.bumagaA4Right a {
+    font-size: 11px;
+}
+.bumagaA4Right img {
+    width: 50px;
+    border-radius: 50px;
+    float: left;
+    clear: both;
+}
 
-    .bumagaA4Right:hover {
-        width: 250px;
-        min-height: 350px;
-        margin: 20px;
-        margin-left: 70%;
-        cursor: pointer;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0px 0px 1px 2px #abc4ed;
-    }
+.bumagaA4Right:hover {
+    width: 70%;
+    margin: 20px;
+    margin-left: 30%;
+    cursor: pointer;
+    padding: 20px;
+    border-radius:15px 15px 0px 15px;
+    background-color: #fff;
+    box-shadow: 0px 0px 1px 2px #abc4ed;
+}
 
 .table_col {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;

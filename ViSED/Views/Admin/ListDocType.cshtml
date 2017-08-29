@@ -3,7 +3,9 @@
 @{
     ViewBag.Title = "Список документов";
 }
-
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
 <h4>Список документов</h4>
 <p>
     @Html.ActionLink("Добавить документ", "AddDocType", "Admin", null, null)
