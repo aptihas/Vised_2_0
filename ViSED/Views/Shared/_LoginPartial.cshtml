@@ -12,8 +12,7 @@
 
                     if (myAccount.Roles.RoleName == "User")
                     {
-                        <li>
-                        </li>
+
                         <li>
                             <a href="@Url.Action("UserLK", "User", null, null)">
                                 <img src="~/Content/icons/kabinet.png" />
@@ -47,7 +46,6 @@
  else
  {
      <ul class="loginPartial">
-         <li></li>
          <li>@Html.ActionLink("Выполнить вход", "Login", "Account",null, null)</li>
      </ul>
  }
