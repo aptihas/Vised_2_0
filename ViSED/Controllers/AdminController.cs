@@ -387,7 +387,7 @@ namespace ViSED.Controllers
                                from u in vsdEnt.Users
                                from d in vsdEnt.Dolgnosti
                                from p in vsdEnt.Podrazdeleniya
-                               where a.role_id != role.id && a.user_id == u.id && u.podrazdelenie_id == p.id && u.dolgnst_id == d.id && (u.first_name == name || u.second_name == name)
+                               where a.role_id != role.id && a.user_id == u.id && u.podrazdelenie_id == p.id && u.dolgnst_id == d.id && (u.first_name.ToLower().IndexOf(name.ToLower()) != -1 || u.second_name.ToLower().IndexOf(name.ToLower()) != -1 || u.third_name.ToLower().IndexOf(name.ToLower()) != -1)
                                select new AccountListModel { podrazdelenie = p.Name, dolgnst = d.Name, first_name = u.first_name, second_name = u.second_name, third_name = u.third_name, login = a.login, password = a.passw };
 
                 ViewBag.Accounts = accounts;
@@ -523,6 +523,7 @@ namespace ViSED.Controllers
             if (name != "")
             {
                 var usrs = from u in vsdEnt.Users
+                           where u.first_name.ToLower().IndexOf(name.ToLower())!=-1 || u.second_name.ToLower().IndexOf(name.ToLower()) != -1 || u.third_name.ToLower().IndexOf(name.ToLower()) != -1
                            select u;
                 ViewBag.Users = usrs;
             }

@@ -469,6 +469,7 @@ body {
 .journalTable{
     border:1px solid black;
     width:100%;
+    background-color:#fff;
 }
 .journalTable tr {
     padding:5px;

@@ -1,10 +1,34 @@
 ﻿@{ Layout = null;}
 
-
+<style>
+    body{
+        background-color:#fff;
+    }
+    .journalTable{
+    border:1px solid black;
+    width:100%;
+    background-color:#fff;
+}
+.journalTable tr {
+    padding:5px;
+    border: 1px solid black;
+}
+.journalTable tr th {
+    font-weight:600;
+    text-align:center;
+    padding:5px;
+    border: 1px solid black;
+}
+.journalTable tr td {
+    text-align:center;
+    padding:5px;
+    border: 1px solid black;
+}
+</style>
 <div id="results">
     <div style="font-weight:600;text-align:center;font-size:16px;">
         Журнал корреспонденции<br />
-        на период @ViewBag.Period
+        @ViewBag.Period
     </div>
     @{ 
         int i = 1;

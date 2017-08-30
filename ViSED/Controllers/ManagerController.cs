@@ -1,6 +1,8 @@
-﻿using System;
+﻿using NReco.PdfGenerator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ViSED.ProgramLogic;
@@ -28,7 +30,8 @@ namespace ViSED.Controllers
 
             return View();
         }
-        [HttpPost]
+ 
+        [AllowAnonymous]
         public ActionResult CorrespondenceJournalPartial(DateTime nachalo, DateTime konec)
         {
             DateTime _nachalo= DateTime.Now;
@@ -41,7 +44,14 @@ namespace ViSED.Controllers
                            select m;
 
                 ViewBag.Message = msgs;
-                ViewBag.Period = "с " + _nachalo.ToShortDateString() + " по " + _konec.ToShortDateString();
+                if (nachalo != konec)
+                {
+                    ViewBag.Period = "на период с " + _nachalo.ToShortDateString() + " по " + _konec.ToShortDateString();
+                }
+                else
+                {
+                    ViewBag.Period = "на " + _nachalo.ToShortDateString();
+                }
             }
             else
             {
@@ -50,9 +60,40 @@ namespace ViSED.Controllers
                            select m;
 
                 ViewBag.Message = msgs;
-                ViewBag.Period = "с " + _nachalo.ToShortDateString() + " по " + _konec.ToShortDateString();
+                if (nachalo != konec)
+                {
+                    ViewBag.Period = "на период с " + _nachalo.ToShortDateString() + " по " + _konec.ToShortDateString();
+                }
+                else
+                {
+                    ViewBag.Period = "на " + _nachalo.ToShortDateString();
+                }
             }
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SavePdf(DateTime nachaloHid, DateTime konecHid)
+        {
+
+            string Host = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf("Manager") - 1);
+            string Zapros = Url.Action("CorrespondenceJournalPartial", "Manager", new { nachalo = nachaloHid, konec = konecHid });
+
+            var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter() { };
+            htmlToPdf.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
+            string put = Host + Zapros;
+            byte[] pdfBytes = await HtmlToPdf(put, htmlToPdf);
+
+            // return resulted pdf document 
+            FileResult fileResult = new FileContentResult(pdfBytes, "application/pdf") { };
+            fileResult.FileDownloadName = "Journal" + nachaloHid.ToShortDateString() + "--"+ konecHid.ToShortDateString() + ".pdf";
+            return fileResult;
+        }
+
+        private Task<byte[]> HtmlToPdf(string put, HtmlToPdfConverter htmlToPdf)
+        {
+            return Task.Run(() => htmlToPdf.GeneratePdfFromFile(put, null));
         }
 
     }

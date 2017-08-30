@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Text;
 //using CommonData.Types;
 
-namespace BLL.Declension
+namespace ViSED.ProgramLogic
 {
     /// <summary>
     /// Класс для преобразования фамилии, имени и отчества (ФИО), наименования должности или подразделения, 
@@ -89,7 +89,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(surname, name, patronimic);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetFIOPadeg(ptrs[0], ptrs[1], ptrs[2], (Int32)gender, (Int32)declensionCase,
+                int err = DecGetFIOPadeg(ptrs[0], ptrs[1], ptrs[2], (Int32)gender, (Int32)declensionCase,
                                          ptrs[3], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
@@ -137,7 +137,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(surname, name, patronimic);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetFIOPadegAS(ptrs[0], ptrs[1], ptrs[2], (Int32)declensionCase,
+                int err = DecGetFIOPadegAS(ptrs[0], ptrs[1], ptrs[2], (Int32)declensionCase,
                                            ptrs[3], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
@@ -180,7 +180,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(surnameNamePatronimic);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetFIOPadegFS(ptrs[0], (Int32)gender, (Int32)declensionCase,
+                int err = DecGetFIOPadegFS(ptrs[0], (Int32)gender, (Int32)declensionCase,
                                            ptrs[1], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
@@ -221,7 +221,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(surnameNamePatronimic);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetFIOPadegFSAS(ptrs[0], (Int32)declensionCase,
+                int err = DecGetFIOPadegFSAS(ptrs[0], (Int32)declensionCase,
                                            ptrs[1], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
@@ -265,7 +265,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(name, surname);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetIFPadeg(ptrs[0], ptrs[1], (Int32)gender, (Int32)declensionCase,
+                int err = DecGetIFPadeg(ptrs[0], ptrs[1], (Int32)gender, (Int32)declensionCase,
                                         ptrs[2], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
@@ -303,7 +303,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(nameSurname);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetIFPadegFS(ptrs[0], (Int32)gender, (Int32)declensionCase,
+                int err = DecGetIFPadegFS(ptrs[0], (Int32)gender, (Int32)declensionCase,
                                           ptrs[1], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
@@ -333,7 +333,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(surnameNamePatronimic);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetNominativePadeg(ptrs[0], ptrs[1], ref resultLen);
+                int err = DecGetNominativePadeg(ptrs[0], ptrs[1], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
             }
@@ -367,7 +367,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(appointment);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetAppointmentPadeg(ptrs[0], (Int32)declensionCase, ptrs[1], ref resultLen);
+                int err = DecGetAppointmentPadeg(ptrs[0], (Int32)declensionCase, ptrs[1], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
             }
@@ -407,7 +407,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(appointment, office);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetFullAppointmentPadeg(ptrs[0], ptrs[1], (Int32)declensionCase, ptrs[2], ref resultLen);
+                int err = DecGetFullAppointmentPadeg(ptrs[0], ptrs[1], (Int32)declensionCase, ptrs[2], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
             }
@@ -439,7 +439,7 @@ namespace BLL.Declension
                 ptrs = StringsToIntPtrArray(office);
 
                 int resultLen = MaxResultBufSize;
-                int err = decGetOfficePadeg(ptrs[0], (Int32)declensionCase, ptrs[1], ref resultLen);
+                int err = DecGetOfficePadeg(ptrs[0], (Int32)declensionCase, ptrs[1], ref resultLen);
                 ThrowException(err);
                 return IntPtrToString(ptrs, resultLen);
             }
@@ -471,7 +471,7 @@ namespace BLL.Declension
             {
                 ptr = StringToIntPtr(patronimic);
 
-                return (Gender)decGetSex(ptr);
+                return (Gender)DecGetSex(ptr);
             }
             finally
             {
@@ -499,7 +499,7 @@ namespace BLL.Declension
             {
                 ptr = StringToIntPtr(surnameNamePatronimic);
 
-                return (DeclensionCase)decGetSex(ptr);
+                return (DeclensionCase)DecGetSex(ptr);
             }
             finally
             {
@@ -532,7 +532,7 @@ namespace BLL.Declension
                 parts = new FIOParts(m_MaxResultStringBufSize);
                 ptr = StringToIntPtr(surnameNamePatronimic);
 
-                int err = decGetFIOParts(ptr, ref parts);
+                int err = DecGetFIOParts(ptr, ref parts);
                 if (err < 0)
                 {
                     err--;
@@ -561,7 +561,7 @@ namespace BLL.Declension
         /// <returns>true - если сларь найден, иначе - false.</returns>
         public static bool UpdateExceptionsDictionary()
         {
-            return Convert.ToBoolean(decUpdateExceptions());
+            return Convert.ToBoolean(DecUpdateExceptions());
         }
 
         /// <summary>
@@ -579,7 +579,7 @@ namespace BLL.Declension
                 throw new ArgumentNullException("fileName");
             }
 
-            return Convert.ToBoolean(decSetDictionary(fileName));
+            return Convert.ToBoolean(DecSetDictionary(fileName));
         }
 
         /// <summary>
@@ -591,7 +591,7 @@ namespace BLL.Declension
         {
             StringBuilder sb = new StringBuilder(m_MaxResultStringBufSize);
             int tmp = m_MaxResultStringBufSize;
-            int err = decGetExceptionsFileName(sb, ref tmp);
+            int err = DecGetExceptionsFileName(sb, ref tmp);
             ThrowException(err);
             return sb.ToString();
         }
@@ -700,78 +700,78 @@ namespace BLL.Declension
 
         [DllImport("PadegUC.dll", EntryPoint = "GetFIOPadeg", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetFIOPadeg(IntPtr surname, IntPtr name, IntPtr patronimic,
+        private static extern Int32 DecGetFIOPadeg(IntPtr surname, IntPtr name, IntPtr patronimic,
                                                    Int32 sex, Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetFIOPadegAS", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetFIOPadegAS(IntPtr surname, IntPtr name, IntPtr patronimic,
+        private static extern Int32 DecGetFIOPadegAS(IntPtr surname, IntPtr name, IntPtr patronimic,
                                                      Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetFIOPadegFS", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetFIOPadegFS(IntPtr fio,
+        private static extern Int32 DecGetFIOPadegFS(IntPtr fio,
                                                      Int32 sex, Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetFIOPadegFSAS", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetFIOPadegFSAS(IntPtr fio,
+        private static extern Int32 DecGetFIOPadegFSAS(IntPtr fio,
                                                        Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetIFPadeg", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetIFPadeg(IntPtr name, IntPtr surname,
+        private static extern Int32 DecGetIFPadeg(IntPtr name, IntPtr surname,
                                                   Int32 sex, Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetIFPadegFS", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetIFPadegFS(IntPtr nameSurname,
+        private static extern Int32 DecGetIFPadegFS(IntPtr nameSurname,
                                                     Int32 sex, Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetNominativePadeg", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetNominativePadeg(IntPtr surnameNamePatronimic,
+        private static extern Int32 DecGetNominativePadeg(IntPtr surnameNamePatronimic,
                                                           IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetAppointmentPadeg", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetAppointmentPadeg(IntPtr appointment,
+        private static extern Int32 DecGetAppointmentPadeg(IntPtr appointment,
                                                            Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetFullAppointmentPadeg", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetFullAppointmentPadeg(IntPtr appointment, IntPtr office,
+        private static extern Int32 DecGetFullAppointmentPadeg(IntPtr appointment, IntPtr office,
                                                                Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetOfficePadeg", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetOfficePadeg(IntPtr office,
+        private static extern Int32 DecGetOfficePadeg(IntPtr office,
                                                       Int32 padeg, IntPtr result, ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetSex", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetSex(IntPtr patronimic);
+        private static extern Int32 DecGetSex(IntPtr patronimic);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetPadegId", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetPadegId(IntPtr surnameNamePatronimic);
+        private static extern Int32 DecGetPadegId(IntPtr surnameNamePatronimic);
 
         [DllImport("PadegUC.dll", EntryPoint = "GetFIOParts", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetFIOParts(IntPtr surnameNamePatronimic, ref FIOParts result);
+        private static extern Int32 DecGetFIOParts(IntPtr surnameNamePatronimic, ref FIOParts result);
 
         [DllImport("PadegUC.dll", EntryPoint = "UpdateExceptions", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decUpdateExceptions();
+        private static extern Int32 DecUpdateExceptions();
 
         [DllImport("PadegUC.dll", EntryPoint = "GetExceptionsFileName", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decGetExceptionsFileName([MarshalAs(UnmanagedType.LPTStr)] StringBuilder result,
+        private static extern Int32 DecGetExceptionsFileName([MarshalAs(UnmanagedType.LPTStr)] StringBuilder result,
                                                              ref Int32 resultLength);
 
         [DllImport("PadegUC.dll", EntryPoint = "SetDictionary", CallingConvention = CallingConvention.StdCall,
     CharSet = CharSet.Unicode)]
-        private static extern Int32 decSetDictionary([MarshalAs(UnmanagedType.LPTStr)] string fileName);
+        private static extern Int32 DecSetDictionary([MarshalAs(UnmanagedType.LPTStr)] string fileName);
 
         [StructLayout(LayoutKind.Sequential)]
         private struct FIOParts

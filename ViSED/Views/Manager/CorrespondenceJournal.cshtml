@@ -3,16 +3,31 @@
     Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
 
+<script>
+    function copyValue() {
+        document.getElementById('nachaloHid').value = document.getElementById('nachalo').value;
+        document.getElementById('konecHid').value = document.getElementById('konec').value;
+    }
+</script>
 <h4 class="zagolovki">Журнал корреспонденции</h4>
 @using (Ajax.BeginForm("CorrespondenceJournalPartial", "Manager", null, new AjaxOptions { UpdateTargetId = "results" }, null))
 {
     <span>Вывести данные с </span>
-    <input type="date" class="datetime" name="nachalo">
+    <input type="date" class="datetime" id="nachalo" name="nachalo" value="@DateTime.Now.ToString("yyyy-MM-dd")">
     <span> по </span>
-    <input type="date" class="datetime" name="konec">
+    <input type="date" class="datetime" id="konec" name="konec" value="@DateTime.Now.ToString("yyyy-MM-dd")">
     <br /><br />
     <input type="submit" value="Показать период" class="knopka" />
 }
 <br />
+@using (Html.BeginForm("SavePdf", "Manager", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <input type="date" name="nachaloHid" id="nachaloHid" style="display:none;"/>
+    <input type="date" name="konecHid" id="konecHid" style="display:none;" />
+    <input type="submit" onmousedown="copyValue()" value="Сохранить" class="knopka" />
+}
+
 @Html.Partial("CorrespondenceJournalPartial")
 

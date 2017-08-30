@@ -7,7 +7,7 @@ using ViSED.ProgramLogic;
 using ViSED.Models;
 using System.Web.Routing;
 using NPetrovichLite;
-using BLL.Declension;
+using LingvoNET;
 using System.Threading;
 using System.Threading.Tasks;
 using NReco.PdfGenerator;
@@ -389,6 +389,8 @@ namespace ViSED.Controllers
         public UserModelFoSklonen SklonenieTo(Users user)
         {
             UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost = user.Dolgnosti.Name, Podrazdelenie = user.Podrazdeleniya.Name, FirstName = user.first_name, SecondName = user.second_name, ThirdName = user.third_name, Blank = user.Podrazdeleniya.Blank };
+
+            //При использованни этой библиотеки выдает ошибки
             usr.Dolgnost = DeclensionBLL.GetAppointmentDeclension(usr.Dolgnost, DeclensionCase.Datel);
             usr.Podrazdelenie = DeclensionBLL.GetOfficeDeclension(usr.Podrazdelenie, DeclensionCase.Rodit);
 
@@ -404,7 +406,7 @@ namespace ViSED.Controllers
         public UserModelFoSklonen SklonenieFrom(Users user)
         {
             UserModelFoSklonen usr = new UserModelFoSklonen() { Dolgnost = user.Dolgnosti.Name, Podrazdelenie = user.Podrazdeleniya.Name, FirstName = user.first_name, SecondName = user.second_name, ThirdName = user.third_name, Blank = user.Podrazdeleniya.Blank };
-
+            //При использованни этой библиотеки выдает ошибки
             usr.Dolgnost = DeclensionBLL.GetAppointmentDeclension(usr.Dolgnost, DeclensionCase.Rodit);
             usr.Podrazdelenie = DeclensionBLL.GetOfficeDeclension(usr.Podrazdelenie, DeclensionCase.Rodit);
 
