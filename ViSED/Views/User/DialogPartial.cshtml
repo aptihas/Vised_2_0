@@ -22,12 +22,12 @@
 
                 @if (msg.dateOfRead == null)
                 {
-                    <div style="text-align:right; font-weight:600;">@msg.DocType.Name <span style="font-size:10px;float:left;">Доставлено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
+                    <div style="text-align:right; font-weight:600;">@msg.DocType.Name №@msg.Users.indexNum/@msg.id от @msg.dateOfSend.ToShortDateString() <span style="font-size:10px;float:left;">Доставлено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
                     <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
                 }
                 else
                 {
-                    <div style="text-align:right;font-weight:600;">@msg.DocType.Name <span style="font-size:10px;float:left;">Прочитано @msg.dateOfRead.ToString() </span></div>
+                    <div style="text-align:right;font-weight:600;">@msg.DocType.Name №@msg.Users.indexNum/@msg.id от @msg.dateOfSend.ToShortDateString() <span style="font-size:10px;float:left;">Прочитано @msg.dateOfRead.ToString() </span></div>
                     <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
                 }
                 @{
@@ -42,19 +42,15 @@
                     {
                         <a href="@Url.Content(a.attachedFile)">Приложение @i - @a.attachedName</a><br />
                         i++;
-
                     }
-
                 }
-
             </div>
             <img class="dialogImgRight" src="@Url.Content(msg.Users.foto)" />
- 
      }
      else
      {
          <div class="bumagaA4" onclick="location.href='@Url.Action("DocView","User", new { doc_id=msg.id })'">
-             <div style="text-align:left;font-weight:600;">@msg.DocType.Name <span style="font-size:10px;text-align:right;float:right;">Получено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
+             <div style="text-align:left;font-weight:600;">@msg.DocType.Name  №@msg.Users.indexNum/@msg.id от @msg.dateOfSend.ToShortDateString() <span style="font-size:10px;text-align:right;float:right;">Получено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
              <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
              @{
                  var attachs = from a in vsdEnt.Attachments

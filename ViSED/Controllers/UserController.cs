@@ -172,6 +172,7 @@ namespace ViSED.Controllers
                           where u.id == msg.to_user_id
                           select u).FirstOrDefault();
 
+            ViewBag.UserForNomer = userFrom;
 
             ViewBag.UserTo = SklonenieTo(userTo);
             ViewBag.UserFrom = SklonenieFrom(userFrom);
@@ -213,6 +214,8 @@ namespace ViSED.Controllers
             var userTo = (from u in vsdEnt.Users
                           where u.id == msg.to_user_id
                           select u).FirstOrDefault();
+
+            ViewBag.UserForNomer = userFrom;
 
             ViewBag.UserTo = SklonenieTo(userTo);
             ViewBag.UserFrom = SklonenieFrom(userFrom);

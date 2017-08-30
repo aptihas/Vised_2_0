@@ -20,7 +20,7 @@
     @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select" })
     <br />
     <p>Установить срок до...</p>
-    <input type="date" class="datetime" name="date_of_unsub">
+    <input type="date" class="datetime" name="date_of_unsub" value="@DateTime.Now.AddDays(10).ToString("yyyy-MM-dd")">
     <br /><br />
 
     <p>Приложения</p>
