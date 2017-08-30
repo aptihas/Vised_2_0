@@ -1,0 +1,44 @@
+﻿@{ Layout = null;}
+
+
+<div id="results">
+    <div style="font-weight:600;text-align:center;font-size:16px;">
+        Журнал корреспонденции<br />
+        на период @ViewBag.Period
+    </div>
+    @{ 
+        int i = 1;
+    }
+    <table class="journalTable">
+        <tr>
+            <th>№</th>
+            <th>Номер документа</th>
+            <th>Отправитель</th>
+            <th>Получатель</th>
+            <th>Дата отправления</th>
+            <th>Дата прочтения</th>
+        </tr>
+        @foreach (ViSED.Models.Message msg in ViewBag.Message)
+        {
+            <tr style="border:1px solid black;">
+                <td>@i</td>
+                <td>@msg.Users.indexNum / @msg.id</td>
+                <td>@msg.Users.first_name @msg.Users.second_name.Substring(0,1). @msg.Users.third_name.Substring(0, 1).</td>
+                <td>@msg.Users1.first_name @msg.Users1.second_name.Substring(0, 1). @msg.Users1.third_name.Substring(0, 1).</td>
+                <td>@msg.dateOfSend</td>
+                    @if (msg.dateOfRead != null)
+                    {
+                        <td> @msg.dateOfRead</td>
+                    }
+                    else
+                    {
+                        <td>Не прочитано</td>
+                    }
+                
+            </tr>
+            i++;
+        }
+    </table>
+
+</div>
+

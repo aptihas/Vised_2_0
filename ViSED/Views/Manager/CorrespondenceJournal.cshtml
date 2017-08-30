@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Журнал корреспонденции";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+}
+
+<h4 class="zagolovki">Журнал корреспонденции</h4>
+@using (Ajax.BeginForm("CorrespondenceJournalPartial", "Manager", null, new AjaxOptions { UpdateTargetId = "results" }, null))
+{
+    <span>Вывести данные с </span>
+    <input type="date" class="datetime" name="nachalo">
+    <span> по </span>
+    <input type="date" class="datetime" name="konec">
+    <br /><br />
+    <input type="submit" value="Показать период" class="knopka" />
+}
+<br />
+@Html.Partial("CorrespondenceJournalPartial")
+

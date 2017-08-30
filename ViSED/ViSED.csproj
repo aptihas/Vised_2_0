@@ -305,6 +305,8 @@
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Manager\ManagerLK.cshtml" />
     <Content Include="Views\Shared\_LayoutManager.cshtml" />
+    <Content Include="Views\Manager\CorrespondenceJournal.cshtml" />
+    <Content Include="Views\Manager\CorrespondenceJournalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

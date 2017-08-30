@@ -31,8 +31,8 @@
 
                 <img class="profileImg" src="~/Content/icons/profile.png" />
                 <div class="profileFio">@myAdmins.firstName @myAdmins.lastName.Substring(0, 1). @myAdmins.thirdName.Substring(0, 1).</div>
-                <div class="profileDolgnost">Администратор</div>
-                <div class="profilePodrazdeleniya">Панель администрирования</div>
+                <div class="profileDolgnost">Менеджер</div>
+                <div class="profilePodrazdeleniya">Панель управления</div>
         }
     </div>
     <div class="gridVised">
@@ -42,9 +42,14 @@
             <div class="menuSleva grid-item">
                 <ul>
                     <li>
-                    <a href="@Url.Action("ManagerLK", "Manager", null, null)">
-                        Статистика
-                    </a>
+                        <a href="@Url.Action("ManagerLK", "Manager", null, null)">
+                            Статистика
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("CorrespondenceJournal", "Manager", null, null)">
+                            Журнал корреспонденции
+                        </a>
                     </li>
 
 

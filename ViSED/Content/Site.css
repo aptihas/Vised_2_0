@@ -465,3 +465,23 @@ body {
     padding: 10px;
     font-weight:600;
 }
+
+.journalTable{
+    border:1px solid black;
+    width:100%;
+}
+.journalTable tr {
+    padding:5px;
+    border: 1px solid black;
+}
+.journalTable tr th {
+    font-weight:600;
+    text-align:center;
+    padding:5px;
+    border: 1px solid black;
+}
+.journalTable tr td {
+    text-align:center;
+    padding:5px;
+    border: 1px solid black;
+}
