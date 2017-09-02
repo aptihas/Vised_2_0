@@ -8,8 +8,6 @@
         <EntityTypeShape EntityType="ViSedDBModel.Accounts" Width="1.5" PointX="5.25" PointY="6.875" />
         <EntityTypeShape EntityType="ViSedDBModel.Admins" Width="1.5" PointX="5.25" PointY="0.75" />
         <EntityTypeShape EntityType="ViSedDBModel.Attachments" Width="1.5" PointX="10.5" PointY="7" />
-        <EntityTypeShape EntityType="ViSedDBModel.DocType" Width="1.5" PointX="6" PointY="4.125" />
-        <EntityTypeShape EntityType="ViSedDBModel.Dolgnosti" Width="1.5" PointX="0.75" PointY="4.25" />
         <EntityTypeShape EntityType="ViSedDBModel.Message" Width="1.5" PointX="8.25" PointY="6.25" />
         <EntityTypeShape EntityType="ViSedDBModel.MyDocs" Width="1.5" PointX="5.25" PointY="12.625" />
         <EntityTypeShape EntityType="ViSedDBModel.Podrazdeleniya" Width="1.5" PointX="0.75" PointY="7.125" />
@@ -21,8 +19,6 @@
         <AssociationConnector Association="ViSedDBModel.FK_Accounts_Users" />
         <AssociationConnector Association="ViSedDBModel.FK_Admins_Roles1" />
         <AssociationConnector Association="ViSedDBModel.FK_Attachments_Attachments" />
-        <AssociationConnector Association="ViSedDBModel.FK_Message_DocType" />
-        <AssociationConnector Association="ViSedDBModel.FK_Users_Dolgnosti" />
         <AssociationConnector Association="ViSedDBModel.FK_Message_Message" />
         <AssociationConnector Association="ViSedDBModel.FK_Message_User_From" />
         <AssociationConnector Association="ViSedDBModel.FK_Message_Users_To" />
@@ -31,6 +27,10 @@
         <AssociationConnector Association="ViSedDBModel.FK_UnsubAttachments_UnsubAttachments" />
         <AssociationConnector Association="ViSedDBModel.FK_Unsers_Unsubscribe_from_user" />
         <AssociationConnector Association="ViSedDBModel.FK_Users_Unsubscribe_to_user" />
+        <EntityTypeShape EntityType="ViSedDBModel.Dolgnosti" Width="1.5" PointX="0.75" PointY="4.125" />
+        <AssociationConnector Association="ViSedDBModel.FK_Users_Dolgnosti" />
+        <EntityTypeShape EntityType="ViSedDBModel.DocType" Width="1.5" PointX="7.375" PointY="0.875" />
+        <AssociationConnector Association="ViSedDBModel.FK_Message_DocType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

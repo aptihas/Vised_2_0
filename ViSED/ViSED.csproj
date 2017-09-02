@@ -136,12 +136,15 @@
     <Content Include="Content\icons\archiv.png" />
     <Content Include="Content\icons\elPochta.png" />
     <Content Include="Content\icons\kabinet.png" />
+    <Content Include="Content\icons\konvertClose.png" />
+    <Content Include="Content\icons\konvertOpen.png" />
     <Content Include="Content\icons\korrespondence.png" />
     <Content Include="Content\icons\logo.png" />
     <Content Include="Content\icons\myDocs.png" />
     <Content Include="Content\icons\newdoc.png" />
     <Content Include="Content\icons\otpisatDoc.png" />
     <Content Include="Content\icons\profile.png" />
+    <Content Include="Content\icons\task.png" />
     <Content Include="Content\icons\vhod.png" />
     <Content Include="Content\icons\vihod.png" />
     <Content Include="Content\login-style.css" />
@@ -195,6 +198,7 @@
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MyDocsController.cs" />
+    <Compile Include="Controllers\MyTaskController.cs" />
     <Compile Include="Controllers\UnsubscribeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -310,6 +314,8 @@
     <Content Include="Views\Shared\_LayoutManager.cshtml" />
     <Content Include="Views\Manager\CorrespondenceJournal.cshtml" />
     <Content Include="Views\Manager\CorrespondenceJournalPartial.cshtml" />
+    <Content Include="Views\User\CorrespondenceListPartial.cshtml" />
+    <Content Include="Views\Admin\DolgnostIerarhi.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -321,6 +327,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Files\Attachments\10\" />
     <Folder Include="Files\BlanksOfPodrazdeleni\" />
+    <Folder Include="Views\MyTask\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

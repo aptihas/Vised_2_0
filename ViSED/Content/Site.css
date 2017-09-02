@@ -169,6 +169,7 @@ body {
     height: 60px;
     transition: 0.3s;
     color: #fff;
+    border-right:3px solid #fff;
     background-color: #2b384e;
     padding: 15px 10px 10px 10px;
     margin: 3px;
@@ -320,10 +321,13 @@ body {
         border-left: 20px solid white;
         padding: 8px 10px;
     }
+    .table_col tr:hover {
+        background-color:aliceblue;
+        cursor:pointer;
+    }
 
     .table_col td {
-        border-right: 20px solid white;
-        border-left: 20px solid white;
+
         padding: 12px 10px;
         color: #8b8e91;
     }
@@ -485,4 +489,9 @@ body {
     text-align:center;
     padding:5px;
     border: 1px solid black;
+}
+
+.imgConvert{
+    width:20px;
+    margin-right:10px;
 }

@@ -1,22 +1,24 @@
 ﻿
 @{
     ViewBag.Title = "Моя корреспонденция";
-    ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
-
-    var myAccount = (from u in vsdEnt.Accounts
-                     where u.login == User.Identity.Name
-                     select u).FirstOrDefault();
 }
-
+<script>
+    fireSubmit = function (event) {
+        document.getElementById("send").click();
+    }
+</script>
 <h4 class="zagolovki">Моя корреспонденция</h4>
-@foreach (ViSED.Models.Users item in ViewBag.UserList)
-{
-    var msgCount = from m in vsdEnt.Message
-                   where m.from_user_id == item.id && m.to_user_id == myAccount.user_id && m.dateOfRead==null
-                   select m;
 
-    <div onclick="location.href='@Url.Action("Dialog","User", new { userId =item.id, msgCount=5 })'" class="correspondenceItem">@item.first_name @item.second_name.Substring(0,1). @item.third_name.Substring(0,1). (@msgCount.Count())
-        <div style="font-size:10px;">@item.Dolgnosti.Name</div>
-        <div style="font-size:10px;">@item.Podrazdeleniya.Name</div>
-    </div>
+@using (Ajax.BeginForm("CorrespondenceListPartial", "User", null, new AjaxOptions { UpdateTargetId = "results" }, new {@name= "myForm" }))
+{
+    <select name="vidSoobsh" onchange="fireSubmit(event)">
+        <option value="vhod">Входящие</option>
+        <option value="ishod">Исходящие</option>
+    </select>
+
+    <input type="submit" id="send" value="Отправить" style="display:none;" />
 }
+<div id="results">
+    @Html.Partial("CorrespondenceListPartial")
+</div>
+

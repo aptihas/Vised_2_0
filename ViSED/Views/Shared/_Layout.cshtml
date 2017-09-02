@@ -61,12 +61,7 @@
 
             <div class="menuSleva grid-item">
                 <ul>
-                    <li>
-                    <a href="@Url.Action("CorrespondenceList", "User", null, null)">
-                        <img src="~/Content/icons/korrespondence.png" />
-                        @msg
-                    </a>
-                    </li>
+
 
                     <li>
                         <a href="@Url.Action("DocSelect", "User", null, null)">
@@ -79,6 +74,18 @@
                         <a href="@Url.Action("SubscribeCorrespondence", "Unsubscribe", null, null)">
                             <img src="~/Content/icons/otpisatDoc.png" />
                             Отписать документ
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("CorrespondenceList", "User", null, null)">
+                            <img src="~/Content/icons/korrespondence.png" />
+                            @msg
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("MyTaskList", "MyTask", null, null)">
+                            <img src="~/Content/icons/task.png" />
+                            Мои задачи
                         </a>
                     </li>
 

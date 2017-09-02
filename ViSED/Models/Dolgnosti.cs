@@ -31,6 +31,8 @@ public partial class Dolgnosti
 
     public string Name { get; set; }
 
+    public bool UseAudio { get; set; }
+
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

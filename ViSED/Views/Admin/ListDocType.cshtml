@@ -18,6 +18,9 @@
         <th>
             Используется бланок организации
         </th>
+        <th>
+            Соблюдать иерархию
+        </th>
         <th></th>
     </tr>
 
@@ -28,6 +31,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Use_Blank)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ierarhiya)
         </td>
         <td>
             @Html.ActionLink("Изменить", "EditDocType","Admin", new { id=item.id },null) |

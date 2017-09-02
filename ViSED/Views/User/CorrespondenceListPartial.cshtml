@@ -1,0 +1,51 @@
+﻿
+<table class="table_col">
+
+    <tr>
+        @if (ViewBag.Type == "vhod")
+        {
+            <th>
+                Отправитель
+            </th>
+            <th>Вид документа</th>
+            <th>Дата получения</th>
+        }
+        else
+        {
+            <th>
+                Получатель
+            </th>
+            <th>Вид документа</th>
+            <th>Дата отправления</th>
+        }
+    </tr>
+
+    @foreach (ViSED.Models.Message item in ViewBag.Message)
+    {
+        string style = ViewBag.Type == "vhod" && item.dateOfRead == null ? "font-weight:600;" : "";
+
+        int userID = ViewBag.Type == "vhod" ? item.from_user_id : item.to_user_id;
+        <tr onclick="location.href='@Url.Action("Dialog","User", new { userId=userID, msgCount=5 })'" style="@style">
+
+            <td>
+                @if (style != "")
+                {
+                    <img class="imgConvert" src="~/Content/icons/konvertClose.png" />
+                }
+                else
+                {
+                    <img class="imgConvert" src="~/Content/icons/konvertOpen.png" />
+                }
+
+                @item.Users1.first_name @item.Users1.second_name.Substring(0,1). @item.Users1.third_name.Substring(0, 1).
+            </td>
+            <td>
+                @item.DocType.Name
+            </td>
+            <td>
+                @item.dateOfSend.ToShortDateString()
+            </td>
+        </tr>
+    }
+</table>
+

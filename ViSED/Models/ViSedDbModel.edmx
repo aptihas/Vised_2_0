@@ -43,6 +43,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Use_Blank" Type="bit" Nullable="false" />
+          <Property Name="Ierarhiya" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Dolgnosti">
           <Key>
@@ -50,6 +51,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="UseAudio" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -366,8 +368,6 @@
           <EntitySet Name="Accounts" EntityType="ViSedDBModel.Accounts" />
           <EntitySet Name="Admins" EntityType="ViSedDBModel.Admins" />
           <EntitySet Name="Attachments" EntityType="ViSedDBModel.Attachments" />
-          <EntitySet Name="DocType" EntityType="ViSedDBModel.DocType" />
-          <EntitySet Name="Dolgnosti" EntityType="ViSedDBModel.Dolgnosti" />
           <EntitySet Name="Message" EntityType="ViSedDBModel.Message" />
           <EntitySet Name="MyDocs" EntityType="ViSedDBModel.MyDocs" />
           <EntitySet Name="Podrazdeleniya" EntityType="ViSedDBModel.Podrazdeleniya" />
@@ -390,14 +390,6 @@
           <AssociationSet Name="FK_Attachments_Attachments" Association="ViSedDBModel.FK_Attachments_Attachments">
             <End Role="Message" EntitySet="Message" />
             <End Role="Attachments" EntitySet="Attachments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Message_DocType" Association="ViSedDBModel.FK_Message_DocType">
-            <End Role="DocType" EntitySet="DocType" />
-            <End Role="Message" EntitySet="Message" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Dolgnosti" Association="ViSedDBModel.FK_Users_Dolgnosti">
-            <End Role="Dolgnosti" EntitySet="Dolgnosti" />
-            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_Message" Association="ViSedDBModel.FK_Message_Message">
             <End Role="Message" EntitySet="Message" />
@@ -430,6 +422,16 @@
           <AssociationSet Name="FK_Users_Unsubscribe_to_user" Association="ViSedDBModel.FK_Users_Unsubscribe_to_user">
             <End Role="Users" EntitySet="Users" />
             <End Role="Unsubscribe" EntitySet="Unsubscribe" />
+          </AssociationSet>
+          <EntitySet Name="Dolgnosti" EntityType="ViSedDBModel.Dolgnosti" />
+          <AssociationSet Name="FK_Users_Dolgnosti" Association="ViSedDBModel.FK_Users_Dolgnosti">
+            <End Role="Dolgnosti" EntitySet="Dolgnosti" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="DocType" EntityType="ViSedDBModel.DocType" />
+          <AssociationSet Name="FK_Message_DocType" Association="ViSedDBModel.FK_Message_DocType">
+            <End Role="DocType" EntitySet="DocType" />
+            <End Role="Message" EntitySet="Message" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Accounts">
@@ -467,23 +469,6 @@
           <Property Name="attachedName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Attachments" ToRole="Message" />
         </EntityType>
-        <EntityType Name="DocType">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Use_Blank" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="DocType" ToRole="Message" />
-        </EntityType>
-        <EntityType Name="Dolgnosti">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Dolgnosti" ToRole="Users" />
-        </EntityType>
         <EntityType Name="Message">
           <Key>
             <PropertyRef Name="id" />
@@ -496,11 +481,11 @@
           <Property Name="dateOfSend" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="dateOfRead" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Attachments" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Message" ToRole="Attachments" />
-          <NavigationProperty Name="DocType" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="Message" ToRole="DocType" />
           <NavigationProperty Name="Message1" Relationship="ViSedDBModel.FK_Message_Message" FromRole="Message" ToRole="Message1" />
           <NavigationProperty Name="Message2" Relationship="ViSedDBModel.FK_Message_Message" FromRole="Message1" ToRole="Message" />
           <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Message" ToRole="Users" />
           <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Message" ToRole="Users" />
+          <NavigationProperty Name="DocType" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="Message" ToRole="DocType" />
         </EntityType>
         <EntityType Name="MyDocs">
           <Key>
@@ -567,13 +552,13 @@
           <Property Name="indexNum" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="foto" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Accounts" Relationship="ViSedDBModel.FK_Accounts_Users" FromRole="Users" ToRole="Accounts" />
-          <NavigationProperty Name="Dolgnosti" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Users" ToRole="Dolgnosti" />
           <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Users" ToRole="Message" />
           <NavigationProperty Name="Message1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Users" ToRole="Message" />
           <NavigationProperty Name="MyDocs" Relationship="ViSedDBModel.FK_MyDocs_Users" FromRole="Users" ToRole="MyDocs" />
           <NavigationProperty Name="Podrazdeleniya" Relationship="ViSedDBModel.FK_Users_Podrazdeleniya" FromRole="Users" ToRole="Podrazdeleniya" />
           <NavigationProperty Name="Unsubscribe" Relationship="ViSedDBModel.FK_Unsers_Unsubscribe_from_user" FromRole="Users" ToRole="Unsubscribe" />
           <NavigationProperty Name="Unsubscribe1" Relationship="ViSedDBModel.FK_Users_Unsubscribe_to_user" FromRole="Users" ToRole="Unsubscribe" />
+          <NavigationProperty Name="Dolgnosti" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Users" ToRole="Dolgnosti" />
         </EntityType>
         <Association Name="FK_Accounts_Roles">
           <End Type="ViSedDBModel.Roles" Role="Roles" Multiplicity="1" />
@@ -620,30 +605,6 @@
             </Principal>
             <Dependent Role="Attachments">
               <PropertyRef Name="id_message" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Message_DocType">
-          <End Type="ViSedDBModel.DocType" Role="DocType" Multiplicity="1" />
-          <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DocType">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="doc_type_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Dolgnosti">
-          <End Type="ViSedDBModel.Dolgnosti" Role="Dolgnosti" Multiplicity="1" />
-          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Dolgnosti">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="dolgnst_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -743,6 +704,49 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Dolgnosti">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UseAudio" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Dolgnosti" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_Users_Dolgnosti">
+          <End Type="ViSedDBModel.Dolgnosti" Role="Dolgnosti" Multiplicity="1" />
+          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dolgnosti">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="dolgnst_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DocType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Use_Blank" Type="Boolean" Nullable="false" />
+          <Property Name="Ierarhiya" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="DocType" ToRole="Message" />
+        </EntityType>
+        <Association Name="FK_Message_DocType">
+          <End Type="ViSedDBModel.DocType" Role="DocType" Multiplicity="1" />
+          <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="doc_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -779,23 +783,6 @@
                 <ScalarProperty Name="attachedName" ColumnName="attachedName" />
                 <ScalarProperty Name="attachedFile" ColumnName="attachedFile" />
                 <ScalarProperty Name="id_message" ColumnName="id_message" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DocType">
-            <EntityTypeMapping TypeName="ViSedDBModel.DocType">
-              <MappingFragment StoreEntitySet="DocType">
-                <ScalarProperty Name="Use_Blank" ColumnName="Use_Blank" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Dolgnosti">
-            <EntityTypeMapping TypeName="ViSedDBModel.Dolgnosti">
-              <MappingFragment StoreEntitySet="Dolgnosti">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -872,6 +859,25 @@
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
                 <ScalarProperty Name="dolgnst_id" ColumnName="dolgnst_id" />
                 <ScalarProperty Name="podrazdelenie_id" ColumnName="podrazdelenie_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dolgnosti">
+            <EntityTypeMapping TypeName="ViSedDBModel.Dolgnosti">
+              <MappingFragment StoreEntitySet="Dolgnosti">
+                <ScalarProperty Name="UseAudio" ColumnName="UseAudio" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocType">
+            <EntityTypeMapping TypeName="ViSedDBModel.DocType">
+              <MappingFragment StoreEntitySet="DocType">
+                <ScalarProperty Name="Ierarhiya" ColumnName="Ierarhiya" />
+                <ScalarProperty Name="Use_Blank" ColumnName="Use_Blank" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

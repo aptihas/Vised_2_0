@@ -47,8 +47,6 @@ public partial class Message
 
     public virtual ICollection<Attachments> Attachments { get; set; }
 
-    public virtual DocType DocType { get; set; }
-
     public virtual Message Message1 { get; set; }
 
     public virtual Message Message2 { get; set; }
@@ -56,6 +54,8 @@ public partial class Message
     public virtual Users Users { get; set; }
 
     public virtual Users Users1 { get; set; }
+
+    public virtual DocType DocType { get; set; }
 
 }
 

@@ -246,29 +246,41 @@ namespace ViSED.Controllers
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-            var idFrom = from p in vsdEnt.Message
-                         where p.from_user_id != myAccount.user_id && p.to_user_id == myAccount.user_id
-                         select p.from_user_id;
-
-            var idTo = from p in vsdEnt.Message
-                       where p.to_user_id != myAccount.user_id && p.from_user_id == myAccount.user_id
-                       select p.to_user_id;
-
-            var idList = idFrom.Union<int>(idTo).Distinct();
-
-            var userList = from u in vsdEnt.Users
-                           from i in idList
-                           where u.id == i
-                           select u;
-
-            var msgToMe = from m in vsdEnt.Message
-                          where m.to_user_id == myAccount.Users.id && m.dateOfRead == null
+            var message = from m in vsdEnt.Message
+                          where m.to_user_id == myAccount.user_id
+                          orderby m.dateOfSend descending
                           select m;
+            ViewBag.Message = message;
+            ViewBag.Type = "vhod";
 
-            ViewBag.UserList = userList;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CorrespondenceListPartial(string vidSoobsh)
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+            if (vidSoobsh== "vhod")
+            {
+                 var message = from m in vsdEnt.Message
+                              where m.to_user_id == myAccount.user_id
+                              orderby m.dateOfSend descending
+                              select m;
+                ViewBag.Message = message;
+                ViewBag.Type = "vhod";
+            }
+            else
+            {
+                var message = from m in vsdEnt.Message
+                              where m.from_user_id == myAccount.user_id
+                              orderby m.dateOfSend descending
+                              select m;
+                ViewBag.Message = message;
+                ViewBag.Type = "ishod";
+            }
 
-
-            return View(msgToMe);
+            return PartialView();
         }
 
         public ActionResult Dialog(int userId, int msgCount)

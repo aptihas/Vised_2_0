@@ -185,6 +185,7 @@ namespace ViSED.Controllers
 
             doc.Name = model.Name;
             doc.Use_Blank = model.Use_Blank;
+            doc.Ierarhiya = model.Ierarhiya;
             vsdEnt.SaveChanges();
             return RedirectToAction("ListDocType", "Admin");
         }
@@ -262,6 +263,7 @@ namespace ViSED.Controllers
                               select d).FirstOrDefault();
 
             _dolgnosti.Name = model.Name;
+            _dolgnosti.UseAudio = model.UseAudio;
             vsdEnt.SaveChanges();
             return RedirectToAction("ListDolgnost", "Admin");
         }
@@ -534,6 +536,85 @@ namespace ViSED.Controllers
                 ViewBag.Users = usrs;
             }
             return PartialView();
+        }
+
+        public ActionResult DolgnostIerarhi()
+        {
+            var dolgnosti = from d in vsdEnt.Dolgnosti
+                            orderby d.id
+                            select d;
+
+            return View(dolgnosti);
+        }
+        public ActionResult ToUp(int idDolgnost)
+        {
+            var dolgnost = (from d in vsdEnt.Dolgnosti
+                            where d.id == idDolgnost
+                            select d).FirstOrDefault();
+
+            var dolgnosti= from d in vsdEnt.Dolgnosti
+                            orderby d.id
+                            select d;
+
+            List<Models.Dolgnosti> spisokDolgnost = new List<Models.Dolgnosti>();
+            foreach(var i in dolgnosti)
+            {
+                spisokDolgnost.Add(i);
+            }
+
+            int index=spisokDolgnost.IndexOf(dolgnost);
+            
+            if (index > 0)
+            {
+                Models.Dolgnosti _dolgnostPre = new Models.Dolgnosti { Name= spisokDolgnost[index - 1].Name, UseAudio= spisokDolgnost[index - 1].UseAudio} ;
+                int id = spisokDolgnost[index - 1].id;
+                var dolgnostPre = (from d in vsdEnt.Dolgnosti
+                                where d.id == id
+                                select d).FirstOrDefault();
+
+                dolgnostPre.Name = dolgnost.Name;
+                dolgnostPre.UseAudio = dolgnost.UseAudio;
+
+                dolgnost.Name = _dolgnostPre.Name;
+                dolgnost.UseAudio = _dolgnostPre.UseAudio;
+                vsdEnt.SaveChanges();
+            }
+            return RedirectToAction("DolgnostIerarhi", "Admin");
+        }
+        public ActionResult ToDown(int idDolgnost)
+        {
+            var dolgnost = (from d in vsdEnt.Dolgnosti
+                            where d.id == idDolgnost
+                            select d).FirstOrDefault();
+
+            var dolgnosti = from d in vsdEnt.Dolgnosti
+                            orderby d.id
+                            select d;
+
+            List<Models.Dolgnosti> spisokDolgnost = new List<Models.Dolgnosti>();
+            foreach (var i in dolgnosti)
+            {
+                spisokDolgnost.Add(i);
+            }
+
+            int index = spisokDolgnost.IndexOf(dolgnost);
+
+            if (index < spisokDolgnost.Count-1)
+            {
+                Models.Dolgnosti _dolgnostNext = new Models.Dolgnosti { Name = spisokDolgnost[index + 1].Name, UseAudio = spisokDolgnost[index + 1].UseAudio };
+                int id = spisokDolgnost[index + 1].id;
+                var dolgnostNext = (from d in vsdEnt.Dolgnosti
+                                   where d.id == id
+                                   select d).FirstOrDefault();
+
+                dolgnostNext.Name = dolgnost.Name;
+                dolgnostNext.UseAudio = dolgnost.UseAudio;
+
+                dolgnost.Name = _dolgnostNext.Name;
+                dolgnost.UseAudio = _dolgnostNext.UseAudio;
+                vsdEnt.SaveChanges();
+            }
+            return RedirectToAction("DolgnostIerarhi", "Admin");
         }
         public void GenerateAccount(int user_id)
         {

@@ -17,6 +17,9 @@
             <th>
                 Наименование должности
             </th>
+            <th>
+                Голосовые сообщения
+            </th>
 
         </tr>
 
@@ -25,6 +28,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UseAudio)
                 </td>
                 <td>
                     @Html.ActionLink("Изменить", "EditDolgnost", "Admin", new { id = item.id }, null) |

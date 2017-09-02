@@ -59,8 +59,6 @@ public partial class Users
 
     public virtual ICollection<Accounts> Accounts { get; set; }
 
-    public virtual Dolgnosti Dolgnosti { get; set; }
-
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Message> Message { get; set; }
@@ -82,6 +80,8 @@ public partial class Users
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Unsubscribe> Unsubscribe1 { get; set; }
+
+    public virtual Dolgnosti Dolgnosti { get; set; }
 
 }
 

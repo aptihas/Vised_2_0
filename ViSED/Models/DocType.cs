@@ -33,6 +33,8 @@ public partial class DocType
 
     public bool Use_Blank { get; set; }
 
+    public bool Ierarhiya { get; set; }
+
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
