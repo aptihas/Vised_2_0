@@ -38,23 +38,19 @@ public partial class ViSedDBEntities : DbContext
 
     public virtual DbSet<Attachments> Attachments { get; set; }
 
-    public virtual DbSet<Message> Message { get; set; }
+    public virtual DbSet<DocType> DocType { get; set; }
+
+    public virtual DbSet<Dolgnosti> Dolgnosti { get; set; }
 
     public virtual DbSet<MyDocs> MyDocs { get; set; }
+
+    public virtual DbSet<MyTask> MyTask { get; set; }
 
     public virtual DbSet<Podrazdeleniya> Podrazdeleniya { get; set; }
 
     public virtual DbSet<Roles> Roles { get; set; }
 
-    public virtual DbSet<UnsubAttachments> UnsubAttachments { get; set; }
-
-    public virtual DbSet<Unsubscribe> Unsubscribe { get; set; }
-
     public virtual DbSet<Users> Users { get; set; }
-
-    public virtual DbSet<Dolgnosti> Dolgnosti { get; set; }
-
-    public virtual DbSet<DocType> DocType { get; set; }
 
 }
 

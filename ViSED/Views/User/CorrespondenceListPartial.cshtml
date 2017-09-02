@@ -20,7 +20,7 @@
         }
     </tr>
 
-    @foreach (ViSED.Models.Message item in ViewBag.Message)
+    @foreach (ViSED.Models.MyTask item in ViewBag.MyTask)
     {
         string style = ViewBag.Type == "vhod" && item.dateOfRead == null ? "font-weight:600;" : "";
 

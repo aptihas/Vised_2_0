@@ -23,10 +23,10 @@ namespace ViSED.Controllers
         {
             ViewBag.Period = "с " + DateTime.Now.ToShortDateString() + " по " + DateTime.Now.ToShortDateString();
 
-            var msgs = from m in vsdEnt.Message
+            var msgs = from m in vsdEnt.MyTask
                        select m;
 
-            ViewBag.Message = msgs;
+            ViewBag.MyTask = msgs;
 
             return View();
         }
@@ -39,11 +39,11 @@ namespace ViSED.Controllers
             
             if(DateTime.TryParse(nachalo.ToString(),out _nachalo) &&  DateTime.TryParse(konec.ToString(), out _konec))
             {
-                var msgs = from m in vsdEnt.Message
+                var msgs = from m in vsdEnt.MyTask
                            where m.dateOfSend >= _nachalo && m.dateOfSend <= _konec
                            select m;
 
-                ViewBag.Message = msgs;
+                ViewBag.MyTask = msgs;
                 if (nachalo != konec)
                 {
                     ViewBag.Period = "на период с " + _nachalo.ToShortDateString() + " по " + _konec.ToShortDateString();
@@ -55,11 +55,11 @@ namespace ViSED.Controllers
             }
             else
             {
-                var msgs = from m in vsdEnt.Message
+                var msgs = from m in vsdEnt.MyTask
                            where m.dateOfSend >= _nachalo && m.dateOfSend <= _konec
                            select m;
 
-                ViewBag.Message = msgs;
+                ViewBag.MyTask = msgs;
                 if (nachalo != konec)
                 {
                     ViewBag.Period = "на период с " + _nachalo.ToShortDateString() + " по " + _konec.ToShortDateString();

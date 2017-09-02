@@ -32,7 +32,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_message" Type="int" Nullable="false" />
+          <Property Name="id_myTask" Type="int" Nullable="false" />
           <Property Name="attachedFile" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="attachedName" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
@@ -52,8 +52,18 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="UseAudio" Type="bit" Nullable="false" />
+          <Property Name="NomerIerarhii" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Message">
+        <EntityType Name="MyDocs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="myDoc" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="myDocName" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MyTask">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -64,15 +74,6 @@
           <Property Name="text" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="dateOfSend" Type="datetime" Nullable="false" />
           <Property Name="dateOfRead" Type="datetime" />
-        </EntityType>
-        <EntityType Name="MyDocs">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="user_id" Type="int" Nullable="false" />
-          <Property Name="myDoc" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="myDocName" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="Podrazdeleniya">
           <Key>
@@ -88,26 +89,6 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="15" Nullable="false" />
-        </EntityType>
-        <EntityType Name="UnsubAttachments">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_unsubcribe" Type="int" Nullable="false" />
-          <Property Name="attachedFile" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="attachedName" Type="nvarchar" MaxLength="250" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Unsubscribe">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="from_user_id" Type="int" Nullable="false" />
-          <Property Name="to_user_id" Type="int" Nullable="false" />
-          <Property Name="date_of_unsub" Type="date" Nullable="false" />
-          <Property Name="date_of_execution" Type="date" Nullable="false" />
-          <Property Name="executed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -159,61 +140,61 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Attachments_Attachments">
-          <End Role="Message" Type="Self.Message" Multiplicity="1" />
+          <End Role="MyTask" Type="Self.MyTask" Multiplicity="1" />
           <End Role="Attachments" Type="Self.Attachments" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Message">
+            <Principal Role="MyTask">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Attachments">
-              <PropertyRef Name="id_message" />
+              <PropertyRef Name="id_myTask" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Message_DocType">
           <End Role="DocType" Type="Self.DocType" Multiplicity="1" />
-          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <End Role="MyTask" Type="Self.MyTask" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DocType">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Message">
+            <Dependent Role="MyTask">
               <PropertyRef Name="doc_type_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Message_Message">
-          <End Role="Message" Type="Self.Message" Multiplicity="1" />
-          <End Role="Message1" Type="Self.Message" Multiplicity="0..1" />
+          <End Role="MyTask" Type="Self.MyTask" Multiplicity="1" />
+          <End Role="MyTask1" Type="Self.MyTask" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Message">
+            <Principal Role="MyTask">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Message1">
+            <Dependent Role="MyTask1">
               <PropertyRef Name="id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Message_User_From">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <End Role="MyTask" Type="Self.MyTask" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Message">
+            <Dependent Role="MyTask">
               <PropertyRef Name="from_user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Message_Users_To">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <End Role="MyTask" Type="Self.MyTask" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Message">
+            <Dependent Role="MyTask">
               <PropertyRef Name="to_user_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -227,30 +208,6 @@
             </Principal>
             <Dependent Role="MyDocs">
               <PropertyRef Name="user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Unsers_Unsubscribe_from_user">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Unsubscribe" Type="Self.Unsubscribe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Unsubscribe">
-              <PropertyRef Name="from_user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UnsubAttachments_UnsubAttachments">
-          <End Role="Unsubscribe" Type="Self.Unsubscribe" Multiplicity="1" />
-          <End Role="UnsubAttachments" Type="Self.UnsubAttachments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Unsubscribe">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="UnsubAttachments">
-              <PropertyRef Name="id_unsubcribe" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -278,30 +235,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_Unsubscribe_to_user">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Unsubscribe" Type="Self.Unsubscribe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Unsubscribe">
-              <PropertyRef Name="to_user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Хранилище ViSedDBModelContainer">
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocType" EntityType="Self.DocType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dolgnosti" EntityType="Self.Dolgnosti" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MyDocs" EntityType="Self.MyDocs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MyTask" EntityType="Self.MyTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Podrazdeleniya" EntityType="Self.Podrazdeleniya" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UnsubAttachments" EntityType="Self.UnsubAttachments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Unsubscribe" EntityType="Self.Unsubscribe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Accounts_Roles" Association="Self.FK_Accounts_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -316,36 +259,28 @@
             <End Role="Admins" EntitySet="Admins" />
           </AssociationSet>
           <AssociationSet Name="FK_Attachments_Attachments" Association="Self.FK_Attachments_Attachments">
-            <End Role="Message" EntitySet="Message" />
+            <End Role="MyTask" EntitySet="MyTask" />
             <End Role="Attachments" EntitySet="Attachments" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_DocType" Association="Self.FK_Message_DocType">
             <End Role="DocType" EntitySet="DocType" />
-            <End Role="Message" EntitySet="Message" />
+            <End Role="MyTask" EntitySet="MyTask" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_Message" Association="Self.FK_Message_Message">
-            <End Role="Message" EntitySet="Message" />
-            <End Role="Message1" EntitySet="Message" />
+            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="MyTask1" EntitySet="MyTask" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_User_From" Association="Self.FK_Message_User_From">
             <End Role="Users" EntitySet="Users" />
-            <End Role="Message" EntitySet="Message" />
+            <End Role="MyTask" EntitySet="MyTask" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_Users_To" Association="Self.FK_Message_Users_To">
             <End Role="Users" EntitySet="Users" />
-            <End Role="Message" EntitySet="Message" />
+            <End Role="MyTask" EntitySet="MyTask" />
           </AssociationSet>
           <AssociationSet Name="FK_MyDocs_Users" Association="Self.FK_MyDocs_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="MyDocs" EntitySet="MyDocs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Unsers_Unsubscribe_from_user" Association="Self.FK_Unsers_Unsubscribe_from_user">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UnsubAttachments_UnsubAttachments" Association="Self.FK_UnsubAttachments_UnsubAttachments">
-            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
-            <End Role="UnsubAttachments" EntitySet="UnsubAttachments" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Dolgnosti" Association="Self.FK_Users_Dolgnosti">
             <End Role="Dolgnosti" EntitySet="Dolgnosti" />
@@ -354,10 +289,6 @@
           <AssociationSet Name="FK_Users_Podrazdeleniya" Association="Self.FK_Users_Podrazdeleniya">
             <End Role="Podrazdeleniya" EntitySet="Podrazdeleniya" />
             <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Unsubscribe_to_user" Association="Self.FK_Users_Unsubscribe_to_user">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -368,12 +299,12 @@
           <EntitySet Name="Accounts" EntityType="ViSedDBModel.Accounts" />
           <EntitySet Name="Admins" EntityType="ViSedDBModel.Admins" />
           <EntitySet Name="Attachments" EntityType="ViSedDBModel.Attachments" />
-          <EntitySet Name="Message" EntityType="ViSedDBModel.Message" />
+          <EntitySet Name="DocType" EntityType="ViSedDBModel.DocType" />
+          <EntitySet Name="Dolgnosti" EntityType="ViSedDBModel.Dolgnosti" />
           <EntitySet Name="MyDocs" EntityType="ViSedDBModel.MyDocs" />
+          <EntitySet Name="MyTask" EntityType="ViSedDBModel.MyTask" />
           <EntitySet Name="Podrazdeleniya" EntityType="ViSedDBModel.Podrazdeleniya" />
           <EntitySet Name="Roles" EntityType="ViSedDBModel.Roles" />
-          <EntitySet Name="UnsubAttachments" EntityType="ViSedDBModel.UnsubAttachments" />
-          <EntitySet Name="Unsubscribe" EntityType="ViSedDBModel.Unsubscribe" />
           <EntitySet Name="Users" EntityType="ViSedDBModel.Users" />
           <AssociationSet Name="FK_Accounts_Roles" Association="ViSedDBModel.FK_Accounts_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -388,50 +319,36 @@
             <End Role="Admins" EntitySet="Admins" />
           </AssociationSet>
           <AssociationSet Name="FK_Attachments_Attachments" Association="ViSedDBModel.FK_Attachments_Attachments">
-            <End Role="Message" EntitySet="Message" />
+            <End Role="MyTask" EntitySet="MyTask" />
             <End Role="Attachments" EntitySet="Attachments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Message_Message" Association="ViSedDBModel.FK_Message_Message">
-            <End Role="Message" EntitySet="Message" />
-            <End Role="Message1" EntitySet="Message" />
+          <AssociationSet Name="FK_Message_DocType" Association="ViSedDBModel.FK_Message_DocType">
+            <End Role="DocType" EntitySet="DocType" />
+            <End Role="MyTask" EntitySet="MyTask" />
           </AssociationSet>
-          <AssociationSet Name="FK_Message_User_From" Association="ViSedDBModel.FK_Message_User_From">
+          <AssociationSet Name="FK_Users_Dolgnosti" Association="ViSedDBModel.FK_Users_Dolgnosti">
+            <End Role="Dolgnosti" EntitySet="Dolgnosti" />
             <End Role="Users" EntitySet="Users" />
-            <End Role="Message" EntitySet="Message" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Message_Users_To" Association="ViSedDBModel.FK_Message_Users_To">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Message" EntitySet="Message" />
           </AssociationSet>
           <AssociationSet Name="FK_MyDocs_Users" Association="ViSedDBModel.FK_MyDocs_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="MyDocs" EntitySet="MyDocs" />
           </AssociationSet>
+          <AssociationSet Name="FK_Message_Message" Association="ViSedDBModel.FK_Message_Message">
+            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="MyTask1" EntitySet="MyTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_User_From" Association="ViSedDBModel.FK_Message_User_From">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MyTask" EntitySet="MyTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_Users_To" Association="ViSedDBModel.FK_Message_Users_To">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MyTask" EntitySet="MyTask" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Podrazdeleniya" Association="ViSedDBModel.FK_Users_Podrazdeleniya">
             <End Role="Podrazdeleniya" EntitySet="Podrazdeleniya" />
             <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UnsubAttachments_UnsubAttachments" Association="ViSedDBModel.FK_UnsubAttachments_UnsubAttachments">
-            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
-            <End Role="UnsubAttachments" EntitySet="UnsubAttachments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Unsers_Unsubscribe_from_user" Association="ViSedDBModel.FK_Unsers_Unsubscribe_from_user">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Unsubscribe_to_user" Association="ViSedDBModel.FK_Users_Unsubscribe_to_user">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Unsubscribe" EntitySet="Unsubscribe" />
-          </AssociationSet>
-          <EntitySet Name="Dolgnosti" EntityType="ViSedDBModel.Dolgnosti" />
-          <AssociationSet Name="FK_Users_Dolgnosti" Association="ViSedDBModel.FK_Users_Dolgnosti">
-            <End Role="Dolgnosti" EntitySet="Dolgnosti" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <EntitySet Name="DocType" EntityType="ViSedDBModel.DocType" />
-          <AssociationSet Name="FK_Message_DocType" Association="ViSedDBModel.FK_Message_DocType">
-            <End Role="DocType" EntitySet="DocType" />
-            <End Role="Message" EntitySet="Message" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Accounts">
@@ -464,28 +381,30 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_message" Type="Int32" Nullable="false" />
+          <Property Name="id_myTask" Type="Int32" Nullable="false" />
           <Property Name="attachedFile" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="attachedName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Attachments" ToRole="Message" />
+          <NavigationProperty Name="MyTask" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Attachments" ToRole="MyTask" />
         </EntityType>
-        <EntityType Name="Message">
+        <EntityType Name="DocType">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="from_user_id" Type="Int32" Nullable="false" />
-          <Property Name="to_user_id" Type="Int32" Nullable="false" />
-          <Property Name="doc_type_id" Type="Int32" Nullable="false" />
-          <Property Name="text" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="dateOfSend" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="dateOfRead" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Attachments" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Message" ToRole="Attachments" />
-          <NavigationProperty Name="Message1" Relationship="ViSedDBModel.FK_Message_Message" FromRole="Message" ToRole="Message1" />
-          <NavigationProperty Name="Message2" Relationship="ViSedDBModel.FK_Message_Message" FromRole="Message1" ToRole="Message" />
-          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Message" ToRole="Users" />
-          <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Message" ToRole="Users" />
-          <NavigationProperty Name="DocType" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="Message" ToRole="DocType" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Use_Blank" Type="Boolean" Nullable="false" />
+          <Property Name="Ierarhiya" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MyTask" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="DocType" ToRole="MyTask" />
+        </EntityType>
+        <EntityType Name="Dolgnosti">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UseAudio" Type="Boolean" Nullable="false" />
+          <Property Name="NomerIerarhii" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Dolgnosti" ToRole="Users" />
         </EntityType>
         <EntityType Name="MyDocs">
           <Key>
@@ -496,6 +415,24 @@
           <Property Name="myDoc" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="myDocName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_MyDocs_Users" FromRole="MyDocs" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="MyTask">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="from_user_id" Type="Int32" Nullable="false" />
+          <Property Name="to_user_id" Type="Int32" Nullable="false" />
+          <Property Name="doc_type_id" Type="Int32" Nullable="false" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="dateOfSend" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateOfRead" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Attachments" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="MyTask" ToRole="Attachments" />
+          <NavigationProperty Name="DocType" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="MyTask" ToRole="DocType" />
+          <NavigationProperty Name="MyTask1" Relationship="ViSedDBModel.FK_Message_Message" FromRole="MyTask" ToRole="MyTask1" />
+          <NavigationProperty Name="MyTask2" Relationship="ViSedDBModel.FK_Message_Message" FromRole="MyTask1" ToRole="MyTask" />
+          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="MyTask" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="MyTask" ToRole="Users" />
         </EntityType>
         <EntityType Name="Podrazdeleniya">
           <Key>
@@ -515,30 +452,6 @@
           <NavigationProperty Name="Accounts" Relationship="ViSedDBModel.FK_Accounts_Roles" FromRole="Roles" ToRole="Accounts" />
           <NavigationProperty Name="Admins" Relationship="ViSedDBModel.FK_Admins_Roles1" FromRole="Roles" ToRole="Admins" />
         </EntityType>
-        <EntityType Name="UnsubAttachments">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_unsubcribe" Type="Int32" Nullable="false" />
-          <Property Name="attachedFile" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="attachedName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Unsubscribe" Relationship="ViSedDBModel.FK_UnsubAttachments_UnsubAttachments" FromRole="UnsubAttachments" ToRole="Unsubscribe" />
-        </EntityType>
-        <EntityType Name="Unsubscribe">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="from_user_id" Type="Int32" Nullable="false" />
-          <Property Name="to_user_id" Type="Int32" Nullable="false" />
-          <Property Name="date_of_unsub" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="date_of_execution" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="executed" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="UnsubAttachments" Relationship="ViSedDBModel.FK_UnsubAttachments_UnsubAttachments" FromRole="Unsubscribe" ToRole="UnsubAttachments" />
-          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Unsers_Unsubscribe_from_user" FromRole="Unsubscribe" ToRole="Users" />
-          <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Users_Unsubscribe_to_user" FromRole="Unsubscribe" ToRole="Users" />
-        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="id" />
@@ -552,13 +465,11 @@
           <Property Name="indexNum" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="foto" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Accounts" Relationship="ViSedDBModel.FK_Accounts_Users" FromRole="Users" ToRole="Accounts" />
-          <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Users" ToRole="Message" />
-          <NavigationProperty Name="Message1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Users" ToRole="Message" />
-          <NavigationProperty Name="MyDocs" Relationship="ViSedDBModel.FK_MyDocs_Users" FromRole="Users" ToRole="MyDocs" />
-          <NavigationProperty Name="Podrazdeleniya" Relationship="ViSedDBModel.FK_Users_Podrazdeleniya" FromRole="Users" ToRole="Podrazdeleniya" />
-          <NavigationProperty Name="Unsubscribe" Relationship="ViSedDBModel.FK_Unsers_Unsubscribe_from_user" FromRole="Users" ToRole="Unsubscribe" />
-          <NavigationProperty Name="Unsubscribe1" Relationship="ViSedDBModel.FK_Users_Unsubscribe_to_user" FromRole="Users" ToRole="Unsubscribe" />
           <NavigationProperty Name="Dolgnosti" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Users" ToRole="Dolgnosti" />
+          <NavigationProperty Name="MyDocs" Relationship="ViSedDBModel.FK_MyDocs_Users" FromRole="Users" ToRole="MyDocs" />
+          <NavigationProperty Name="MyTask" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Users" ToRole="MyTask" />
+          <NavigationProperty Name="MyTask1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Users" ToRole="MyTask" />
+          <NavigationProperty Name="Podrazdeleniya" Relationship="ViSedDBModel.FK_Users_Podrazdeleniya" FromRole="Users" ToRole="Podrazdeleniya" />
         </EntityType>
         <Association Name="FK_Accounts_Roles">
           <End Type="ViSedDBModel.Roles" Role="Roles" Multiplicity="1" />
@@ -597,50 +508,38 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Attachments_Attachments">
-          <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="1" />
+          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="1" />
           <End Type="ViSedDBModel.Attachments" Role="Attachments" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Message">
+            <Principal Role="MyTask">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Attachments">
-              <PropertyRef Name="id_message" />
+              <PropertyRef Name="id_myTask" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Message_Message">
-          <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="1" />
-          <End Type="ViSedDBModel.Message" Role="Message1" Multiplicity="0..1" />
+        <Association Name="FK_Message_DocType">
+          <End Type="ViSedDBModel.DocType" Role="DocType" Multiplicity="1" />
+          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Message">
+            <Principal Role="DocType">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Message1">
-              <PropertyRef Name="id" />
+            <Dependent Role="MyTask">
+              <PropertyRef Name="doc_type_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Message_User_From">
-          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
-          <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="*" />
+        <Association Name="FK_Users_Dolgnosti">
+          <End Type="ViSedDBModel.Dolgnosti" Role="Dolgnosti" Multiplicity="1" />
+          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="Dolgnosti">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="from_user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Message_Users_To">
-          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
-          <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="to_user_id" />
+            <Dependent Role="Users">
+              <PropertyRef Name="dolgnst_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -656,6 +555,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Message_Message">
+          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="1" />
+          <End Type="ViSedDBModel.MyTask" Role="MyTask1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MyTask">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MyTask1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_User_From">
+          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MyTask">
+              <PropertyRef Name="from_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_Users_To">
+          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MyTask">
+              <PropertyRef Name="to_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Podrazdeleniya">
           <End Type="ViSedDBModel.Podrazdeleniya" Role="Podrazdeleniya" Multiplicity="1" />
           <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="*" />
@@ -665,85 +600,6 @@
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="podrazdelenie_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UnsubAttachments_UnsubAttachments">
-          <End Type="ViSedDBModel.Unsubscribe" Role="Unsubscribe" Multiplicity="1" />
-          <End Type="ViSedDBModel.UnsubAttachments" Role="UnsubAttachments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Unsubscribe">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="UnsubAttachments">
-              <PropertyRef Name="id_unsubcribe" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Unsers_Unsubscribe_from_user">
-          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
-          <End Type="ViSedDBModel.Unsubscribe" Role="Unsubscribe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Unsubscribe">
-              <PropertyRef Name="from_user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Unsubscribe_to_user">
-          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
-          <End Type="ViSedDBModel.Unsubscribe" Role="Unsubscribe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Unsubscribe">
-              <PropertyRef Name="to_user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Dolgnosti">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="UseAudio" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Dolgnosti" ToRole="Users" />
-        </EntityType>
-        <Association Name="FK_Users_Dolgnosti">
-          <End Type="ViSedDBModel.Dolgnosti" Role="Dolgnosti" Multiplicity="1" />
-          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Dolgnosti">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="dolgnst_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="DocType">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Use_Blank" Type="Boolean" Nullable="false" />
-          <Property Name="Ierarhiya" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Message" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="DocType" ToRole="Message" />
-        </EntityType>
-        <Association Name="FK_Message_DocType">
-          <End Type="ViSedDBModel.DocType" Role="DocType" Multiplicity="1" />
-          <End Type="ViSedDBModel.Message" Role="Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DocType">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="doc_type_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -782,20 +638,27 @@
               <MappingFragment StoreEntitySet="Attachments">
                 <ScalarProperty Name="attachedName" ColumnName="attachedName" />
                 <ScalarProperty Name="attachedFile" ColumnName="attachedFile" />
-                <ScalarProperty Name="id_message" ColumnName="id_message" />
+                <ScalarProperty Name="id_myTask" ColumnName="id_myTask" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Message">
-            <EntityTypeMapping TypeName="ViSedDBModel.Message">
-              <MappingFragment StoreEntitySet="Message">
-                <ScalarProperty Name="dateOfRead" ColumnName="dateOfRead" />
-                <ScalarProperty Name="dateOfSend" ColumnName="dateOfSend" />
-                <ScalarProperty Name="text" ColumnName="text" />
-                <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
-                <ScalarProperty Name="to_user_id" ColumnName="to_user_id" />
-                <ScalarProperty Name="from_user_id" ColumnName="from_user_id" />
+          <EntitySetMapping Name="DocType">
+            <EntityTypeMapping TypeName="ViSedDBModel.DocType">
+              <MappingFragment StoreEntitySet="DocType">
+                <ScalarProperty Name="Ierarhiya" ColumnName="Ierarhiya" />
+                <ScalarProperty Name="Use_Blank" ColumnName="Use_Blank" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dolgnosti">
+            <EntityTypeMapping TypeName="ViSedDBModel.Dolgnosti">
+              <MappingFragment StoreEntitySet="Dolgnosti">
+                <ScalarProperty Name="NomerIerarhii" ColumnName="NomerIerarhii" />
+                <ScalarProperty Name="UseAudio" ColumnName="UseAudio" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -806,6 +669,19 @@
                 <ScalarProperty Name="myDocName" ColumnName="myDocName" />
                 <ScalarProperty Name="myDoc" ColumnName="myDoc" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyTask">
+            <EntityTypeMapping TypeName="ViSedDBModel.MyTask">
+              <MappingFragment StoreEntitySet="MyTask">
+                <ScalarProperty Name="dateOfRead" ColumnName="dateOfRead" />
+                <ScalarProperty Name="dateOfSend" ColumnName="dateOfSend" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
+                <ScalarProperty Name="to_user_id" ColumnName="to_user_id" />
+                <ScalarProperty Name="from_user_id" ColumnName="from_user_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -827,28 +703,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UnsubAttachments">
-            <EntityTypeMapping TypeName="ViSedDBModel.UnsubAttachments">
-              <MappingFragment StoreEntitySet="UnsubAttachments">
-                <ScalarProperty Name="attachedName" ColumnName="attachedName" />
-                <ScalarProperty Name="attachedFile" ColumnName="attachedFile" />
-                <ScalarProperty Name="id_unsubcribe" ColumnName="id_unsubcribe" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Unsubscribe">
-            <EntityTypeMapping TypeName="ViSedDBModel.Unsubscribe">
-              <MappingFragment StoreEntitySet="Unsubscribe">
-                <ScalarProperty Name="executed" ColumnName="executed" />
-                <ScalarProperty Name="date_of_execution" ColumnName="date_of_execution" />
-                <ScalarProperty Name="date_of_unsub" ColumnName="date_of_unsub" />
-                <ScalarProperty Name="to_user_id" ColumnName="to_user_id" />
-                <ScalarProperty Name="from_user_id" ColumnName="from_user_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ViSedDBModel.Users">
               <MappingFragment StoreEntitySet="Users">
@@ -859,25 +713,6 @@
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
                 <ScalarProperty Name="dolgnst_id" ColumnName="dolgnst_id" />
                 <ScalarProperty Name="podrazdelenie_id" ColumnName="podrazdelenie_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Dolgnosti">
-            <EntityTypeMapping TypeName="ViSedDBModel.Dolgnosti">
-              <MappingFragment StoreEntitySet="Dolgnosti">
-                <ScalarProperty Name="UseAudio" ColumnName="UseAudio" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DocType">
-            <EntityTypeMapping TypeName="ViSedDBModel.DocType">
-              <MappingFragment StoreEntitySet="DocType">
-                <ScalarProperty Name="Ierarhiya" ColumnName="Ierarhiya" />
-                <ScalarProperty Name="Use_Blank" ColumnName="Use_Blank" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

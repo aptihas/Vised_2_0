@@ -13,7 +13,7 @@
     }
 
 
-    @foreach (ViSED.Models.Message msg in ViewBag.Message)
+    @foreach (ViSED.Models.MyTask msg in ViewBag.MyTask)
     {
         if (msg.from_user_id == account.user_id)
         {
@@ -32,7 +32,7 @@
                 }
                 @{
                     var attachs = from a in vsdEnt.Attachments
-                                  where a.id_message == msg.id
+                                  where a.id_myTask == msg.id
                                   select a;
                 }
                 @if (attachs != null)
@@ -54,7 +54,7 @@
              <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
              @{
                  var attachs = from a in vsdEnt.Attachments
-                               where a.id_message == msg.id
+                               where a.id_myTask == msg.id
                                select a;
              }
              @if (attachs != null)

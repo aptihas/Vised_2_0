@@ -878,24 +878,24 @@ namespace ViSED.ProgramLogic
         {
         }
 
-        public DeclensionException(string message)
-            : base(message)
+        public DeclensionException(string Message)
+            : base(Message)
         {
         }
 
-        public DeclensionException(string message, Exception innerException)
-            : base(message, innerException)
+        public DeclensionException(string Message, Exception innerException)
+            : base(Message, innerException)
         {
         }
 
-        public DeclensionException(string message, int errorCode)
-            : this(message)
+        public DeclensionException(string Message, int errorCode)
+            : this(Message)
         {
             m_ErrorCode = errorCode;
         }
 
-        public DeclensionException(string message, int errorCode, Exception innerException)
-            : this(message, innerException)
+        public DeclensionException(string Message, int errorCode, Exception innerException)
+            : this(Message, innerException)
         {
             m_ErrorCode = errorCode;
         }

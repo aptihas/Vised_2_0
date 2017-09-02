@@ -228,6 +228,10 @@ namespace ViSED.Controllers
         [HttpPost]
         public ActionResult AddDolgnost(Models.Dolgnosti model)
         {
+            var dolgnost = (from d in vsdEnt.Dolgnosti
+                            orderby d.NomerIerarhii descending
+                            select d).FirstOrDefault();
+            model.NomerIerarhii = dolgnost.NomerIerarhii++;
             if (model.Name != "" && model.Name != null)
             {
                 vsdEnt.Dolgnosti.Add(model);
@@ -541,7 +545,7 @@ namespace ViSED.Controllers
         public ActionResult DolgnostIerarhi()
         {
             var dolgnosti = from d in vsdEnt.Dolgnosti
-                            orderby d.id
+                            orderby d.NomerIerarhii
                             select d;
 
             return View(dolgnosti);
@@ -553,7 +557,7 @@ namespace ViSED.Controllers
                             select d).FirstOrDefault();
 
             var dolgnosti= from d in vsdEnt.Dolgnosti
-                            orderby d.id
+                            orderby d.NomerIerarhii
                             select d;
 
             List<Models.Dolgnosti> spisokDolgnost = new List<Models.Dolgnosti>();
@@ -566,19 +570,18 @@ namespace ViSED.Controllers
             
             if (index > 0)
             {
-                Models.Dolgnosti _dolgnostPre = new Models.Dolgnosti { Name= spisokDolgnost[index - 1].Name, UseAudio= spisokDolgnost[index - 1].UseAudio} ;
-                int id = spisokDolgnost[index - 1].id;
+                Models.Dolgnosti _dolgnostPre = new Models.Dolgnosti { Name= spisokDolgnost[index - 1].Name, UseAudio= spisokDolgnost[index - 1].UseAudio,NomerIerarhii= spisokDolgnost[index - 1].NomerIerarhii} ;
+                int _nomer = spisokDolgnost[index - 1].NomerIerarhii;
                 var dolgnostPre = (from d in vsdEnt.Dolgnosti
-                                where d.id == id
-                                select d).FirstOrDefault();
+                                where d.NomerIerarhii == _nomer
+                                   select d).FirstOrDefault();
 
-                dolgnostPre.Name = dolgnost.Name;
-                dolgnostPre.UseAudio = dolgnost.UseAudio;
+                dolgnostPre.NomerIerarhii = dolgnost.NomerIerarhii;
+                dolgnost.NomerIerarhii = _dolgnostPre.NomerIerarhii;
 
-                dolgnost.Name = _dolgnostPre.Name;
-                dolgnost.UseAudio = _dolgnostPre.UseAudio;
                 vsdEnt.SaveChanges();
             }
+
             return RedirectToAction("DolgnostIerarhi", "Admin");
         }
         public ActionResult ToDown(int idDolgnost)
@@ -588,7 +591,7 @@ namespace ViSED.Controllers
                             select d).FirstOrDefault();
 
             var dolgnosti = from d in vsdEnt.Dolgnosti
-                            orderby d.id
+                            orderby d.NomerIerarhii
                             select d;
 
             List<Models.Dolgnosti> spisokDolgnost = new List<Models.Dolgnosti>();
@@ -601,19 +604,18 @@ namespace ViSED.Controllers
 
             if (index < spisokDolgnost.Count-1)
             {
-                Models.Dolgnosti _dolgnostNext = new Models.Dolgnosti { Name = spisokDolgnost[index + 1].Name, UseAudio = spisokDolgnost[index + 1].UseAudio };
-                int id = spisokDolgnost[index + 1].id;
+                Models.Dolgnosti _dolgnostNext = new Models.Dolgnosti { Name = spisokDolgnost[index + 1].Name, UseAudio = spisokDolgnost[index + 1].UseAudio, NomerIerarhii = spisokDolgnost[index + 1].NomerIerarhii };
+                int _nomer = spisokDolgnost[index + 1].NomerIerarhii;
                 var dolgnostNext = (from d in vsdEnt.Dolgnosti
-                                   where d.id == id
+                                   where d.NomerIerarhii == _nomer
                                    select d).FirstOrDefault();
 
-                dolgnostNext.Name = dolgnost.Name;
-                dolgnostNext.UseAudio = dolgnost.UseAudio;
+                dolgnostNext.NomerIerarhii = dolgnost.NomerIerarhii;
 
-                dolgnost.Name = _dolgnostNext.Name;
-                dolgnost.UseAudio = _dolgnostNext.UseAudio;
+                dolgnost.NomerIerarhii = _dolgnostNext.NomerIerarhii;
                 vsdEnt.SaveChanges();
             }
+
             return RedirectToAction("DolgnostIerarhi", "Admin");
         }
         public void GenerateAccount(int user_id)

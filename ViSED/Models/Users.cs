@@ -24,15 +24,11 @@ public partial class Users
 
         this.Accounts = new HashSet<Accounts>();
 
-        this.Message = new HashSet<Message>();
-
-        this.Message1 = new HashSet<Message>();
-
         this.MyDocs = new HashSet<MyDocs>();
 
-        this.Unsubscribe = new HashSet<Unsubscribe>();
+        this.MyTask = new HashSet<MyTask>();
 
-        this.Unsubscribe1 = new HashSet<Unsubscribe>();
+        this.MyTask1 = new HashSet<MyTask>();
 
     }
 
@@ -59,29 +55,21 @@ public partial class Users
 
     public virtual ICollection<Accounts> Accounts { get; set; }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Message> Message { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Message> Message1 { get; set; }
+    public virtual Dolgnosti Dolgnosti { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<MyDocs> MyDocs { get; set; }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MyTask> MyTask { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MyTask> MyTask1 { get; set; }
+
     public virtual Podrazdeleniya Podrazdeleniya { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Unsubscribe> Unsubscribe { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Unsubscribe> Unsubscribe1 { get; set; }
-
-    public virtual Dolgnosti Dolgnosti { get; set; }
 
 }
 

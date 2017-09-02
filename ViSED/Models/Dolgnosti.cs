@@ -33,6 +33,8 @@ public partial class Dolgnosti
 
     public bool UseAudio { get; set; }
 
+    public int NomerIerarhii { get; set; }
+
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

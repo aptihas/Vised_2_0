@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace ViSED.Controllers
 {
-    public class MyTaskController : Controller
+    public class MessageController : Controller
     {
-        // GET: MyTask
-        public ActionResult MyTaskList()
+        // GET: Message
+        public ActionResult MessageList()
         {
             return View();
         }

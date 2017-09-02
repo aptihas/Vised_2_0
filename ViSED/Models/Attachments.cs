@@ -20,7 +20,7 @@ public partial class Attachments
 
     public int id { get; set; }
 
-    public int id_message { get; set; }
+    public int id_myTask { get; set; }
 
     public string attachedFile { get; set; }
 
@@ -28,7 +28,7 @@ public partial class Attachments
 
 
 
-    public virtual Message Message { get; set; }
+    public virtual MyTask MyTask { get; set; }
 
 }
 

@@ -45,7 +45,7 @@
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-            var msgToMe = from m in vsdEnt.Message
+            var msgToMe = from m in vsdEnt.MyTask
                           where m.to_user_id == myAccount.Users.id && m.dateOfRead == null
                           select m;
 
@@ -83,7 +83,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("MyTaskList", "MyTask", null, null)">
+                        <a href="@Url.Action("MessageList", "Message", null, null)">
                             <img src="~/Content/icons/task.png" />
                             Мои задачи
                         </a>

@@ -15,11 +15,11 @@ namespace ViSED.Models
 using System;
     using System.Collections.Generic;
     
-public partial class Message
+public partial class MyTask
 {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public Message()
+    public MyTask()
     {
 
         this.Attachments = new HashSet<Attachments>();
@@ -47,15 +47,15 @@ public partial class Message
 
     public virtual ICollection<Attachments> Attachments { get; set; }
 
-    public virtual Message Message1 { get; set; }
+    public virtual DocType DocType { get; set; }
 
-    public virtual Message Message2 { get; set; }
+    public virtual MyTask MyTask1 { get; set; }
+
+    public virtual MyTask MyTask2 { get; set; }
 
     public virtual Users Users { get; set; }
 
     public virtual Users Users1 { get; set; }
-
-    public virtual DocType DocType { get; set; }
 
 }
 

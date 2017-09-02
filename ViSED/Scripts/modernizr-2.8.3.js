@@ -478,7 +478,7 @@ window.Modernizr = (function( window, document, undefined ) {
     };
 
 
-    tests['postmessage'] = function() {
+    tests['postMessage'] = function() {
       return !!window.postMessage;
     };
 

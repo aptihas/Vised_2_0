@@ -112,9 +112,9 @@
             // Without this check if a connection is stopped then started events will be bound multiple times.
             if (!connection._.configuredStopReconnectingTimeout) {
                 onReconnectTimeout = function (connection) {
-                    var message = signalR._.format(signalR.resources.reconnectTimeout, connection.disconnectTimeout);
-                    connection.log(message);
-                    $(connection).triggerHandler(events.onError, [signalR._.error(message, /* source */ "TimeoutException")]);
+                    var Message = signalR._.format(signalR.resources.reconnectTimeout, connection.disconnectTimeout);
+                    connection.log(Message);
+                    $(connection).triggerHandler(events.onError, [signalR._.error(Message, /* source */ "TimeoutException")]);
                     connection.stop(/* async */ false, /* notifyServer */ false);
                 };
 
@@ -174,8 +174,8 @@
             return version;
         })(),
 
-        error: function (message, source, context) {
-            var e = new Error(message);
+        error: function (Message, source, context) {
+            var e = new Error(Message);
             e.source = source;
 
             if (typeof context !== "undefined") {
@@ -185,8 +185,8 @@
             return e;
         },
 
-        transportError: function (message, transport, source, context) {
-            var e = this.error(message, source, context);
+        transportError: function (Message, transport, source, context) {
+            var e = this.error(Message, source, context);
             e.transport = transport ? transport.name : undefined;
             return e;
         },
@@ -311,9 +311,9 @@
         var that = this,
             buffer = [];
 
-        that.tryBuffer = function (message) {
+        that.tryBuffer = function (Message) {
             if (connection.state === $.signalR.connectionState.connecting) {
-                buffer.push(message);
+                buffer.push(Message);
 
                 return true;
             }
@@ -344,8 +344,8 @@
             this.lastError = null;
             this._ = {
                 keepAliveData: {},
-                connectingMessageBuffer: new ConnectingMessageBuffer(this, function (message) {
-                    $connection.triggerHandler(events.onReceived, [message]);
+                connectingMessageBuffer: new ConnectingMessageBuffer(this, function (Message) {
+                    $connection.triggerHandler(events.onReceived, [Message]);
                 }),
                 lastMessageAt: new Date().getTime(),
                 lastActiveAt: new Date().getTime(),
@@ -615,7 +615,7 @@
                             connection.log("WARNING! The connection was not in the connecting state.");
                         }
 
-                        // Drain any incoming buffered messages (messages that came in prior to connect)
+                        // Drain any incoming buffered Messages (Messages that came in prior to connect)
                         connection._.connectingMessageBuffer.drain();
 
                         $(connection).triggerHandler(events.onStart);
@@ -641,7 +641,7 @@
                     }, onFallback);
                 }
                 catch (error) {
-                    connection.log(transport.name + " transport threw '" + error.message + "' when attempting to start.");
+                    connection.log(transport.name + " transport threw '" + error.Message + "' when attempting to start.");
                     onFallback();
                 }
             };
@@ -940,14 +940,14 @@
             }
 
             delete connection._deferral;
-            delete connection.messageId;
+            delete connection.MessageId;
             delete connection.groupsToken;
             delete connection.id;
             delete connection._.pingIntervalId;
             delete connection._.lastMessageAt;
             delete connection._.lastActiveAt;
 
-            // Clear out our message buffer
+            // Clear out our Message buffer
             connection._.connectingMessageBuffer.clear();
             
             // Clean up this event
@@ -1107,7 +1107,7 @@
                 connection = that.connection;
 
             if (that.startRequested) {
-                connection.log("WARNING! The client received multiple init messages.");
+                connection.log("WARNING! The client received multiple init Messages.");
                 return;
             }
 
@@ -1323,8 +1323,8 @@
                     url += "/reconnect";
                 }
 
-                if (!ajaxPost && connection.messageId) {
-                    qs += "&messageId=" + window.encodeURIComponent(connection.messageId);
+                if (!ajaxPost && connection.MessageId) {
+                    qs += "&MessageId=" + window.encodeURIComponent(connection.MessageId);
                 }
             }
             url += "?" + qs;
@@ -1354,11 +1354,11 @@
             }
         },
 
-        stringifySend: function (connection, message) {
-            if (typeof (message) === "string" || typeof (message) === "undefined" || message === null) {
-                return message;
+        stringifySend: function (connection, Message) {
+            if (typeof (Message) === "string" || typeof (Message) === "undefined" || Message === null) {
+                return Message;
             }
-            return connection.json.stringify(message);
+            return connection.json.stringify(Message);
         },
 
         ajaxSend: function (connection, data) {
@@ -1493,7 +1493,7 @@
             if (persistentResponse.Initialized && onInitialized) {
                 onInitialized();
             } else if (persistentResponse.Initialized) {
-                connection.log("WARNING! The client received an init message after reconnecting.");
+                connection.log("WARNING! The client received an init Message after reconnecting.");
             }
 
         },
@@ -1507,7 +1507,7 @@
         processMessages: function (connection, minData, onInitialized) {
             var data;
 
-            // Update the last message time stamp
+            // Update the last Message time stamp
             transportLogic.markLastMessage(connection);
 
             if (minData) {
@@ -1516,12 +1516,12 @@
                 transportLogic.updateGroups(connection, data.GroupsToken);
 
                 if (data.MessageId) {
-                    connection.messageId = data.MessageId;
+                    connection.MessageId = data.MessageId;
                 }
 
                 if (data.Messages) {
-                    $.each(data.Messages, function (index, message) {
-                        transportLogic.triggerReceived(connection, message);
+                    $.each(data.Messages, function (index, Message) {
+                        transportLogic.triggerReceived(connection, Message);
                     });
 
                     transportLogic.tryInitialize(connection, data, onInitialized);
@@ -1540,7 +1540,7 @@
 
                 // Save the function so we can unbind it on stop
                 connection._.keepAliveData.reconnectKeepAliveUpdate = function () {
-                    // Mark a new message so that keep alive doesn't time out connections
+                    // Mark a new Message so that keep alive doesn't time out connections
                     transportLogic.markLastMessage(connection);
                 };
 
@@ -1611,9 +1611,9 @@
 
         verifyLastActive: function (connection) {
             if (new Date().getTime() - connection._.lastActiveAt >= connection.reconnectWindow) {
-                var message = signalR._.format(signalR.resources.reconnectWindowTimeout, new Date(connection._.lastActiveAt), connection.reconnectWindow);
-                connection.log(message);
-                $(connection).triggerHandler(events.onError, [signalR._.error(message, /* source */ "TimeoutException")]);
+                var Message = signalR._.format(signalR.resources.reconnectWindowTimeout, new Date(connection._.lastActiveAt), connection.reconnectWindow);
+                connection.log(Message);
+                $(connection).triggerHandler(events.onError, [signalR._.error(Message, /* source */ "TimeoutException")]);
                 connection.stop(/* async */ false, /* notifyServer */ false);
                 return false;
             }
@@ -1781,7 +1781,7 @@
                     }
                 };
 
-                connection.socket.onmessage = function (event) {
+                connection.socket.onMessage = function (event) {
                     var data;
 
                     try {
@@ -1931,10 +1931,10 @@
                 }
             }, false);
 
-            connection.eventSource.addEventListener("message", function (e) {
+            connection.eventSource.addEventListener("Message", function (e) {
                 var res;
 
-                // process messages
+                // process Messages
                 if (e.data === "initialized") {
                     return;
                 }
@@ -1973,7 +1973,7 @@
                     // We don't use the EventSource's native reconnect function as it
                     // doesn't allow us to change the URL when reconnecting. We need
                     // to change the URL to not include the /connect suffix, and pass
-                    // the last message id we received.
+                    // the last Message id we received.
                     connection.log("EventSource reconnecting due to the server connection ending.");
                     that.reconnect(connection);
                 } else {
@@ -2091,7 +2091,7 @@
                 url,
                 frame = createFrame(),
                 frameLoadHandler = function () {
-                    connection.log("Forever frame iframe finished loading and is no longer receiving messages.");
+                    connection.log("Forever frame iframe finished loading and is no longer receiving Messages.");
                     if (!onFailed || !onFailed()) {
                         that.reconnect(connection);
                     }
@@ -2224,7 +2224,7 @@
                         }
                     }
                     catch (e) {
-                        connection.log("Error occurred when stopping foreverFrame transport. Message = " + e.message + ".");
+                        connection.log("Error occurred when stopping foreverFrame transport. Message = " + e.Message + ".");
                     }
                 }
 
@@ -2300,7 +2300,7 @@
                     if (onSuccess) {
                         onSuccess();
                     } else {
-                        connection.log("WARNING! The client received an init message after reconnecting.");
+                        connection.log("WARNING! The client received an init Message after reconnecting.");
                     }
                 },
                 tryFailConnect = function (error) {
@@ -2333,21 +2333,21 @@
                 connection.stop();
             }
 
-            connection.messageId = null;
+            connection.MessageId = null;
 
             privateData.reconnectTimeoutId = null;
 
             privateData.pollTimeoutId = window.setTimeout(function () {
                 (function poll(instance, raiseReconnect) {
-                    var messageId = instance.messageId,
-                        connect = (messageId === null),
+                    var MessageId = instance.MessageId,
+                        connect = (MessageId === null),
                         reconnecting = !connect,
                         polling = !raiseReconnect,
                         url = transportLogic.getUrl(instance, that.name, reconnecting, polling, true /* use Post for longPolling */),
                         postData = {};
 
-                    if (instance.messageId) {
-                        postData.messageId = instance.messageId;
+                    if (instance.MessageId) {
+                        postData.MessageId = instance.MessageId;
                     }
 
                     if (instance.groupsToken) {
@@ -2392,7 +2392,7 @@
                                 return;
                             }
 
-                            // If there's currently a timeout to trigger reconnect, fire it now before processing messages
+                            // If there's currently a timeout to trigger reconnect, fire it now before processing Messages
                             if (privateData.reconnectTimeoutId !== null) {
                                 fireReconnected(instance);
                             }
@@ -2716,7 +2716,7 @@
                         error = signalR._.error(result.Error, source);
                         error.data = result.ErrorData;
 
-                        connection.log(that.hubName + "." + methodName + " failed to execute. Error: " + error.message);
+                        connection.log(that.hubName + "." + methodName + " failed to execute. Error: " + error.Message);
                         d.rejectWith(that, [error]);
                     } else {
                         // Server invocation succeeded, resolve the deferred
