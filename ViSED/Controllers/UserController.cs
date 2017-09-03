@@ -87,10 +87,10 @@ namespace ViSED.Controllers
                           where u.id == myAccount.user_id
                           select u).FirstOrDefault();
 
-            List<MyTask> msgList = new List<MyTask>();
+            List<Letters> msgList = new List<Letters>();
             for (int i = 0; i < user_to_id.Length; i++)
             {
-                MyTask msg = new MyTask
+                Letters msg = new Letters
                 {
                     from_user_id = myUser.id,
                     to_user_id = user_to_id[i],
@@ -99,7 +99,7 @@ namespace ViSED.Controllers
                     dateOfSend = DateTime.Now,
                     dateOfRead = null
                 };
-                vsdEnt.MyTask.Add(msg);
+                vsdEnt.Letters.Add(msg);
                 vsdEnt.SaveChanges();
                 msgList.Add(msg);
             }
@@ -123,14 +123,14 @@ namespace ViSED.Controllers
 
                 for (int i = 0; i < attachment.Length; i++)
                 {
-                    foreach (MyTask msg in msgList)
+                    foreach (Letters msg in msgList)
                     {
                         //обработка приложения
                         string extension = System.IO.Path.GetExtension(attachment[i].FileName);
                         string attachmnetName = System.IO.Path.GetFileName(attachment[i].FileName);
                         // сохраняем файл в папку Files в проекте
                         attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
-                        Attachments file = new Attachments { id_myTask = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension, attachedName = attachmnetName };
+                        Attachments file = new Attachments {id_letter = msg.id, attachedFile = "~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension, attachedName = attachmnetName };
 
                         vsdEnt.Attachments.Add(file);
                     }
@@ -148,14 +148,14 @@ namespace ViSED.Controllers
                               where m.id == id_mydoc
                               select m).FirstOrDefault();
 
-                    foreach (MyTask msg in msgList)
+                    foreach (Letters msg in msgList)
                     {
                         //обработка приложения
                         string extension = System.IO.Path.GetExtension(md.myDoc);
                         string attachmnetName = md.myDocName;
                         // сохраняем файл в папку Files в проекте
                         //attachment[i].SaveAs(Server.MapPath("~/Files/Attachments/" + myUser.id.ToString() + "/file_" + msg.id.ToString() + "_" + i.ToString() + extension));
-                        Attachments file = new Attachments { id_myTask = msg.id, attachedFile = md.myDoc, attachedName = attachmnetName };
+                        Attachments file = new Attachments { id_letter = msg.id, attachedFile = md.myDoc, attachedName = attachmnetName };
 
                         vsdEnt.Attachments.Add(file);
                     }
@@ -172,7 +172,7 @@ namespace ViSED.Controllers
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-            var msg = (from m in vsdEnt.MyTask
+            var msg = (from m in vsdEnt.Letters
                        where m.id == doc_id
                        select m).FirstOrDefault();
 
@@ -215,7 +215,7 @@ namespace ViSED.Controllers
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-            var msg = (from m in vsdEnt.MyTask
+            var msg = (from m in vsdEnt.Letters
                        where m.id == doc_id
                        select m).FirstOrDefault();
 
@@ -262,11 +262,11 @@ namespace ViSED.Controllers
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-            var MyTask = from m in vsdEnt.MyTask
+            var Letters = from m in vsdEnt.Letters
                           where m.to_user_id == myAccount.user_id
                           orderby m.dateOfSend descending
                           select m;
-            ViewBag.MyTask = MyTask;
+            ViewBag.Letters = Letters;
             ViewBag.Type = "vhod";
 
             return View();
@@ -279,20 +279,20 @@ namespace ViSED.Controllers
                              select u).FirstOrDefault();
             if (vidSoobsh== "vhod")
             {
-                 var MyTask = from m in vsdEnt.MyTask
+                 var Letters = from m in vsdEnt.Letters
                               where m.to_user_id == myAccount.user_id
                               orderby m.dateOfSend descending
                               select m;
-                ViewBag.MyTask = MyTask;
+                ViewBag.Letters = Letters;
                 ViewBag.Type = "vhod";
             }
             else
             {
-                var MyTask = from m in vsdEnt.MyTask
+                var Letters = from m in vsdEnt.Letters
                               where m.from_user_id == myAccount.user_id
                               orderby m.dateOfSend descending
                               select m;
-                ViewBag.MyTask = MyTask;
+                ViewBag.Letters = Letters;
                 ViewBag.Type = "ishod";
             }
 
@@ -305,31 +305,31 @@ namespace ViSED.Controllers
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-            var msgs = from m in vsdEnt.MyTask
+            var msgs = from m in vsdEnt.Letters
                        where (m.from_user_id == userId && m.to_user_id == myAccount.user_id) || (m.to_user_id == userId && m.from_user_id == myAccount.user_id)
                        orderby m.id
                        select m;
 
             var attachments = from a in vsdEnt.Attachments
                               from m in msgs
-                              where a.id_myTask == m.id
+                              where a.id_letter == m.id
                               select a;
 
             ViewBag.Attachments = attachments;
             ViewBag.MyAccount = myAccount;
             if (msgCount <= msgs.Count())
             {
-                ViewBag.MyTask = msgs.Skip<MyTask>(msgs.Count() - msgCount);
+                ViewBag.Letters = msgs.Skip<Letters>(msgs.Count() - msgCount);
             }
             else
             {
-                ViewBag.MyTask = msgs;
+                ViewBag.Letters = msgs;
             }
             ViewBag.UserId = userId;
             ViewBag.MsgCount = msgCount;
 
 
-            var msgAnswers = from m in vsdEnt.MyTask
+            var msgAnswers = from m in vsdEnt.Letters
                              where m.from_user_id == userId && m.to_user_id == myAccount.user_id && m.dateOfRead == null
                              select m;
 
@@ -351,29 +351,29 @@ namespace ViSED.Controllers
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-            var msgs = from m in vsdEnt.MyTask
+            var msgs = from m in vsdEnt.Letters
                        where (m.from_user_id == userId && m.to_user_id == myAccount.user_id) || (m.to_user_id == userId && m.from_user_id == myAccount.user_id)
                        orderby m.id
                        select m;
 
             var attachments = from a in vsdEnt.Attachments
                               from m in msgs
-                              where a.id_myTask == m.id
+                              where a.id_letter == m.id
                               select a;
             ViewBag.Attachments = attachments;
             if (msgCount <= msgs.Count())
             {
-                ViewBag.MyTask = msgs.Skip<MyTask>(msgs.Count() - msgCount);
+                ViewBag.Letters = msgs.Skip<Letters>(msgs.Count() - msgCount);
             }
             else
             {
-                ViewBag.MyTask = msgs;
+                ViewBag.Letters = msgs;
             }
             ViewBag.UserId = userId;
             ViewBag.MyAccount = myAccount;
             ViewBag.MsgCount = msgCount;
 
-            var msgAnswers = from m in vsdEnt.MyTask
+            var msgAnswers = from m in vsdEnt.Letters
                              where m.from_user_id == userId && m.to_user_id == myAccount.user_id && m.dateOfRead == null
                              select m;
 
@@ -393,7 +393,7 @@ namespace ViSED.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SavePdf(int doc_id)
         {
-            var msg = (from m in vsdEnt.MyTask
+            var msg = (from m in vsdEnt.Letters
                        where m.id == doc_id
                        select m).FirstOrDefault();
 

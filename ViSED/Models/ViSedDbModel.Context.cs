@@ -42,9 +42,9 @@ public partial class ViSedDBEntities : DbContext
 
     public virtual DbSet<Dolgnosti> Dolgnosti { get; set; }
 
-    public virtual DbSet<MyDocs> MyDocs { get; set; }
+    public virtual DbSet<Letters> Letters { get; set; }
 
-    public virtual DbSet<MyTask> MyTask { get; set; }
+    public virtual DbSet<MyDocs> MyDocs { get; set; }
 
     public virtual DbSet<Podrazdeleniya> Podrazdeleniya { get; set; }
 

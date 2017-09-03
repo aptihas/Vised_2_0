@@ -32,7 +32,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_myTask" Type="int" Nullable="false" />
+          <Property Name="id_letter" Type="int" Nullable="false" />
           <Property Name="attachedFile" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="attachedName" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
@@ -54,16 +54,7 @@
           <Property Name="UseAudio" Type="bit" Nullable="false" />
           <Property Name="NomerIerarhii" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="MyDocs">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="user_id" Type="int" Nullable="false" />
-          <Property Name="myDoc" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="myDocName" Type="nvarchar" MaxLength="250" Nullable="false" />
-        </EntityType>
-        <EntityType Name="MyTask">
+        <EntityType Name="Letters">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -74,6 +65,15 @@
           <Property Name="text" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="dateOfSend" Type="datetime" Nullable="false" />
           <Property Name="dateOfRead" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MyDocs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="myDoc" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="myDocName" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="Podrazdeleniya">
           <Key>
@@ -140,61 +140,61 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Attachments_Attachments">
-          <End Role="MyTask" Type="Self.MyTask" Multiplicity="1" />
+          <End Role="Letters" Type="Self.Letters" Multiplicity="1" />
           <End Role="Attachments" Type="Self.Attachments" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MyTask">
+            <Principal Role="Letters">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Attachments">
-              <PropertyRef Name="id_myTask" />
+              <PropertyRef Name="id_letter" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Message_DocType">
           <End Role="DocType" Type="Self.DocType" Multiplicity="1" />
-          <End Role="MyTask" Type="Self.MyTask" Multiplicity="*" />
+          <End Role="Letters" Type="Self.Letters" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DocType">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="MyTask">
+            <Dependent Role="Letters">
               <PropertyRef Name="doc_type_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Message_Message">
-          <End Role="MyTask" Type="Self.MyTask" Multiplicity="1" />
-          <End Role="MyTask1" Type="Self.MyTask" Multiplicity="0..1" />
+          <End Role="Letters" Type="Self.Letters" Multiplicity="1" />
+          <End Role="Letters1" Type="Self.Letters" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="MyTask">
+            <Principal Role="Letters">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="MyTask1">
+            <Dependent Role="Letters1">
               <PropertyRef Name="id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Message_User_From">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="MyTask" Type="Self.MyTask" Multiplicity="*" />
+          <End Role="Letters" Type="Self.Letters" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="MyTask">
+            <Dependent Role="Letters">
               <PropertyRef Name="from_user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Message_Users_To">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="MyTask" Type="Self.MyTask" Multiplicity="*" />
+          <End Role="Letters" Type="Self.Letters" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="MyTask">
+            <Dependent Role="Letters">
               <PropertyRef Name="to_user_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -241,8 +241,8 @@
           <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocType" EntityType="Self.DocType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dolgnosti" EntityType="Self.Dolgnosti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Letters" EntityType="Self.Letters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MyDocs" EntityType="Self.MyDocs" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MyTask" EntityType="Self.MyTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Podrazdeleniya" EntityType="Self.Podrazdeleniya" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -259,24 +259,24 @@
             <End Role="Admins" EntitySet="Admins" />
           </AssociationSet>
           <AssociationSet Name="FK_Attachments_Attachments" Association="Self.FK_Attachments_Attachments">
-            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
             <End Role="Attachments" EntitySet="Attachments" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_DocType" Association="Self.FK_Message_DocType">
             <End Role="DocType" EntitySet="DocType" />
-            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_Message" Association="Self.FK_Message_Message">
-            <End Role="MyTask" EntitySet="MyTask" />
-            <End Role="MyTask1" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
+            <End Role="Letters1" EntitySet="Letters" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_User_From" Association="Self.FK_Message_User_From">
             <End Role="Users" EntitySet="Users" />
-            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_Users_To" Association="Self.FK_Message_Users_To">
             <End Role="Users" EntitySet="Users" />
-            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
           </AssociationSet>
           <AssociationSet Name="FK_MyDocs_Users" Association="Self.FK_MyDocs_Users">
             <End Role="Users" EntitySet="Users" />
@@ -301,8 +301,8 @@
           <EntitySet Name="Attachments" EntityType="ViSedDBModel.Attachments" />
           <EntitySet Name="DocType" EntityType="ViSedDBModel.DocType" />
           <EntitySet Name="Dolgnosti" EntityType="ViSedDBModel.Dolgnosti" />
+          <EntitySet Name="Letters" EntityType="ViSedDBModel.Letters" />
           <EntitySet Name="MyDocs" EntityType="ViSedDBModel.MyDocs" />
-          <EntitySet Name="MyTask" EntityType="ViSedDBModel.MyTask" />
           <EntitySet Name="Podrazdeleniya" EntityType="ViSedDBModel.Podrazdeleniya" />
           <EntitySet Name="Roles" EntityType="ViSedDBModel.Roles" />
           <EntitySet Name="Users" EntityType="ViSedDBModel.Users" />
@@ -319,32 +319,32 @@
             <End Role="Admins" EntitySet="Admins" />
           </AssociationSet>
           <AssociationSet Name="FK_Attachments_Attachments" Association="ViSedDBModel.FK_Attachments_Attachments">
-            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
             <End Role="Attachments" EntitySet="Attachments" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_DocType" Association="ViSedDBModel.FK_Message_DocType">
             <End Role="DocType" EntitySet="DocType" />
-            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Dolgnosti" Association="ViSedDBModel.FK_Users_Dolgnosti">
             <End Role="Dolgnosti" EntitySet="Dolgnosti" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-          <AssociationSet Name="FK_MyDocs_Users" Association="ViSedDBModel.FK_MyDocs_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="MyDocs" EntitySet="MyDocs" />
-          </AssociationSet>
           <AssociationSet Name="FK_Message_Message" Association="ViSedDBModel.FK_Message_Message">
-            <End Role="MyTask" EntitySet="MyTask" />
-            <End Role="MyTask1" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
+            <End Role="Letters1" EntitySet="Letters" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_User_From" Association="ViSedDBModel.FK_Message_User_From">
             <End Role="Users" EntitySet="Users" />
-            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_Users_To" Association="ViSedDBModel.FK_Message_Users_To">
             <End Role="Users" EntitySet="Users" />
-            <End Role="MyTask" EntitySet="MyTask" />
+            <End Role="Letters" EntitySet="Letters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyDocs_Users" Association="ViSedDBModel.FK_MyDocs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MyDocs" EntitySet="MyDocs" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Podrazdeleniya" Association="ViSedDBModel.FK_Users_Podrazdeleniya">
             <End Role="Podrazdeleniya" EntitySet="Podrazdeleniya" />
@@ -381,10 +381,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_myTask" Type="Int32" Nullable="false" />
+          <Property Name="id_letter" Type="Int32" Nullable="false" />
           <Property Name="attachedFile" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="attachedName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MyTask" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Attachments" ToRole="MyTask" />
+          <NavigationProperty Name="Letters" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Attachments" ToRole="Letters" />
         </EntityType>
         <EntityType Name="DocType">
           <Key>
@@ -394,7 +394,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Use_Blank" Type="Boolean" Nullable="false" />
           <Property Name="Ierarhiya" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="MyTask" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="DocType" ToRole="MyTask" />
+          <NavigationProperty Name="Letters" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="DocType" ToRole="Letters" />
         </EntityType>
         <EntityType Name="Dolgnosti">
           <Key>
@@ -406,17 +406,7 @@
           <Property Name="NomerIerarhii" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Dolgnosti" ToRole="Users" />
         </EntityType>
-        <EntityType Name="MyDocs">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="user_id" Type="Int32" Nullable="false" />
-          <Property Name="myDoc" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="myDocName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_MyDocs_Users" FromRole="MyDocs" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="MyTask">
+        <EntityType Name="Letters">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -427,12 +417,22 @@
           <Property Name="text" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="dateOfSend" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="dateOfRead" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Attachments" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="MyTask" ToRole="Attachments" />
-          <NavigationProperty Name="DocType" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="MyTask" ToRole="DocType" />
-          <NavigationProperty Name="MyTask1" Relationship="ViSedDBModel.FK_Message_Message" FromRole="MyTask" ToRole="MyTask1" />
-          <NavigationProperty Name="MyTask2" Relationship="ViSedDBModel.FK_Message_Message" FromRole="MyTask1" ToRole="MyTask" />
-          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="MyTask" ToRole="Users" />
-          <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="MyTask" ToRole="Users" />
+          <NavigationProperty Name="Attachments" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Letters" ToRole="Attachments" />
+          <NavigationProperty Name="DocType" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="Letters" ToRole="DocType" />
+          <NavigationProperty Name="Letters1" Relationship="ViSedDBModel.FK_Message_Message" FromRole="Letters" ToRole="Letters1" />
+          <NavigationProperty Name="Letters2" Relationship="ViSedDBModel.FK_Message_Message" FromRole="Letters1" ToRole="Letters" />
+          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Letters" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Letters" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="MyDocs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="myDoc" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="myDocName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_MyDocs_Users" FromRole="MyDocs" ToRole="Users" />
         </EntityType>
         <EntityType Name="Podrazdeleniya">
           <Key>
@@ -466,9 +466,9 @@
           <Property Name="foto" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Accounts" Relationship="ViSedDBModel.FK_Accounts_Users" FromRole="Users" ToRole="Accounts" />
           <NavigationProperty Name="Dolgnosti" Relationship="ViSedDBModel.FK_Users_Dolgnosti" FromRole="Users" ToRole="Dolgnosti" />
+          <NavigationProperty Name="Letters" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Users" ToRole="Letters" />
+          <NavigationProperty Name="Letters1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Users" ToRole="Letters" />
           <NavigationProperty Name="MyDocs" Relationship="ViSedDBModel.FK_MyDocs_Users" FromRole="Users" ToRole="MyDocs" />
-          <NavigationProperty Name="MyTask" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Users" ToRole="MyTask" />
-          <NavigationProperty Name="MyTask1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Users" ToRole="MyTask" />
           <NavigationProperty Name="Podrazdeleniya" Relationship="ViSedDBModel.FK_Users_Podrazdeleniya" FromRole="Users" ToRole="Podrazdeleniya" />
         </EntityType>
         <Association Name="FK_Accounts_Roles">
@@ -508,25 +508,25 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Attachments_Attachments">
-          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="1" />
+          <End Type="ViSedDBModel.Letters" Role="Letters" Multiplicity="1" />
           <End Type="ViSedDBModel.Attachments" Role="Attachments" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MyTask">
+            <Principal Role="Letters">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Attachments">
-              <PropertyRef Name="id_myTask" />
+              <PropertyRef Name="id_letter" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Message_DocType">
           <End Type="ViSedDBModel.DocType" Role="DocType" Multiplicity="1" />
-          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="*" />
+          <End Type="ViSedDBModel.Letters" Role="Letters" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DocType">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="MyTask">
+            <Dependent Role="Letters">
               <PropertyRef Name="doc_type_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -543,6 +543,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Message_Message">
+          <End Type="ViSedDBModel.Letters" Role="Letters" Multiplicity="1" />
+          <End Type="ViSedDBModel.Letters" Role="Letters1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Letters">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Letters1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_User_From">
+          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ViSedDBModel.Letters" Role="Letters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Letters">
+              <PropertyRef Name="from_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_Users_To">
+          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ViSedDBModel.Letters" Role="Letters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Letters">
+              <PropertyRef Name="to_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MyDocs_Users">
           <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
           <End Type="ViSedDBModel.MyDocs" Role="MyDocs" Multiplicity="*" />
@@ -552,42 +588,6 @@
             </Principal>
             <Dependent Role="MyDocs">
               <PropertyRef Name="user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Message_Message">
-          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="1" />
-          <End Type="ViSedDBModel.MyTask" Role="MyTask1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="MyTask">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MyTask1">
-              <PropertyRef Name="id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Message_User_From">
-          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
-          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MyTask">
-              <PropertyRef Name="from_user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Message_Users_To">
-          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
-          <End Type="ViSedDBModel.MyTask" Role="MyTask" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MyTask">
-              <PropertyRef Name="to_user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -638,7 +638,7 @@
               <MappingFragment StoreEntitySet="Attachments">
                 <ScalarProperty Name="attachedName" ColumnName="attachedName" />
                 <ScalarProperty Name="attachedFile" ColumnName="attachedFile" />
-                <ScalarProperty Name="id_myTask" ColumnName="id_myTask" />
+                <ScalarProperty Name="id_letter" ColumnName="id_letter" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -663,25 +663,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MyDocs">
-            <EntityTypeMapping TypeName="ViSedDBModel.MyDocs">
-              <MappingFragment StoreEntitySet="MyDocs">
-                <ScalarProperty Name="myDocName" ColumnName="myDocName" />
-                <ScalarProperty Name="myDoc" ColumnName="myDoc" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MyTask">
-            <EntityTypeMapping TypeName="ViSedDBModel.MyTask">
-              <MappingFragment StoreEntitySet="MyTask">
+          <EntitySetMapping Name="Letters">
+            <EntityTypeMapping TypeName="ViSedDBModel.Letters">
+              <MappingFragment StoreEntitySet="Letters">
                 <ScalarProperty Name="dateOfRead" ColumnName="dateOfRead" />
                 <ScalarProperty Name="dateOfSend" ColumnName="dateOfSend" />
                 <ScalarProperty Name="text" ColumnName="text" />
                 <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
                 <ScalarProperty Name="to_user_id" ColumnName="to_user_id" />
                 <ScalarProperty Name="from_user_id" ColumnName="from_user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyDocs">
+            <EntityTypeMapping TypeName="ViSedDBModel.MyDocs">
+              <MappingFragment StoreEntitySet="MyDocs">
+                <ScalarProperty Name="myDocName" ColumnName="myDocName" />
+                <ScalarProperty Name="myDoc" ColumnName="myDoc" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

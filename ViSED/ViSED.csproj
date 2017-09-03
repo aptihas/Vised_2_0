@@ -218,10 +218,10 @@
     <Compile Include="Models\Dolgnosti.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MyDocs.cs">
+    <Compile Include="Models\Letters.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MyTask.cs">
+    <Compile Include="Models\MyDocs.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Podrazdeleniya.cs">

@@ -24,11 +24,11 @@ public partial class Users
 
         this.Accounts = new HashSet<Accounts>();
 
+        this.Letters = new HashSet<Letters>();
+
+        this.Letters1 = new HashSet<Letters>();
+
         this.MyDocs = new HashSet<MyDocs>();
-
-        this.MyTask = new HashSet<MyTask>();
-
-        this.MyTask1 = new HashSet<MyTask>();
 
     }
 
@@ -59,15 +59,15 @@ public partial class Users
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
+    public virtual ICollection<Letters> Letters { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Letters> Letters1 { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
     public virtual ICollection<MyDocs> MyDocs { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<MyTask> MyTask { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<MyTask> MyTask1 { get; set; }
 
     public virtual Podrazdeleniya Podrazdeleniya { get; set; }
 

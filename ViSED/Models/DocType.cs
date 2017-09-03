@@ -22,7 +22,7 @@ public partial class DocType
     public DocType()
     {
 
-        this.MyTask = new HashSet<MyTask>();
+        this.Letters = new HashSet<Letters>();
 
     }
 
@@ -39,7 +39,7 @@ public partial class DocType
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<MyTask> MyTask { get; set; }
+    public virtual ICollection<Letters> Letters { get; set; }
 
 }
 
