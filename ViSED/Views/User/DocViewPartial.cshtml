@@ -13,7 +13,7 @@
                 @if (docType.Use_Blank == true)
                 {
                     <img src="@Url.Content(userFrom.Blank)" />
-                    <div>№@UserForNomer.indexNum/@ViewBag.Msg.id от @ViewBag.Msg.dateOfSend.ToShortDateString()</div>
+                    <div> от @ViewBag.Msg.dateOfSend.ToShortDateString() №@UserForNomer.indexNum/@ViewBag.Msg.id</div>
                 }
                 else
                 {
