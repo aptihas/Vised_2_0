@@ -198,7 +198,7 @@
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MyDocsController.cs" />
-    <Compile Include="Controllers\MyTaskController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -228,6 +228,9 @@
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Roles.cs">
+      <DependentUpon>ViSedDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tasks.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Users.cs">
@@ -314,7 +317,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Files\Attachments\10\" />
     <Folder Include="Files\BlanksOfPodrazdeleni\" />
-    <Folder Include="Views\MyTask\" />
+    <Folder Include="Views\Task\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

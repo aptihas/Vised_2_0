@@ -180,7 +180,12 @@ body {
     -webkit-filter: contrast(1.5);
     filter: contrast(1.5);
 }
-
+.overflowClassDialog {
+    padding: 5px;
+    height: 70vh;
+    box-shadow: 0px 0px -1px 2px #abc4ed;
+    overflow: auto;
+}
 .renderBody {
     padding: 20px;
     margin-top:-160px;
@@ -196,7 +201,6 @@ body {
 
 .gridVised {
     display: grid;
-    height: 100%;
     width: 100%;
     grid-template-columns: 200px 1fr;
 }
@@ -210,21 +214,21 @@ body {
     box-shadow: 0px 0px 2px 2px #dfe4ed;
 }
 
-    .correspondenceItem:hover {
-        padding: 15px;
-        font-size: 12pt;
-        transition: 0.3s;
-        cursor: pointer;
-        margin: 10px;
-        box-shadow: 0px 0px 1px 2px #abc4ed;
-    }
+.correspondenceItem:hover {
+    padding: 15px;
+    font-size: 12pt;
+    transition: 0.3s;
+    cursor: pointer;
+    margin: 10px;
+    box-shadow: 0px 0px 1px 2px #abc4ed;
+}
 
-    .correspondenceItem div {
-        background-color: #fff;
-        padding: 5px;
-        font-size: 9pt !important;
-        box-shadow: 0px 0px 1px 1px #e8f0ff;
-    }
+.correspondenceItem div {
+    background-color: #fff;
+    padding: 5px;
+    font-size: 9pt !important;
+    box-shadow: 0px 0px 1px 1px #e8f0ff;
+}
 
 
 .bumagaA4 {
@@ -305,32 +309,34 @@ body {
     border-collapse: collapse;
     color: #4E5E6A;
     margin: 10px;
-    width: 100%;
+    width: 95%;
     box-shadow: 0px 0px 2px 2px #dfe4ed;
 }
 
-    .table_col th:first-child, .table_col td:first-child {
-        color: #4E5E6A;
-        border-left: none;
-    }
 
-    .table_col th {
-        font-weight: 600;
-        border-bottom: 2px solid #4E5E6A;
-        border-right: 20px solid white;
-        border-left: 20px solid white;
-        padding: 8px 10px;
-    }
-    .table_col tr:hover {
-        background-color:aliceblue;
-        cursor:pointer;
-    }
+.table_col tr th {
+    font-weight: 600;
+    border-bottom: 2px solid #4E5E6A;
+    border-right: 20px solid white;
+    border-left: 20px solid white;
+    padding: 8px 10px;
+}
 
-    .table_col td {
+.table_col tr:nth-child(n+2):hover {
+    background-color:aliceblue;
+    cursor:pointer;
+}
 
-        padding: 12px 10px;
-        color: #8b8e91;
-    }
+.table_col tr td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #fff;
+    color: #8b8e91;
+}
+.table_col tr td:hover {
+    padding: 12px 10px;
+    border-bottom:1px solid #4E5E6A;
+    color: #8b8e91;
+}
 
 .docSelectItem {
     box-shadow: 0px 0px 2px 2px #dfe4ed;
@@ -463,10 +469,10 @@ body {
 }
 
 .footer {
-    text-align: right;
+    text-align: left;
+    padding-left:10px;
     color: #4E5E6A;
-    font-size:10px;
-    padding: 10px;
+    font-size:8px;
     font-weight:600;
 }
 

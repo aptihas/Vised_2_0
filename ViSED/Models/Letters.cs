@@ -24,6 +24,8 @@ public partial class Letters
 
         this.Attachments = new HashSet<Attachments>();
 
+        this.Tasks = new HashSet<Tasks>();
+
     }
 
 
@@ -49,13 +51,13 @@ public partial class Letters
 
     public virtual DocType DocType { get; set; }
 
-    public virtual Letters Letters1 { get; set; }
-
-    public virtual Letters Letters2 { get; set; }
-
     public virtual Users Users { get; set; }
 
     public virtual Users Users1 { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Tasks> Tasks { get; set; }
 
 }
 

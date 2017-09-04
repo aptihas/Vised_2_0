@@ -7,10 +7,6 @@
 
 
 <div id="results">
-    @using (Ajax.BeginForm("DialogPartial", "User", new { userId = ViewBag.UserId, msgCount = msgCountr + 3 }, new AjaxOptions { UpdateTargetId = "results" }, null))
-    {
-        <input type="submit" value="Загрузить предыдущие сообщения" class="knopka" />
-    }
 
 
     @foreach (ViSED.Models.Letters msg in ViewBag.Letters)
@@ -22,12 +18,12 @@
 
                 @if (msg.dateOfRead == null)
                 {
-                    <div style="text-align:right; font-weight:600;">@msg.DocType.Name №@msg.Users.indexNum/@msg.id от @msg.dateOfSend.ToShortDateString() <span style="font-size:10px;float:left;">Доставлено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
+                    <div style="text-align:right; font-weight:600;">@msg.DocType.Name от @msg.dateOfSend.ToShortDateString() №@msg.Users.indexNum/@msg.id <span style="font-size:10px;float:left;">Доставлено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
                     <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
                 }
                 else
                 {
-                    <div style="text-align:right;font-weight:600;">@msg.DocType.Name №@msg.Users.indexNum/@msg.id от @msg.dateOfSend.ToShortDateString() <span style="font-size:10px;float:left;">Прочитано @msg.dateOfRead.ToString() </span></div>
+                    <div style="text-align:right;font-weight:600;">@msg.DocType.Name от @msg.dateOfSend.ToShortDateString() №@msg.Users.indexNum/@msg.id <span style="font-size:10px;float:left;">Прочитано @msg.dateOfRead.ToString() </span></div>
                     <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
                 }
                 @{
@@ -50,7 +46,7 @@
      else
      {
          <div class="bumagaA4" onclick="location.href='@Url.Action("DocView","User", new { doc_id=msg.id })'">
-             <div style="text-align:left;font-weight:600;">@msg.DocType.Name  №@msg.Users.indexNum/@msg.id от @msg.dateOfSend.ToShortDateString() <span style="font-size:10px;text-align:right;float:right;">Получено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
+             <div style="text-align:left;font-weight:600;">@msg.DocType.Name от @msg.dateOfSend.ToShortDateString() №@msg.Users.indexNum/@msg.id <span style="font-size:10px;text-align:right;float:right;">Получено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
              <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
              @{
                  var attachs = from a in vsdEnt.Attachments

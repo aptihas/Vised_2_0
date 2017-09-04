@@ -4,28 +4,30 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d1dc487a7ae345bfa8a40765c022244a" Name="Diagram1" ZoomLevel="78">
-        <EntityTypeShape EntityType="ViSedDBModel.Accounts" Width="1.5" PointX="5.25" PointY="4.75" />
-        <EntityTypeShape EntityType="ViSedDBModel.Admins" Width="1.5" PointX="5.25" PointY="8.25" />
-        <EntityTypeShape EntityType="ViSedDBModel.Attachments" Width="1.5" PointX="10.5" PointY="5" />
-        <EntityTypeShape EntityType="ViSedDBModel.DocType" Width="1.5" PointX="6" PointY="2" />
-        <EntityTypeShape EntityType="ViSedDBModel.Dolgnosti" Width="1.5" PointX="0.75" PointY="2" />
-        <EntityTypeShape EntityType="ViSedDBModel.Letters" Width="1.5" PointX="8.25" PointY="4.25" />
-        <EntityTypeShape EntityType="ViSedDBModel.MyDocs" Width="1.5" PointX="5.25" PointY="12.375" />
-        <EntityTypeShape EntityType="ViSedDBModel.Podrazdeleniya" Width="1.5" PointX="0.75" PointY="5.125" />
-        <EntityTypeShape EntityType="ViSedDBModel.Roles" Width="1.5" PointX="3" PointY="1.125" />
-        <EntityTypeShape EntityType="ViSedDBModel.Users" Width="1.5" PointX="3" PointY="4.125" />
+      <Diagram DiagramId="d1dc487a7ae345bfa8a40765c022244a" Name="Diagram1" ZoomLevel="58">
+        <EntityTypeShape EntityType="ViSedDBModel.Accounts" Width="1.5" PointX="8.25" PointY="5.875" />
+        <EntityTypeShape EntityType="ViSedDBModel.Admins" Width="1.5" PointX="8.25" PointY="1.75" />
+        <EntityTypeShape EntityType="ViSedDBModel.Attachments" Width="1.5" PointX="10" PointY="2.5" />
+        <EntityTypeShape EntityType="ViSedDBModel.DocType" Width="1.5" PointX="3" PointY="2.125" />
+        <EntityTypeShape EntityType="ViSedDBModel.Dolgnosti" Width="1.5" PointX="0.75" PointY="3.125" />
+        <EntityTypeShape EntityType="ViSedDBModel.Letters" Width="1.5" PointX="5.25" PointY="5.375" />
+        <EntityTypeShape EntityType="ViSedDBModel.MyDocs" Width="1.5" PointX="13.375" PointY="4.375" />
+        <EntityTypeShape EntityType="ViSedDBModel.Podrazdeleniya" Width="1.5" PointX="0.75" PointY="6.125" />
+        <EntityTypeShape EntityType="ViSedDBModel.Roles" Width="1.5" PointX="6" PointY="2.125" />
+        <EntityTypeShape EntityType="ViSedDBModel.Tasks" Width="1.5" PointX="10.5" PointY="5.625" />
+        <EntityTypeShape EntityType="ViSedDBModel.Users" Width="1.5" PointX="3" PointY="5.125" />
         <AssociationConnector Association="ViSedDBModel.FK_Accounts_Roles" />
         <AssociationConnector Association="ViSedDBModel.FK_Accounts_Users" />
         <AssociationConnector Association="ViSedDBModel.FK_Admins_Roles1" />
         <AssociationConnector Association="ViSedDBModel.FK_Attachments_Attachments" />
         <AssociationConnector Association="ViSedDBModel.FK_Message_DocType" />
         <AssociationConnector Association="ViSedDBModel.FK_Users_Dolgnosti" />
-        <AssociationConnector Association="ViSedDBModel.FK_Message_Message" />
         <AssociationConnector Association="ViSedDBModel.FK_Message_User_From" />
         <AssociationConnector Association="ViSedDBModel.FK_Message_Users_To" />
+        <AssociationConnector Association="ViSedDBModel.FK_Tasks_Tasks" />
         <AssociationConnector Association="ViSedDBModel.FK_MyDocs_Users" />
         <AssociationConnector Association="ViSedDBModel.FK_Users_Podrazdeleniya" />
+        <AssociationConnector Association="ViSedDBModel.FK_Tasks_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

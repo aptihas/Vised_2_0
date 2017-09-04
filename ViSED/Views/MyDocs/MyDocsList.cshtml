@@ -5,28 +5,36 @@
 }
 
 <h4  class="zagolovki">Мои документы</h4>
-
+<script>
+    window.onload = function () {
+        var block = document.getElementById("scroll");
+        block.scrollTop = block.scrollHeight;
+    }
+</script>
 <br />
     @Html.ActionLink("Добавить новый документ", "AddDoc","MyDocs",null, new { @class = "ssilka" })
 <br /><br />
-<table class="table_col">
+<div id="scroll" class="overflowClassDialog">
+    <table class="table_col">
 
-    <tr>
-        <th>
-            Наименование документа
-        </th>
-        <th style="width:20%;">Действия</th>
-    </tr>
+        <tr>
+            <th>
+                Наименование документа
+            </th>
+            <th style="width:20%;">Действия</th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.myDocName)
-        </td>
-        <td>
-            <a class = "ssilka"  href="@Url.Content(item.myDoc)">Скачать</a> 
-            @Html.ActionLink("Удалить", "DocDelete","MyDocs", new { id=item.id }, new { @class = "ssilka" })
-        </td>
-    </tr>
-}
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="border-bottom:1px solid #fff;">
+                    @Html.DisplayFor(modelItem => item.myDocName)
+                </td>
+                <td style="border-bottom:1px solid #fff;">
+                    <a class="ssilka" href="@Url.Content(item.myDoc)">Скачать</a>
+                    @Html.ActionLink("Удалить", "DocDelete","MyDocs", new { id=item.id }, new { @class = "ssilka" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

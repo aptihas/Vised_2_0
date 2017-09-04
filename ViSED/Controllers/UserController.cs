@@ -194,6 +194,8 @@ namespace ViSED.Controllers
             ViewBag.UserFrom = SklonenieFrom(userFrom);
             ViewBag.DocType = doc_type;
             ViewBag.Msg = msg;
+            msg.dateOfRead = DateTime.Now;
+            vsdEnt.SaveChanges();
 
             //проверка относится ли пользователь к запрошиваемым документам. Если да то документ выводится
             if ((myAccount.user_id == msg.from_user_id) || (myAccount.user_id == msg.to_user_id))
