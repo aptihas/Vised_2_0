@@ -253,6 +253,7 @@
     </Compile>
     <Compile Include="ProgramLogic\DeclensionBLL.cs" />
     <Compile Include="ProgramLogic\LoginModel.cs" />
+    <Compile Include="ProgramLogic\UniverseClassViSed.cs" />
     <Compile Include="ProgramLogic\userModelFoSklonen.cs" />
     <Compile Include="ProgramLogic\ViSedRolesAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

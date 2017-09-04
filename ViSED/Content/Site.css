@@ -393,8 +393,10 @@ body {
     text-overflow: ellipsis;
     box-shadow: 0px 0px 1px 1px #abc4ed;
     border:none;
+    cursor:pointer;
     color: #fff;
     background-color: #34425a;
+
 }
 
 

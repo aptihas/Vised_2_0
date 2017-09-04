@@ -19,12 +19,12 @@
                 @if (msg.dateOfRead == null)
                 {
                     <div style="text-align:right; font-weight:600;">@msg.DocType.Name от @msg.dateOfSend.ToShortDateString() №@msg.Users.indexNum/@msg.id <span style="font-size:10px;float:left;">Доставлено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
-                    <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
+                    <div style="text-align:justify;font-size:12px;margin:10px;">@ViSED.ProgramLogic.UniverseClassViSed.Words(msg.text,5)</div>
                 }
                 else
                 {
                     <div style="text-align:right;font-weight:600;">@msg.DocType.Name от @msg.dateOfSend.ToShortDateString() №@msg.Users.indexNum/@msg.id <span style="font-size:10px;float:left;">Прочитано @msg.dateOfRead.ToString() </span></div>
-                    <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
+                    <div style="text-align:justify;font-size:12px;margin:10px;">@ViSED.ProgramLogic.UniverseClassViSed.Words(msg.text, 5)</div>
                 }
                 @{
                     var attachs = from a in vsdEnt.Attachments
@@ -47,7 +47,7 @@
      {
          <div class="bumagaA4" onclick="location.href='@Url.Action("DocView","User", new { doc_id=msg.id })'">
              <div style="text-align:left;font-weight:600;">@msg.DocType.Name от @msg.dateOfSend.ToShortDateString() №@msg.Users.indexNum/@msg.id <span style="font-size:10px;text-align:right;float:right;">Получено @msg.dateOfSend.ToShortDateString() @msg.dateOfSend.ToShortTimeString()</span></div>
-             <div style="text-align:justify;font-size:12px;margin:10px;">@msg.text</div>
+             <div style="text-align:justify;font-size:12px;margin:10px;">@ViSED.ProgramLogic.UniverseClassViSed.Words(msg.text, 5)</div>
              @{
                  var attachs = from a in vsdEnt.Attachments
                                where a.id_letter == msg.id

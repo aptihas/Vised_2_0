@@ -34,6 +34,7 @@
         var files = document.getElementById("files");
         files.style = "display:inherit;"
     }
+
 </script>
 <h4 class="zagolovki">Данные документа</h4>
 
@@ -44,17 +45,18 @@
     @Html.AntiForgeryToken()
 
     <div id="poluchateli">
-        <p>Получатель</p>
-        @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select", @style="height:360px;" })
+        <br />
+        <p>Выберите получателей</p>
+        @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select", @style="height:360px;"})
         <input name="doc_id" type="text" value="@ViewBag.Doc.id" style="visibility:hidden;" />
         <br />
-        <span onclick="poluchateli()" class="knopka" >Далее</span>
+        <span id="poluchKnopka" onclick="poluchateli()" class="knopka" >Далее</span>
     </div>
 
     <br />
 
     <div id="text" style="display:none;">
-        <p>Текст документа</p>
+        <p>Введите текст документа</p>
         <textarea name="text" cols="45" rows="20" class="textArea"> </textarea>
         <br /><br />
         <span onclick="backFist()" class="knopka">Назад</span>
@@ -62,7 +64,7 @@
     </div>
 
     <div id="files"  style="display:none;">
-        <p>Приложения</p>
+        <p>Прикрепить приложения</p>
         <div class="file-upload">
             <label>
                 <input type="file" name="attachment" multiple onchange="getFileName ();" id="uploaded-file">
