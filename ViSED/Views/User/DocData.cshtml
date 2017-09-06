@@ -1,41 +1,7 @@
 ﻿@{
     ViewBag.Title = "Данные документа";
 }
-<script>
-    function getFileName() {
-        var file = document.getElementById('uploaded-file').value;
-        file = file.replace(/\\/g, "/").split ('/').pop ();
-        document.getElementById('file-name').innerHTML = 'Имя файла: ' + file;
-    }
-
-    function backFist() {
-        var poluchateli = document.getElementById("poluchateli");
-        poluchateli.style = "display:inherit;"
-        var text = document.getElementById("text");
-        text.style = "display:none;"
-    }
-    function backSecond() {
-        var text = document.getElementById("text");
-        text.style = "display:inherit;"
-        var files = document.getElementById("files");
-        files.style = "display:none;"
-    }
-
-    function poluchateli() {
-        var poluchateli = document.getElementById("poluchateli");
-        poluchateli.style = "display:none;"
-        var text = document.getElementById("text");
-        text.style = "display:inherit;"
-    }
-
-    function text() {
-        var text = document.getElementById("text");
-        text.style = "display:none;"
-        var files = document.getElementById("files");
-        files.style = "display:inherit;"
-    }
-
-</script>
+<script src="~/Scripts/myScripts.js" type="text/javascript"></script>
 <h4 class="zagolovki">Данные документа</h4>
 
 
@@ -45,12 +11,24 @@
     @Html.AntiForgeryToken()
 
     <div id="poluchateli">
-        <br />
+        <p>Выберите вид</p>
+
+        <select id="taskType" name="taskType" onchange="letterType()">
+            <option value="1">Для исполнения</option>
+            <option value="2" selected>Для ознакомления</option>
+        </select>
+        <br /><br />
+
+        <div id="deadline" style="display:none;">
+            <p>Исполнить до</p>
+            <input name="deadline" type="date" value="@DateTime.Now.AddDays(10).ToString("yyyy-MM-dd")">
+            <br /><br />
+        </div>
         <p>Выберите получателей</p>
-        @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select", @style="height:360px;"})
+        @Html.DropDownList("user_to_id", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select", @style="height:260px;"})
         <input name="doc_id" type="text" value="@ViewBag.Doc.id" style="visibility:hidden;" />
         <br />
-        <span id="poluchKnopka" onclick="poluchateli()" class="knopka" >Далее</span>
+        <div id="poluchKnopka" onclick="poluchateli()" class="knopkaDiv" >Далее</div>
     </div>
 
     <br />
@@ -59,8 +37,8 @@
         <p>Введите текст документа</p>
         <textarea name="text" cols="45" rows="20" class="textArea"> </textarea>
         <br /><br />
-        <span onclick="backFist()" class="knopka">Назад</span>
-        <span onclick="text()" class="knopka">Далее</span>
+        <div onclick="backFist()" class="knopkaDiv" style="float:left;">Назад</div>
+        <div onclick="text()" class="knopkaDiv">Далее</div>
     </div>
 
     <div id="files"  style="display:none;">
@@ -85,7 +63,7 @@
         </select>
         <br />
 
-        <span onclick="backSecond()" class="knopka">Назад</span> 
+        <div onclick="backSecond()" class="knopkaDiv">Назад</div> 
         <br /><br />
         <input type="submit" value="Завершить и отправить" class="knopka" />
     </div>

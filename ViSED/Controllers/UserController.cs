@@ -77,7 +77,7 @@ namespace ViSED.Controllers
             return View();
         }
 
-        public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment)
+        public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment, int taskType,DateTime deadline)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -86,7 +86,9 @@ namespace ViSED.Controllers
             var myUser = (from u in vsdEnt.Users
                           where u.id == myAccount.user_id
                           select u).FirstOrDefault();
-
+            var docType = (from d in vsdEnt.DocType
+                           where d.id == doc_id
+                           select d).FirstOrDefault();
             List<Letters> msgList = new List<Letters>();
             for (int i = 0; i < user_to_id.Length; i++)
             {
@@ -101,6 +103,10 @@ namespace ViSED.Controllers
                 };
                 vsdEnt.Letters.Add(msg);
                 vsdEnt.SaveChanges();
+
+                DateTime? _deadline = taskType == 1 ? deadline : (DateTime?)null;
+                CreateTask(msg.id, myAccount.user_id, user_to_id[i], _deadline,msg.text, taskType,false, docType.Name);
+
                 msgList.Add(msg);
             }
 
@@ -448,6 +454,29 @@ namespace ViSED.Controllers
             usr.SecondName = petrovich.Inflect(usr.SecondName, NamePart.FirstName, NPetrovichLite.Case.Genitive);
             usr.ThirdName = petrovich.Inflect(usr.ThirdName, NamePart.MiddleName, NPetrovichLite.Case.Genitive);
             return usr;
+        }
+
+        public void CreateTask(int? _id_letter, int? _user_id_from, int _user_id_to, DateTime? _deadLine, string _taskText, int _taskType, bool _compleate, string _taskName)
+        {
+            Models.Accounts myAccount = (from u in vsdEnt.Accounts
+                                         where u.login == User.Identity.Name
+                                         select u).FirstOrDefault();
+
+            Models.Tasks _task = new Models.Tasks()
+            {
+                id_letter = _id_letter ?? null,
+                user_id_from = _user_id_from ?? null,
+                user_id_to = _user_id_to,
+                dateOfCreate = DateTime.Now,
+                dateDeadline = _deadLine ?? null,
+                taskText = _taskText,
+                taskType = _taskType,
+                complete = _compleate,
+                taskName = _taskName
+            };
+            vsdEnt.Tasks.Add(_task);
+            vsdEnt.SaveChanges();
+
         }
     }
 }

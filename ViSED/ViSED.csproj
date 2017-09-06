@@ -189,6 +189,7 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\myScripts.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +308,8 @@
     <Content Include="Views\Manager\CorrespondenceJournalPartial.cshtml" />
     <Content Include="Views\User\CorrespondenceListPartial.cshtml" />
     <Content Include="Views\Admin\DolgnostIerarhi.cshtml" />
+    <Content Include="Views\Task\TasksList.cshtml" />
+    <Content Include="Views\Task\TasksListPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -318,7 +321,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Files\Attachments\10\" />
     <Folder Include="Files\BlanksOfPodrazdeleni\" />
-    <Folder Include="Views\Task\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

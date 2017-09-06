@@ -32,6 +32,8 @@ public partial class Users
 
         this.Tasks = new HashSet<Tasks>();
 
+        this.Tasks1 = new HashSet<Tasks>();
+
     }
 
 
@@ -76,6 +78,10 @@ public partial class Users
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Tasks> Tasks { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Tasks> Tasks1 { get; set; }
 
 }
 

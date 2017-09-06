@@ -95,12 +95,15 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_letter" Type="int" Nullable="false" />
-          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="id_letter" Type="int" />
+          <Property Name="user_id_from" Type="int" />
+          <Property Name="user_id_to" Type="int" Nullable="false" />
           <Property Name="taskText" Type="nvarchar" MaxLength="500" />
           <Property Name="complete" Type="bit" Nullable="false" />
           <Property Name="dateOfCreate" Type="date" Nullable="false" />
           <Property Name="dateDeadline" Type="date" />
+          <Property Name="taskType" Type="int" Nullable="false" />
+          <Property Name="taskName" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -212,7 +215,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tasks_Tasks">
-          <End Role="Letters" Type="Self.Letters" Multiplicity="1" />
+          <End Role="Letters" Type="Self.Letters" Multiplicity="0..1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Letters">
@@ -223,7 +226,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tasks_Users">
+        <Association Name="FK_Tasks_Users_From">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="user_id_from" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Users_to">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
@@ -231,7 +246,7 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Tasks">
-              <PropertyRef Name="user_id" />
+              <PropertyRef Name="user_id_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -307,7 +322,11 @@
             <End Role="Letters" EntitySet="Letters" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tasks_Users" Association="Self.FK_Tasks_Users">
+          <AssociationSet Name="FK_Tasks_Users_From" Association="Self.FK_Tasks_Users_From">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Users_to" Association="Self.FK_Tasks_Users_to">
             <End Role="Users" EntitySet="Users" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
@@ -380,7 +399,11 @@
             <End Role="Podrazdeleniya" EntitySet="Podrazdeleniya" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tasks_Users" Association="ViSedDBModel.FK_Tasks_Users">
+          <AssociationSet Name="FK_Tasks_Users_From" Association="ViSedDBModel.FK_Tasks_Users_From">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Users_to" Association="ViSedDBModel.FK_Tasks_Users_to">
             <End Role="Users" EntitySet="Users" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
@@ -490,14 +513,18 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_letter" Type="Int32" Nullable="false" />
-          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="id_letter" Type="Int32" />
+          <Property Name="user_id_from" Type="Int32" />
+          <Property Name="user_id_to" Type="Int32" Nullable="false" />
           <Property Name="taskText" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="complete" Type="Boolean" Nullable="false" />
           <Property Name="dateOfCreate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="dateDeadline" Type="DateTime" Precision="0" />
+          <Property Name="taskType" Type="Int32" Nullable="false" />
+          <Property Name="taskName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Letters" Relationship="ViSedDBModel.FK_Tasks_Tasks" FromRole="Tasks" ToRole="Letters" />
-          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Tasks_Users" FromRole="Tasks" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Tasks_Users_From" FromRole="Tasks" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Tasks_Users_to" FromRole="Tasks" ToRole="Users" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -517,7 +544,8 @@
           <NavigationProperty Name="Letters1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Users" ToRole="Letters" />
           <NavigationProperty Name="MyDocs" Relationship="ViSedDBModel.FK_MyDocs_Users" FromRole="Users" ToRole="MyDocs" />
           <NavigationProperty Name="Podrazdeleniya" Relationship="ViSedDBModel.FK_Users_Podrazdeleniya" FromRole="Users" ToRole="Podrazdeleniya" />
-          <NavigationProperty Name="Tasks" Relationship="ViSedDBModel.FK_Tasks_Users" FromRole="Users" ToRole="Tasks" />
+          <NavigationProperty Name="Tasks" Relationship="ViSedDBModel.FK_Tasks_Users_From" FromRole="Users" ToRole="Tasks" />
+          <NavigationProperty Name="Tasks1" Relationship="ViSedDBModel.FK_Tasks_Users_to" FromRole="Users" ToRole="Tasks" />
         </EntityType>
         <Association Name="FK_Accounts_Roles">
           <End Type="ViSedDBModel.Roles" Role="Roles" Multiplicity="1" />
@@ -616,7 +644,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tasks_Tasks">
-          <End Type="ViSedDBModel.Letters" Role="Letters" Multiplicity="1" />
+          <End Type="ViSedDBModel.Letters" Role="Letters" Multiplicity="0..1" />
           <End Type="ViSedDBModel.Tasks" Role="Tasks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Letters">
@@ -651,7 +679,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tasks_Users">
+        <Association Name="FK_Tasks_Users_From">
+          <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="ViSedDBModel.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="user_id_from" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Users_to">
           <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="1" />
           <End Type="ViSedDBModel.Tasks" Role="Tasks" Multiplicity="*" />
           <ReferentialConstraint>
@@ -659,7 +699,7 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Tasks">
-              <PropertyRef Name="user_id" />
+              <PropertyRef Name="user_id_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -766,11 +806,14 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="ViSedDBModel.Tasks">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="taskName" ColumnName="taskName" />
+                <ScalarProperty Name="taskType" ColumnName="taskType" />
                 <ScalarProperty Name="dateDeadline" ColumnName="dateDeadline" />
                 <ScalarProperty Name="dateOfCreate" ColumnName="dateOfCreate" />
                 <ScalarProperty Name="complete" ColumnName="complete" />
                 <ScalarProperty Name="taskText" ColumnName="taskText" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_id_to" ColumnName="user_id_to" />
+                <ScalarProperty Name="user_id_from" ColumnName="user_id_from" />
                 <ScalarProperty Name="id_letter" ColumnName="id_letter" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

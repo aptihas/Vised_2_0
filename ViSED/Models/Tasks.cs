@@ -20,9 +20,11 @@ public partial class Tasks
 
     public int id { get; set; }
 
-    public int id_letter { get; set; }
+    public Nullable<int> id_letter { get; set; }
 
-    public int user_id { get; set; }
+    public Nullable<int> user_id_from { get; set; }
+
+    public int user_id_to { get; set; }
 
     public string taskText { get; set; }
 
@@ -32,11 +34,17 @@ public partial class Tasks
 
     public Nullable<System.DateTime> dateDeadline { get; set; }
 
+    public int taskType { get; set; }
+
+    public string taskName { get; set; }
+
 
 
     public virtual Letters Letters { get; set; }
 
     public virtual Users Users { get; set; }
+
+    public virtual Users Users1 { get; set; }
 
 }
 

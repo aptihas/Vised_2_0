@@ -1,0 +1,111 @@
+﻿@{
+    Layout = null;
+}
+<table class="table_col">
+
+    @if (ViewBag.Type == "zadachi")
+    {
+        <tr>
+            <th>Поручитель</th>
+            <th>Название задачи</th>
+            <th>Текст задачи</th>
+            <th>Дата</th>
+            <th>Срок</th>
+            <th>Вид задачи</th>
+            <th>Завершено</th>
+            <th></th>
+        </tr>
+
+        foreach (ViSED.Models.Tasks item in ViewBag.Tasks)
+        {
+            <tr>
+                <td>@item.Users.first_name @item.Users.second_name.Substring(0, 1). @item.Users.third_name.Substring(0, 1).</td>
+                <td>@item.taskName</td>
+                <td>@item.taskText</td>
+                <td>@item.dateOfCreate.ToShortDateString()</td>
+                @if (item.dateDeadline == null)
+                {
+                    <td>Нет срока</td>
+                }
+                else
+                {
+                    <td>@item.dateDeadline</td>
+                }
+                @if (item.taskType == 1)
+                {
+                    
+                    <td>Для исполнения</td>
+                }
+                else
+                {
+                    <td>Для ознакомления</td>
+                }
+
+                @if (item.complete == true)
+                {
+                    string str = item.taskType == 1 ? "Исполнено" : "Ознакомлен";
+                    <td>@str</td>
+                }
+                else
+                {
+                    string str = item.taskType == 1 ? "Не исполнено" : "Не ознакомлен";
+                    <td>@str</td>
+                }
+                <td><a>Завершить</a></td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <th>Отвественный</th>
+            <th>Название задачи</th>
+            <th>Текст задачи</th>
+            <th>Дата</th>
+            <th>Срок</th>
+            <th>Вид задачи</th>
+            <th>Завершено</th>
+            <th></th>
+        </tr>
+        foreach (ViSED.Models.Tasks item in ViewBag.Tasks)
+        {
+            <tr>
+                <td>@item.Users1.first_name @item.Users1.second_name.Substring(0, 1). @item.Users1.third_name.Substring(0, 1).</td>
+                <td>@item.taskName</td>
+                <td>@item.taskText</td>
+                <td>@item.dateOfCreate.ToShortDateString()</td>
+                @if (item.dateDeadline == null)
+                {
+                    <td>Нет срока</td>
+                }
+                else
+                {
+                    <td>@item.dateDeadline</td>
+                }
+
+                @if (item.taskType == 1)
+                {
+                    <td>Для исполнения</td>
+                }
+                else
+                {
+                    <td>Для ознакомления</td>
+                }
+
+                @if (item.complete == true)
+                {
+                    string str = item.taskType == 1 ? "Исполнено" : "Ознакомлен";
+                    <td>@str</td>
+                }
+                else
+                {
+                    string str = item.taskType == 1 ? "Не исполнено" : "Не ознакомлен";
+                    <td>@str</td>
+                }
+                <td><a>Удалить</a></td>
+            </tr>
+        }
+    }
+</table>
+
+
