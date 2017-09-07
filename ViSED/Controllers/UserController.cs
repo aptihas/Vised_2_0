@@ -309,6 +309,8 @@ namespace ViSED.Controllers
 
         public ActionResult Dialog(int userId, int msgCount)
         {
+            msgCount += 5;
+
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
@@ -355,6 +357,7 @@ namespace ViSED.Controllers
         [HttpPost]
         public ActionResult DialogPartial(int userId, int msgCount)
         {
+            msgCount += 5;
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
@@ -368,6 +371,7 @@ namespace ViSED.Controllers
                               from m in msgs
                               where a.id_letter == m.id
                               select a;
+
             ViewBag.Attachments = attachments;
             if (msgCount <= msgs.Count())
             {

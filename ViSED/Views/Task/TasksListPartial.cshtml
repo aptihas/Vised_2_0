@@ -20,7 +20,14 @@
         {
             <tr>
                 <td>@item.Users.first_name @item.Users.second_name.Substring(0, 1). @item.Users.third_name.Substring(0, 1).</td>
-                <td>@item.taskName</td>
+                @if (item.taskName != null)
+                {
+                    <td>@Html.ActionLink(item.taskName, "DocView", "User", new { doc_id = item.id_letter }, null)</td>
+                }
+                else
+                {
+                    <td>@item.taskName</td>
+                }
                 <td>@item.taskText</td>
                 <td>@item.dateOfCreate.ToShortDateString()</td>
                 @if (item.dateDeadline == null)
@@ -71,7 +78,14 @@
         {
             <tr>
                 <td>@item.Users1.first_name @item.Users1.second_name.Substring(0, 1). @item.Users1.third_name.Substring(0, 1).</td>
-                <td>@item.taskName</td>
+                @if (item.taskName !=null)
+                {
+                    <td>@Html.ActionLink(item.taskName, "DocView","User",new {doc_id=item.id_letter},null)</td>
+                }
+                else
+                {
+                    <td>@item.taskName</td>
+                }
                 <td>@item.taskText</td>
                 <td>@item.dateOfCreate.ToShortDateString()</td>
                 @if (item.dateDeadline == null)

@@ -2,10 +2,11 @@
 
 @{
     ViewBag.Title = "Просмотр документа";
-
+    ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
     ViSED.ProgramLogic.UserModelFoSklonen userTo = ViewBag.UserTo;
     ViSED.ProgramLogic.UserModelFoSklonen userFrom = ViewBag.UserFrom;
     ViSED.Models.DocType docType = ViewBag.DocType;
+    int id_letter = ViewBag.Msg.id;
 }
 
 <h4>Просмотр документа</h4>
@@ -13,7 +14,26 @@
 {
     @Html.AntiForgeryToken()
     <input type="hidden" value="@ViewBag.Msg.id" name="doc_id" />
-    <input type="submit" value="Сохранить" class="knopka"  />
+    <input type="submit" value="Сохранить" class="knopka" />
 }
+
+@{
+    var attachs = from a in vsdEnt.Attachments
+                  where a.id_letter == id_letter
+                  select a;
+}
+@if (attachs != null)
+{
+    <div style="padding-left:30px;padding-top:20px;">
+        @{int i = 1;
+
+            foreach (ViSED.Models.Attachments a in attachs)
+            {
+                <a href="@Url.Content(a.attachedFile)">Приложение @i - @a.attachedName</a><br />
+                i++;
+            }
+        }
+    </div>
+            }
 @Html.Partial("DocViewPartial")
 

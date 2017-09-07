@@ -12,16 +12,20 @@
 </script>
 
 <h4 class="zagolovki">Мои задачи</h4>
+<br />
+    @Html.ActionLink("Создать задачу", "AddTask", "Task", null, new { @class = "ssilka" })
+<br /><br />
+<div style="padding-left:10px;">
+    @using (Ajax.BeginForm("TasksListPartial", "Task", null, new AjaxOptions { UpdateTargetId = "results" }, new { @name = "myForm" }))
+    {
+        <select name="taskVid" onchange="fireSubmit(event)">
+            <option value="zadachi" selected>Мои задачи</option>
+            <option value="porucheniya">Мои поручения</option>
+        </select>
 
-@using (Ajax.BeginForm("TasksListPartial", "Task", null, new AjaxOptions { UpdateTargetId = "results" }, new { @name = "myForm" }))
-{
-    <select name="taskVid" onchange="fireSubmit(event)">
-        <option value="zadachi">Мои задачи</option>
-        <option value="porucheniya">Мои поручения</option>
-    </select>
-
-    <input type="submit" id="send" value="Отправить" style="display:none;" />
-}
+        <input type="submit" id="send" value="Отправить" style="display:none;" />
+    }
+</div>
 <div id="scroll" class="overflowClassDialog">
     <div id="results">
         @Html.Partial("TasksListPartial")
