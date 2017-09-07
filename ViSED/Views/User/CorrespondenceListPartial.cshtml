@@ -22,7 +22,7 @@
 
     @foreach (ViSED.Models.Letters item in ViewBag.Letters)
     {
-        string style = ViewBag.Type == "vhod" && item.dateOfRead == null ? "font-weight:600;" : "";
+        string style = ViewBag.Type == "vhod" && item.dateOfRead == null ? "font-weight:600;background-color: #e8f0ff;" : "";
 
         int userID = ViewBag.Type == "vhod" ? item.from_user_id : item.to_user_id;
         <tr style="@style">
