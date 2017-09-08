@@ -17,7 +17,7 @@ namespace ViSED.ProgramLogic
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            if (!String.IsNullOrEmpty(base.Roles))
+            if (base.Roles!=null && base.Roles!="")
             {
                 allowedRoles = base.Roles;
             }
@@ -52,9 +52,6 @@ namespace ViSED.ProgramLogic
                         return false;
                     }
                 }
-
-
-
             }
             else
             {

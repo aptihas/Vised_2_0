@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "CreateTask";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/myScripts.js" type="text/javascript"></script>
+
+<h4>Создать задачу</h4>
+
+@using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div id="poluchateli">
+        <p>Выберите вид</p>
+        <select id="taskType" name="taskType" onchange="letterType()">
+            <option value="1">Для исполнения</option>
+            <option value="2" selected>Для ознакомления</option>
+        </select>
+        <br /><br />
+
+        <div id="deadline" style="display:none;">
+            <p>Исполнить до</p>
+            <input name="deadline" type="date" value="@DateTime.Now.AddDays(10).ToString("yyyy-MM-dd")">
+            <br /><br />
+        </div>
+        <p>Выберите ответственных</p>
+        @Html.DropDownList("user_to", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select", @style = "height:260px;" })
+        <br />
+        <div id="poluchKnopka"onclick="poluchateli()" class="knopkaDiv">Далее</div>
+    </div>
+
+    <br />
+
+    <div id="text" style="display:none;">
+        <p>Название задачи</p>
+        <input type="text" name="taskName" />
+        <p>Введите текст задачи</p>
+        <textarea name="text" cols="45" rows="20" class="textArea"> </textarea>
+        <br /><br />
+        <div onclick="backFist()" class="knopkaDiv" style="float:left;">Назад</div>
+        <div onclick="text()" class="knopkaDiv">Далее</div>
+    </div>
+
+    <div id="files" style="display:none;">
+        <p>Прикрепить приложения</p>
+        <div class="file-upload">
+            <label>
+                <input type="file" name="attachment" multiple onchange="getFileName ();" id="uploaded-file">
+                <span>Загрузить файлы</span>
+            </label>
+        </div>
+
+        <div id="file-name"></div>
+
+        <br />
+        <p>Выбрать файл из моих документов</p>
+        <select name="myDocs" multiple class="select">
+            <option value="null">Не выбрано</option>
+            @foreach (ViSED.Models.MyDocs m in ViewBag.MyDocs)
+                {
+                <option value="@m.id">@m.myDocName</option>
+            }
+        </select>
+        <br />
+
+        <div onclick="backSecond()" class="knopkaDiv">Назад</div>
+        <br /><br />
+        <input type="submit" value="Завершить и отправить" class="knopka" />
+    </div>
+}

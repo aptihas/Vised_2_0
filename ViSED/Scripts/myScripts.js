@@ -6,29 +6,29 @@
 
 function backFist() {
     var poluchateli = document.getElementById("poluchateli");
-    poluchateli.style = "display:inherit;"
+    poluchateli.style = "display:inherit;";
     var text = document.getElementById("text");
-    text.style = "display:none;"
+    text.style = "display:none;";
 }
 function backSecond() {
     var text = document.getElementById("text");
-    text.style = "display:inherit;"
+    text.style = "display:inherit;";
     var files = document.getElementById("files");
-    files.style = "display:none;"
+    files.style = "display:none;";
 }
 
 function poluchateli() {
     var poluchateli = document.getElementById("poluchateli");
-    poluchateli.style = "display:none;"
+    poluchateli.style = "display:none;";
     var text = document.getElementById("text");
-    text.style = "display:inherit;"
+    text.style = "display:inherit;";
 }
 
 function text() {
     var text = document.getElementById("text");
-    text.style = "display:none;"
+    text.style = "display:none;";
     var files = document.getElementById("files");
-    files.style = "display:inherit;"
+    files.style = "display:inherit;";
 }
 
 function letterType() {

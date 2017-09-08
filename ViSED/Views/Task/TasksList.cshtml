@@ -13,7 +13,7 @@
 
 <h4 class="zagolovki">Мои задачи</h4>
 <br />
-    @Html.ActionLink("Создать задачу", "AddTask", "Task", null, new { @class = "ssilka" })
+    @Html.ActionLink("Создать задачу", "CreateTask", "Task", null, new { @class = "ssilka" })
 <br /><br />
 <div style="padding-left:10px;">
     @using (Ajax.BeginForm("TasksListPartial", "Task", null, new AjaxOptions { UpdateTargetId = "results" }, new { @name = "myForm" }))
