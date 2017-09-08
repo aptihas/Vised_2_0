@@ -90,6 +90,15 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="15" Nullable="false" />
         </EntityType>
+        <EntityType Name="TaskAttachments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_task" Type="int" Nullable="false" />
+          <Property Name="attachedFile" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="attachedName" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
         <EntityType Name="Tasks">
           <Key>
             <PropertyRef Name="id" />
@@ -214,6 +223,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TaskAttachments_TaskAttachments">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="TaskAttachments" Type="Self.TaskAttachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TaskAttachments">
+              <PropertyRef Name="id_task" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tasks_Tasks">
           <End Role="Letters" Type="Self.Letters" Multiplicity="0..1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
@@ -284,6 +305,7 @@
           <EntitySet Name="MyDocs" EntityType="Self.MyDocs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Podrazdeleniya" EntityType="Self.Podrazdeleniya" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskAttachments" EntityType="Self.TaskAttachments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Accounts_Roles" Association="Self.FK_Accounts_Roles">
@@ -317,6 +339,10 @@
           <AssociationSet Name="FK_MyDocs_Users" Association="Self.FK_MyDocs_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="MyDocs" EntitySet="MyDocs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskAttachments_TaskAttachments" Association="Self.FK_TaskAttachments_TaskAttachments">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TaskAttachments" EntitySet="TaskAttachments" />
           </AssociationSet>
           <AssociationSet Name="FK_Tasks_Tasks" Association="Self.FK_Tasks_Tasks">
             <End Role="Letters" EntitySet="Letters" />
@@ -353,6 +379,7 @@
           <EntitySet Name="MyDocs" EntityType="ViSedDBModel.MyDocs" />
           <EntitySet Name="Podrazdeleniya" EntityType="ViSedDBModel.Podrazdeleniya" />
           <EntitySet Name="Roles" EntityType="ViSedDBModel.Roles" />
+          <EntitySet Name="TaskAttachments" EntityType="ViSedDBModel.TaskAttachments" />
           <EntitySet Name="Tasks" EntityType="ViSedDBModel.Tasks" />
           <EntitySet Name="Users" EntityType="ViSedDBModel.Users" />
           <AssociationSet Name="FK_Accounts_Roles" Association="ViSedDBModel.FK_Accounts_Roles">
@@ -398,6 +425,10 @@
           <AssociationSet Name="FK_Users_Podrazdeleniya" Association="ViSedDBModel.FK_Users_Podrazdeleniya">
             <End Role="Podrazdeleniya" EntitySet="Podrazdeleniya" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskAttachments_TaskAttachments" Association="ViSedDBModel.FK_TaskAttachments_TaskAttachments">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TaskAttachments" EntitySet="TaskAttachments" />
           </AssociationSet>
           <AssociationSet Name="FK_Tasks_Users_From" Association="ViSedDBModel.FK_Tasks_Users_From">
             <End Role="Users" EntitySet="Users" />
@@ -508,6 +539,16 @@
           <NavigationProperty Name="Accounts" Relationship="ViSedDBModel.FK_Accounts_Roles" FromRole="Roles" ToRole="Accounts" />
           <NavigationProperty Name="Admins" Relationship="ViSedDBModel.FK_Admins_Roles1" FromRole="Roles" ToRole="Admins" />
         </EntityType>
+        <EntityType Name="TaskAttachments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_task" Type="Int32" Nullable="false" />
+          <Property Name="attachedFile" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="attachedName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tasks" Relationship="ViSedDBModel.FK_TaskAttachments_TaskAttachments" FromRole="TaskAttachments" ToRole="Tasks" />
+        </EntityType>
         <EntityType Name="Tasks">
           <Key>
             <PropertyRef Name="id" />
@@ -523,6 +564,7 @@
           <Property Name="taskType" Type="Int32" Nullable="false" />
           <Property Name="taskName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Letters" Relationship="ViSedDBModel.FK_Tasks_Tasks" FromRole="Tasks" ToRole="Letters" />
+          <NavigationProperty Name="TaskAttachments" Relationship="ViSedDBModel.FK_TaskAttachments_TaskAttachments" FromRole="Tasks" ToRole="TaskAttachments" />
           <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Tasks_Users_From" FromRole="Tasks" ToRole="Users" />
           <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Tasks_Users_to" FromRole="Tasks" ToRole="Users" />
         </EntityType>
@@ -679,6 +721,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TaskAttachments_TaskAttachments">
+          <End Type="ViSedDBModel.Tasks" Role="Tasks" Multiplicity="1" />
+          <End Type="ViSedDBModel.TaskAttachments" Role="TaskAttachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TaskAttachments">
+              <PropertyRef Name="id_task" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tasks_Users_From">
           <End Type="ViSedDBModel.Users" Role="Users" Multiplicity="0..1" />
           <End Type="ViSedDBModel.Tasks" Role="Tasks" Multiplicity="*" />
@@ -799,6 +853,16 @@
             <EntityTypeMapping TypeName="ViSedDBModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskAttachments">
+            <EntityTypeMapping TypeName="ViSedDBModel.TaskAttachments">
+              <MappingFragment StoreEntitySet="TaskAttachments">
+                <ScalarProperty Name="attachedName" ColumnName="attachedName" />
+                <ScalarProperty Name="attachedFile" ColumnName="attachedFile" />
+                <ScalarProperty Name="id_task" ColumnName="id_task" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

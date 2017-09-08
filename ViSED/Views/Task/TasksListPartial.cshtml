@@ -19,8 +19,15 @@
         foreach (ViSED.Models.Tasks item in ViewBag.Tasks)
         {
             <tr>
-                <td>@item.Users.first_name @item.Users.second_name.Substring(0, 1). @item.Users.third_name.Substring(0, 1).</td>
-                @if (item.taskName != null)
+                @if (item.user_id_from != null)
+                {
+                    <td>@item.Users.first_name @item.Users.second_name.Substring(0, 1). @item.Users.third_name.Substring(0, 1).</td>
+                }
+                else
+                {
+                    <td>Я</td>
+                }
+                @if (item.id_letter != null)
                 {
                     <td>@Html.ActionLink(item.taskName, "DocView", "User", new { doc_id = item.id_letter }, null)</td>
                 }

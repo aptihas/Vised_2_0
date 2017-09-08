@@ -23,9 +23,18 @@
             <input name="deadline" type="date" value="@DateTime.Now.AddDays(10).ToString("yyyy-MM-dd")">
             <br /><br />
         </div>
+
         <p>Выберите ответственных</p>
-        @Html.DropDownList("user_to", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select", @style = "height:260px;" })
-        <br />
+
+        <select id="spisokpouchateleySelect" name="taskType" onchange="spisokVibor()">
+            <option value="1" selected>Я</option>
+            <option value="2">Поручить подчиненным</option>
+        </select>
+        <br /><br />
+        <div id="spisokpouchateley" style="display:none;">
+            @Html.DropDownList("user_to", ViewBag.Users as SelectList, null, new { multiple = "multiple", @class = "select", @style = "height:260px;" })
+            <br />
+        </div>
         <div id="poluchKnopka"onclick="poluchateli()" class="knopkaDiv">Далее</div>
     </div>
 
@@ -34,8 +43,9 @@
     <div id="text" style="display:none;">
         <p>Название задачи</p>
         <input type="text" name="taskName" />
+        <br /><br />
         <p>Введите текст задачи</p>
-        <textarea name="text" cols="45" rows="20" class="textArea"> </textarea>
+        <textarea name="text" cols="45" rows="10" class="textArea"> </textarea>
         <br /><br />
         <div onclick="backFist()" class="knopkaDiv" style="float:left;">Назад</div>
         <div onclick="text()" class="knopkaDiv">Далее</div>

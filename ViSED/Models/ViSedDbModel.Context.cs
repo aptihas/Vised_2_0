@@ -50,6 +50,8 @@ public partial class ViSedDBEntities : DbContext
 
     public virtual DbSet<Roles> Roles { get; set; }
 
+    public virtual DbSet<TaskAttachments> TaskAttachments { get; set; }
+
     public virtual DbSet<Tasks> Tasks { get; set; }
 
     public virtual DbSet<Users> Users { get; set; }

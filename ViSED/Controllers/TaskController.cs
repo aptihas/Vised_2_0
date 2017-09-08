@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ViSED.Models;
 using ViSED.ProgramLogic;
 
 namespace ViSED.Controllers
@@ -61,12 +62,14 @@ namespace ViSED.Controllers
                 {
                     poluchateli.Add(user_to[i]);
                 }
+                poluchateli.Add(myAccount.user_id);
             }
             else
             {
                 poluchateli.Add(myAccount.user_id);
             }
 
+            List<Tasks> tskList = new List<Tasks>();
             for (int i = 0; i < poluchateli.Count; i++)
             {
                 if (poluchateli[i] != myAccount.user_id)
@@ -90,9 +93,67 @@ namespace ViSED.Controllers
                     user_id_from = _userFrom
                 };
                 vsdEnt.Tasks.Add(_task);
+                vsdEnt.SaveChanges();
+                tskList.Add(_task);
             }
-            vsdEnt.SaveChanges();
 
+            if (attachment[0] != null)
+            {
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
+                }
+
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/TaskAttachments")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/TaskAttachments"));
+                }
+
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/TaskAttachments/" + myAccount.user_id.ToString())))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/TaskAttachments/" + myAccount.user_id.ToString()));
+                }
+
+                for (int j = 0; j < attachment.Length; j++)
+                {
+                    foreach (Tasks tsk in tskList)
+                    {
+                        //обработка приложения
+                        string extension = System.IO.Path.GetExtension(attachment[j].FileName);
+                        string attachmnetName = System.IO.Path.GetFileName(attachment[j].FileName);
+                        // сохраняем файл в папку Files в проекте
+                        attachment[j].SaveAs(Server.MapPath("~/Files/TaskAttachments/" + myAccount.user_id.ToString() + "/file_" + tsk.id.ToString() + "_" + j.ToString() + extension));
+                        TaskAttachments file = new TaskAttachments { id_task = tsk.id, attachedFile = "~/Files/TaskAttachments/" + myAccount.user_id.ToString() + "/file_" + tsk.id.ToString() + "_" + j.ToString() + extension, attachedName = attachmnetName };
+
+                        vsdEnt.TaskAttachments.Add(file);
+                    }
+
+                }
+                vsdEnt.SaveChanges();
+            }
+
+            if (myDocs?.Length != null && myDocs.Length > 0)
+            {
+                for (int i = 0; i < myDocs.Length; i++)
+                {
+                    int id_mydoc = myDocs[i];
+                    var md = (from m in vsdEnt.MyDocs
+                              where m.id == id_mydoc
+                              select m).FirstOrDefault();
+
+                    foreach (Tasks tsk in tskList)
+                    {
+                        //обработка приложения
+                        string extension = System.IO.Path.GetExtension(md.myDoc);
+                        string attachmnetName = md.myDocName;
+                        // сохраняем файл в папку Files в проекте
+                        TaskAttachments file = new TaskAttachments { id_task = tsk.id, attachedFile = md.myDoc, attachedName = attachmnetName };
+
+                        vsdEnt.TaskAttachments.Add(file);
+                    }
+                }
+                vsdEnt.SaveChanges();
+            }
 
             return RedirectToAction("TasksList", "Task", null);
         }
@@ -118,6 +179,7 @@ namespace ViSED.Controllers
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
+
 
             if (taskVid == "zadachi")
             {

@@ -18,6 +18,15 @@ using System;
 public partial class Tasks
 {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public Tasks()
+    {
+
+        this.TaskAttachments = new HashSet<TaskAttachments>();
+
+    }
+
+
     public int id { get; set; }
 
     public Nullable<int> id_letter { get; set; }
@@ -41,6 +50,10 @@ public partial class Tasks
 
 
     public virtual Letters Letters { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<TaskAttachments> TaskAttachments { get; set; }
 
     public virtual Users Users { get; set; }
 

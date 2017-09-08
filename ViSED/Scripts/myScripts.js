@@ -44,3 +44,15 @@ function letterType() {
         deadline.style = "display:none;";
     }
 }
+
+function spisokVibor() {
+    var vibor = document.getElementById("spisokpouchateleySelect");
+    var spis = document.getElementById("spisokpouchateley");
+
+    if (vibor.value === "1") {
+        spis.style = "display:none;";
+    }
+    else {
+        spis.style = "display:inherit;";
+    }
+}

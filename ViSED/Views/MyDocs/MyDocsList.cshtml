@@ -31,8 +31,8 @@
                     @Html.DisplayFor(modelItem => item.myDocName)
                 </td>
                 <td style="border-bottom:1px solid #fff;">
-                    <a class="ssilka" href="@Url.Content(item.myDoc)">Скачать</a>
-                    @Html.ActionLink("Удалить", "DocDelete","MyDocs", new { id=item.id }, new { @class = "ssilka" })
+                    <a href="@Url.Content(item.myDoc)">Скачать</a> |
+                    @Html.ActionLink("Удалить", "DocDelete","MyDocs", new { id=item.id }, null)
                 </td>
             </tr>
         }

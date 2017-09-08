@@ -231,6 +231,9 @@
     <Compile Include="Models\Roles.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TaskAttachments.cs">
+      <DependentUpon>ViSedDbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tasks.cs">
       <DependentUpon>ViSedDbModel.tt</DependentUpon>
     </Compile>
