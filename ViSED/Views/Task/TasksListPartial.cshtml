@@ -1,5 +1,9 @@
 ﻿@{
     Layout = null;
+    ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
+    var myAccount = (from u in vsdEnt.Accounts
+                     where u.login == User.Identity.Name
+                     select u).FirstOrDefault();
 }
 <table class="table_col">
 
@@ -12,12 +16,16 @@
             <th>Дата</th>
             <th>Срок</th>
             <th>Вид задачи</th>
+            <th>Приложения</th>
             <th>Завершено</th>
             <th></th>
         </tr>
 
         foreach (ViSED.Models.Tasks item in ViewBag.Tasks)
         {
+            var _taskAttachments = from t in vsdEnt.TaskAttachments
+                                   where t.id == item.id
+                                   select t;
             <tr>
                 @if (item.user_id_from != null)
                 {
@@ -54,7 +62,19 @@
                 {
                     <td>Для ознакомления</td>
                 }
+                <td>
+                    @if (_taskAttachments != null)
+                    {
+                        foreach (ViSED.Models.TaskAttachments t in _taskAttachments)
+                        {
+                            <a href="@Url.Content(t.attachedFile)">@t.attachedName</a><br />
+                        }
+                    }
+                    else
+                    {
 
+                    }
+                </td>
                 @if (item.complete == true)
                 {
                     string str = item.taskType == 1 ? "Исполнено" : "Ознакомлен";
@@ -65,7 +85,18 @@
                     string str = item.taskType == 1 ? "Не исполнено" : "Не ознакомлен";
                     <td>@str</td>
                 }
-                <td><a>Завершить</a></td>
+                @if (item.complete != true)
+                {
+                    <td> @Html.ActionLink("Завершить", "TaskCompleate", "Task", new { id = item.id }, null) </td>
+                }
+                else
+                {
+                    if (item.user_id_from == null && item.user_id_to == myAccount.user_id)
+                    {
+                        <td>@Html.ActionLink("Удалить", "TaskDelete", "Task", new { id = item.id }, null)</td>
+                    }
+                }
+                
             </tr>
         }
     }
@@ -77,12 +108,16 @@
             <th>Текст задачи</th>
             <th>Дата</th>
             <th>Срок</th>
+            <th>Приложения</th>
             <th>Вид задачи</th>
             <th>Завершено</th>
             <th></th>
         </tr>
         foreach (ViSED.Models.Tasks item in ViewBag.Tasks)
         {
+            var _taskAttachments = from t in vsdEnt.TaskAttachments
+                                   where t.id == item.id
+                                   select t;
             <tr>
                 <td>@item.Users1.first_name @item.Users1.second_name.Substring(0, 1). @item.Users1.third_name.Substring(0, 1).</td>
                 @if (item.taskName !=null)
@@ -112,7 +147,20 @@
                 {
                     <td>Для ознакомления</td>
                 }
+                <td>
+                    @if (_taskAttachments != null)
+                    {
+                        foreach (ViSED.Models.TaskAttachments t in _taskAttachments)
+                        {
+                            <a href="@Url.Content(t.attachedFile)">@t.attachedName</a><br />
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
 
+                </td>
                 @if (item.complete == true)
                 {
                     string str = item.taskType == 1 ? "Исполнено" : "Ознакомлен";
@@ -123,7 +171,7 @@
                     string str = item.taskType == 1 ? "Не исполнено" : "Не ознакомлен";
                     <td>@str</td>
                 }
-                <td><a>Удалить</a></td>
+                <td>@Html.ActionLink("Удалить", "TaskDelete", "Task", new { id = item.id }, null)</td>
             </tr>
         }
     }

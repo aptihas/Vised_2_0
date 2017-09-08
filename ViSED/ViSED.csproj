@@ -314,6 +314,7 @@
     <Content Include="Views\Task\TasksList.cshtml" />
     <Content Include="Views\Task\TasksListPartial.cshtml" />
     <Content Include="Views\Task\CreateTask.cshtml" />
+    <Content Include="Views\Task\TaskDelete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

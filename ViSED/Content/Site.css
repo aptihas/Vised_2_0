@@ -151,10 +151,10 @@ body {
     display: block;
     text-decoration: none;
     color: #899dc1;
-    font-weight: 600;
+    font-weight: 500;
     transition: 0.3s;
     height: 60px;
-    padding: 15px 10px 10px 10px;
+    padding: 15px 10px 10px 3px;
     margin: 3px;
 }
 .menuSleva ul li a img {
@@ -172,7 +172,7 @@ body {
     color: #fff;
     border-right:3px solid #fff;
     background-color: #2b384e;
-    padding: 15px 10px 10px 10px;
+    padding: 15px 10px 10px 5px;
     margin: 3px;
 }
 .menuSleva ul li a:hover img {

@@ -12,6 +12,7 @@ namespace ViSED.Controllers
     public class TaskController : Controller
     {
         Models.ViSedDBEntities vsdEnt = new Models.ViSedDBEntities();
+
         // GET: Task
 
         public ActionResult CreateTask()
@@ -174,6 +175,7 @@ namespace ViSED.Controllers
             return View(tasks);
         }
 
+        [HttpPost]
         public ActionResult TasksListPartial(string taskVid)
         {
             var myAccount = (from u in vsdEnt.Accounts
@@ -191,7 +193,7 @@ namespace ViSED.Controllers
                 ViewBag.Tasks = tasks;
                 ViewBag.Type = "zadachi";
             }
-            else if (taskVid == "porucheniya")
+            else
             {
                 var tasks = from t in vsdEnt.Tasks
                             where t.user_id_from == myAccount.user_id
@@ -204,6 +206,52 @@ namespace ViSED.Controllers
             }
 
             return View();
+        }
+
+        public ActionResult TaskCompleate(int id)
+        {
+            var _task = (from t in vsdEnt.Tasks
+                         where t.id == id
+                         select t).FirstOrDefault();
+            if(_task.complete==false)
+            {
+                _task.complete = true;
+            }
+            else if (_task.taskType!=1)
+            {
+                _task.complete = false;
+            }
+            vsdEnt.SaveChanges();
+            return RedirectToAction("TasksList", "Task", null);
+        }
+
+        public ActionResult TaskDelete(int id)
+        {
+            var _task = (from t in vsdEnt.Tasks
+                         where t.id == id
+                         select t).FirstOrDefault();
+
+            return View(_task);
+        }
+
+        [HttpPost]
+        public ActionResult TaskDelete(ViSED.Models.Tasks model)
+        {
+            var _task = (from t in vsdEnt.Tasks
+                         where t.id == model.id
+                         select t).FirstOrDefault();
+
+            var _taskAttachs = from t in vsdEnt.TaskAttachments
+                               where t.id_task == _task.id
+                               select t;
+            foreach(var t in _taskAttachs)
+            {
+                System.IO.File.Delete(Server.MapPath(t.attachedFile));
+                vsdEnt.TaskAttachments.Remove(t);
+            }
+            vsdEnt.Tasks.Remove(_task);
+            vsdEnt.SaveChanges();
+            return RedirectToAction("TasksList", "Task", null);
         }
     }
 }
