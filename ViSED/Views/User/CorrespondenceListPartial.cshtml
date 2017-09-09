@@ -27,7 +27,7 @@
         int userID = ViewBag.Type == "vhod" ? item.from_user_id : item.to_user_id;
         <tr style="@style">
 
-            <td  onclick="location.href='@Url.Action("Dialog","User", new { userId=userID, msgCount=5 })'">
+            <td  onclick="location.href='@Url.Action("Dialog","User", new { userId=userID })'">
                 @if (style != "")
                 {
                     <img class="imgConvert" src="~/Content/icons/konvertClose.png" />

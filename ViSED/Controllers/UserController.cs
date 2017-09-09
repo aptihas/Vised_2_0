@@ -307,10 +307,8 @@ namespace ViSED.Controllers
             return PartialView();
         }
 
-        public ActionResult Dialog(int userId, int msgCount)
+        public ActionResult Dialog(int userId)
         {
-            msgCount += 5;
-
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
@@ -327,17 +325,15 @@ namespace ViSED.Controllers
 
             ViewBag.Attachments = attachments;
             ViewBag.MyAccount = myAccount;
-            if (msgCount <= msgs.Count())
+            if (5 <= msgs.Count())
             {
-                ViewBag.Letters = msgs.Skip<Letters>(msgs.Count() - msgCount);
+                ViewBag.Letters = msgs.Skip<Letters>(msgs.Count() - 5);
             }
             else
             {
                 ViewBag.Letters = msgs;
             }
             ViewBag.UserId = userId;
-            ViewBag.MsgCount = msgCount;
-
 
             var msgAnswers = from m in vsdEnt.Letters
                              where m.from_user_id == userId && m.to_user_id == myAccount.user_id && m.dateOfRead == null
@@ -355,9 +351,9 @@ namespace ViSED.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult DialogPartial(int userId, int msgCount)
+        public ActionResult DialogPartial(int userId, int chisloSoobsh)
         {
-            msgCount += 5;
+
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
@@ -373,9 +369,9 @@ namespace ViSED.Controllers
                               select a;
 
             ViewBag.Attachments = attachments;
-            if (msgCount <= msgs.Count())
+            if (chisloSoobsh <= msgs.Count())
             {
-                ViewBag.Letters = msgs.Skip<Letters>(msgs.Count() - msgCount);
+                ViewBag.Letters = msgs.Skip<Letters>(msgs.Count() - chisloSoobsh);
             }
             else
             {
@@ -383,7 +379,6 @@ namespace ViSED.Controllers
             }
             ViewBag.UserId = userId;
             ViewBag.MyAccount = myAccount;
-            ViewBag.MsgCount = msgCount;
 
             var msgAnswers = from m in vsdEnt.Letters
                              where m.from_user_id == userId && m.to_user_id == myAccount.user_id && m.dateOfRead == null

@@ -3,19 +3,25 @@
     ViewBag.Title = "Диалог";
     ViSED.Models.Accounts account = ViewBag.MyAccount;
     ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
-    int msgCountr=1;
 }
 <script type="text/javascript">
     window.onload = function () {
         var block = document.getElementById("scroll");
         block.scrollTop = block.scrollHeight;
     }
+    var x = 10;
+    function plus() {
+        var inp = document.getElementById("chisloSoobsh");
+        inp.value = x;
+        x+=5;
+    }
 </script>
 
 <h4  class="zagolovki">Диалог</h4>
 
-@using (Ajax.BeginForm("DialogPartial", "User", new { userId = ViewBag.UserId, msgCount = msgCountr }, new AjaxOptions { UpdateTargetId = "results" }, null))
+@using (Ajax.BeginForm("DialogPartial", "User", new { userId = ViewBag.UserId }, new AjaxOptions { UpdateTargetId = "results" }, null))
 {
+    <input type="hidden" id="chisloSoobsh" name="chisloSoobsh" />
     <input type="submit" onclick="plus()" value="Загрузить предыдущие сообщения" class="knopka" />
 }
 <br />
