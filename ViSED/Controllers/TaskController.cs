@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -158,25 +159,7 @@ namespace ViSED.Controllers
 
             return RedirectToAction("TasksList", "Task", null);
         }
-        public ActionResult TasksList()
-        {
-            var myAccount = (from u in vsdEnt.Accounts
-                             where u.login == User.Identity.Name
-                             select u).FirstOrDefault();
-
-            var tasks = from t in vsdEnt.Tasks
-                        where t.user_id_to == myAccount.user_id
-                        orderby t.dateOfCreate descending
-                        select t;
-
-            ViewBag.Tasks = tasks;
-            ViewBag.Type = "zadachi";
-
-            return View(tasks);
-        }
-
-        [HttpPost]
-        public ActionResult TasksListPartial(string taskVid)
+        public ActionResult TasksList(int? page, string taskVid)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -192,6 +175,10 @@ namespace ViSED.Controllers
 
                 ViewBag.Tasks = tasks;
                 ViewBag.Type = "zadachi";
+
+                int pageNumber = page ?? 1;
+                int pageSize = 10;
+                return View(tasks.ToList().ToPagedList(pageNumber, pageSize));
             }
             else
             {
@@ -203,9 +190,48 @@ namespace ViSED.Controllers
 
                 ViewBag.Tasks = tasks;
                 ViewBag.Type = "porucheniya";
+                int pageNumber = page ?? 1;
+                int pageSize = 10;
+                return View(tasks.ToList().ToPagedList(pageNumber, pageSize));
             }
+        }
 
-            return View();
+        [HttpPost]
+        public ActionResult TasksListPartial(int? page, string taskVid)
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+
+            if (taskVid == "zadachi")
+            {
+                var tasks = from t in vsdEnt.Tasks
+                            where t.user_id_to == myAccount.user_id
+                            orderby t.dateOfCreate descending
+                            select t;
+
+                ViewBag.Tasks = tasks;
+                ViewBag.Type = "zadachi";
+                int pageNumber = page ?? 1;
+                int pageSize = 10;
+                return PartialView(tasks.ToList().ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                var tasks = from t in vsdEnt.Tasks
+                            where t.user_id_from == myAccount.user_id
+                            orderby t.dateOfCreate descending
+                            select t;
+
+
+                ViewBag.Tasks = tasks;
+                ViewBag.Type = "porucheniya";
+                int pageNumber = page ?? 1;
+                int pageSize = 10;
+                return PartialView(tasks.ToList().ToPagedList(pageNumber, pageSize));
+            }
+            
         }
 
         public ActionResult TaskCompleate(int id)

@@ -1,5 +1,5 @@
-﻿@model IEnumerable<ViSED.Models.MyDocs>
-
+﻿@model PagedList.IPagedList<ViSED.Models.MyDocs>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Мои документы";
 }
@@ -37,4 +37,14 @@
             </tr>
         }
     </table>
+</div>
+<div style="text-align: center;">
+    @Html.PagedListPager(Model, page => Url.Action("MyDocsList", "MyDocs", new { page = page}, null),
+new PagedListRenderOptions
+{
+    LinkToFirstPageFormat = "<<",
+    LinkToPreviousPageFormat = "Назад",
+    LinkToNextPageFormat = "Вперед",
+    LinkToLastPageFormat = ">>"
+})
 </div>

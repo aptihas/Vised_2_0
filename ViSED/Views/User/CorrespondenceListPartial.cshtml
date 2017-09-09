@@ -1,4 +1,7 @@
-﻿
+﻿@model PagedList.IPagedList<ViSED.Models.Letters>
+@using PagedList.Mvc
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <table class="table_col">
 
     <tr>
@@ -20,25 +23,45 @@
         }
     </tr>
 
-    @foreach (ViSED.Models.Letters item in ViewBag.Letters)
+    @foreach (ViSED.Models.Letters item in Model)
     {
         string style = ViewBag.Type == "vhod" && item.dateOfRead == null ? "font-weight:600;background-color: #e8f0ff;" : "";
 
         int userID = ViewBag.Type == "vhod" ? item.from_user_id : item.to_user_id;
         <tr style="@style">
 
-            <td  onclick="location.href='@Url.Action("Dialog","User", new { userId=userID })'">
-                @if (style != "")
+            
+
+                @if (ViewBag.Type == "vhod")
                 {
-                    <img class="imgConvert" src="~/Content/icons/konvertClose.png" />
+                    <td  onclick="location.href='@Url.Action("Dialog", "User", new { userId = userID })'">
+                        @if (style != "")
+                        {
+                            <img class="imgConvert" src="~/Content/icons/konvertClose.png" />
+                        }
+                        else
+                        {
+                            <img class="imgConvert" src="~/Content/icons/konvertOpen.png" />
+                        }
+                        @item.Users.first_name @item.Users.second_name.Substring(0, 1). @item.Users.third_name.Substring(0, 1).
+                    </td>
                 }
                 else
                 {
-                    <img class="imgConvert" src="~/Content/icons/konvertOpen.png" />
+                    <td onclick="location.href='@Url.Action("Dialog", "User", new { userId = userID })'">
+                        @if (style != "")
+                        {
+                            <img class="imgConvert" src="~/Content/icons/konvertClose.png" />
+                        }
+                        else
+                        {
+                            <img class="imgConvert" src="~/Content/icons/konvertOpen.png" />
+                        }
+                        @item.Users1.first_name @item.Users1.second_name.Substring(0, 1). @item.Users1.third_name.Substring(0, 1).
+                    </td>
                 }
-
-                @item.Users1.first_name @item.Users1.second_name.Substring(0,1). @item.Users1.third_name.Substring(0, 1).
-            </td>
+                
+            
             <td onclick="location.href='@Url.Action("DocView","User", new { doc_id=item.id })'">
                 @item.DocType.Name
             </td>
@@ -48,4 +71,15 @@
         </tr>
     }
 </table>
+
+<div style="text-align: center;">
+    @Html.PagedListPager(Model, page => Url.Action("CorrespondenceList", "User", new { page = page, vidSoobsh = ViewBag.Type }, null),
+new PagedListRenderOptions
+{
+    LinkToFirstPageFormat = "<<",
+    LinkToPreviousPageFormat = "Назад",
+    LinkToNextPageFormat = "Вперед",
+    LinkToLastPageFormat = ">>"
+})
+</div>
 

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ViSED.Models;
 using System.Web.Routing;
 using ViSED.ProgramLogic;
+using PagedList;
 
 namespace ViSED.Controllers
 {
@@ -14,7 +15,7 @@ namespace ViSED.Controllers
     {
         Models.ViSedDBEntities vsdEnt = new Models.ViSedDBEntities();
         // GET: MyDocs
-        public ActionResult MyDocsList()
+        public ActionResult MyDocsList(int? page)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -23,7 +24,9 @@ namespace ViSED.Controllers
             var myDocs = from m in vsdEnt.MyDocs
                          where m.user_id == myAccount.user_id
                          select m;
-            return View(myDocs);
+            int pageNumber = page ?? 1;
+            int pageSize = 10;
+            return View(myDocs.ToList().ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult AddDoc()

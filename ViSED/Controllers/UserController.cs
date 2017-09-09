@@ -11,6 +11,7 @@ using LingvoNET;
 using System.Threading;
 using System.Threading.Tasks;
 using NReco.PdfGenerator;
+using PagedList;
 
 namespace ViSED.Controllers
 {
@@ -264,23 +265,41 @@ namespace ViSED.Controllers
             }
         }
 
-        public ActionResult CorrespondenceList()
+        public ActionResult CorrespondenceList(string vidSoobsh, int? page)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-            var Letters = from m in vsdEnt.Letters
-                          where m.to_user_id == myAccount.user_id
-                          orderby m.dateOfSend descending
-                          select m;
-            ViewBag.Letters = Letters;
-            ViewBag.Type = "vhod";
+            if (vidSoobsh == "vhod")
+            {
+                var Letters = from m in vsdEnt.Letters
+                              where m.to_user_id == myAccount.user_id
+                              orderby m.dateOfSend descending
+                              select m;
+                ViewBag.Letters = Letters;
+                ViewBag.Type = "vhod";
 
-            return View();
+                int pageNumber = page ?? 1;
+                int pageSize = 10;
+                return View(Letters.ToList().ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                var Letters = from m in vsdEnt.Letters
+                              where m.from_user_id == myAccount.user_id
+                              orderby m.dateOfSend descending
+                              select m;
+                ViewBag.Letters = Letters;
+                ViewBag.Type = "ishod";
+
+                int pageNumber = page ?? 1;
+                int pageSize = 10;
+                return View(Letters.ToList().ToPagedList(pageNumber, pageSize));
+            }
         }
-        [HttpPost]
-        public ActionResult CorrespondenceListPartial(string vidSoobsh)
+        //[HttpPost]
+        public ActionResult CorrespondenceListPartial(string vidSoobsh, int? page)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -293,6 +312,9 @@ namespace ViSED.Controllers
                               select m;
                 ViewBag.Letters = Letters;
                 ViewBag.Type = "vhod";
+                int pageNumber = page ?? 1;
+                int pageSize = 10;
+                return PartialView(Letters.ToList().ToPagedList(pageNumber, pageSize));
             }
             else
             {
@@ -302,9 +324,13 @@ namespace ViSED.Controllers
                               select m;
                 ViewBag.Letters = Letters;
                 ViewBag.Type = "ishod";
+
+                int pageNumber = page ?? 1;
+                int pageSize = 10;
+                return PartialView(Letters.ToList().ToPagedList(pageNumber, pageSize));
             }
 
-            return PartialView();
+
         }
 
         public ActionResult Dialog(int userId)

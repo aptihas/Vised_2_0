@@ -1,4 +1,6 @@
-﻿@{
+﻿@model PagedList.IPagedList<ViSED.Models.Tasks>
+@using PagedList.Mvc
+@{
     Layout = null;
     ViSED.Models.ViSedDBEntities vsdEnt = new ViSED.Models.ViSedDBEntities();
     var myAccount = (from u in vsdEnt.Accounts
@@ -21,7 +23,7 @@
             <th></th>
         </tr>
 
-        foreach (ViSED.Models.Tasks item in ViewBag.Tasks)
+        foreach (ViSED.Models.Tasks item in Model)
         {
             var _taskAttachments = from t in vsdEnt.TaskAttachments
                                    where t.id == item.id
@@ -113,14 +115,14 @@
             <th>Завершено</th>
             <th></th>
         </tr>
-        foreach (ViSED.Models.Tasks item in ViewBag.Tasks)
+        foreach (ViSED.Models.Tasks item in Model)
         {
             var _taskAttachments = from t in vsdEnt.TaskAttachments
                                    where t.id == item.id
                                    select t;
             <tr>
                 <td>@item.Users1.first_name @item.Users1.second_name.Substring(0, 1). @item.Users1.third_name.Substring(0, 1).</td>
-                @if (item.taskName !=null)
+                @if (item.taskName !=null && item.id_letter!=null)
                 {
                     <td>@Html.ActionLink(item.taskName, "DocView","User",new {doc_id=item.id_letter},null)</td>
                 }
@@ -176,5 +178,15 @@
         }
     }
 </table>
+<div style="text-align: center;">
+    @Html.PagedListPager(Model, page => Url.Action("TasksList", "Task", new { page = page, taskVid=ViewBag.Type }, null),
+new PagedListRenderOptions
+{
+    LinkToFirstPageFormat = "<<",
+    LinkToPreviousPageFormat = "Назад",
+    LinkToNextPageFormat = "Вперед",
+    LinkToLastPageFormat = ">>"
+})
+</div>
 
 

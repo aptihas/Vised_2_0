@@ -1,6 +1,6 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Моя корреспонденция";
+    string s = "", s2 = "";
 }
 <script>
     fireSubmit = function (event) {
@@ -13,18 +13,31 @@
 </script>
 
 <h4 class="zagolovki">Моя корреспонденция</h4>
+@if(ViewBag.Type== "vhod")
+{
+    s = "selected";
+    s2 = "";
+}
+else
+{
+    s = "";
+    s2 = "selected";
+}
 
 @using (Ajax.BeginForm("CorrespondenceListPartial", "User", null, new AjaxOptions { UpdateTargetId = "results" }, new {@name= "myForm" }))
 {
     <select name="vidSoobsh" onchange="fireSubmit(event)">
-        <option value="vhod">Входящие</option>
-        <option value="ishod">Исходящие</option>
+        <option value="vhod" @s>Входящие</option>
+        <option value="ishod" @s2>Исходящие</option>
     </select>
 
     <input type="submit" id="send" value="Отправить" style="display:none;" />
 }
+<br />
 <div id="scroll" class="overflowClassDialog">
     <div id="results">
         @Html.Partial("CorrespondenceListPartial")
     </div>
 </div>
+
+

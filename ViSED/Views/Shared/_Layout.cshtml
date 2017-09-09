@@ -61,8 +61,6 @@
 
             <div class="menuSleva grid-item">
                 <ul>
-
-
                     <li>
                         <a href="@Url.Action("DocSelect", "User", null, null)">
                             <img src="~/Content/icons/newdoc.png" />
@@ -70,13 +68,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("CorrespondenceList", "User", null, null)">
+                        <a href="@Url.Action("CorrespondenceList", "User", new { page=1, vidSoobsh="vhod"}, null)">
                             <img src="~/Content/icons/korrespondence.png" />
                             @msg
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("TasksList", "Task", null, null)">
+                        <a href="@Url.Action("TasksList", "Task", new {page=1, taskVid="zadachi" }, null)">
                             <img src="~/Content/icons/task.png" />
                             Мои задачи
                         </a>
@@ -90,7 +88,7 @@
                     </li>
 
                     <li>
-                        <a href="@Url.Action("MyDocsList", "MyDocs", null, null)">
+                        <a href="@Url.Action("MyDocsList", "MyDocs",  new { page=1}, null)">
                             <img src="~/Content/icons/myDocs.png" />
                             Мои документы
                         </a>
