@@ -24,6 +24,7 @@ namespace ViSED.Controllers
             var myDocs = from m in vsdEnt.MyDocs
                          where m.user_id == myAccount.user_id
                          select m;
+            ViewBag.Page = page ?? 1;
             int pageNumber = page ?? 1;
             int pageSize = 10;
             return View(myDocs.ToList().ToPagedList(pageNumber, pageSize));

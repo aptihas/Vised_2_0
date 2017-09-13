@@ -78,6 +78,7 @@ namespace ViSED.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment, int taskType,DateTime deadline)
         {
             var myAccount = (from u in vsdEnt.Accounts
@@ -270,6 +271,7 @@ namespace ViSED.Controllers
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
+            ViewBag.Page = page ?? 1;
 
             if (vidSoobsh == "vhod")
             {
@@ -298,12 +300,13 @@ namespace ViSED.Controllers
                 return View(Letters.ToList().ToPagedList(pageNumber, pageSize));
             }
         }
-        //[HttpPost]
+        [HttpPost]
         public ActionResult CorrespondenceListPartial(string vidSoobsh, int? page)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
+            ViewBag.Page = page ?? 1;
             if (vidSoobsh== "vhod")
             {
                  var Letters = from m in vsdEnt.Letters
@@ -503,5 +506,14 @@ namespace ViSED.Controllers
             vsdEnt.SaveChanges();
 
         }
+
+
+
+        [HttpPost]
+        public ActionResult Primer(HttpPostedFileBase file)
+        {
+            return View();
+        }
+
     }
 }

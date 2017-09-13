@@ -141,6 +141,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\icons\archiv.png" />
     <Content Include="Content\icons\elPochta.png" />
+    <Content Include="Content\icons\info.png" />
     <Content Include="Content\icons\kabinet.png" />
     <Content Include="Content\icons\konvertClose.png" />
     <Content Include="Content\icons\konvertOpen.png" />
@@ -151,6 +152,7 @@
     <Content Include="Content\icons\otpisatDoc.png" />
     <Content Include="Content\icons\profile.png" />
     <Content Include="Content\icons\task.png" />
+    <Content Include="Content\icons\vagno.png" />
     <Content Include="Content\icons\vhod.png" />
     <Content Include="Content\icons\vihod.png" />
     <Content Include="Content\login-style.css" />
@@ -183,8 +185,16 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="ProgramLogic\Recorderjs\package.json" />
+    <Content Include="ProgramLogic\Recorderjs\README.md" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="ProgramLogic\Recorderjs\dist\recorder.js" />
+    <Content Include="ProgramLogic\Recorderjs\examples\example_simple_exportwav.html" />
+    <Content Include="ProgramLogic\Recorderjs\lib\index.js" />
+    <Content Include="ProgramLogic\Recorderjs\lib\recorder.js" />
+    <Content Include="ProgramLogic\Recorderjs\src\index.js" />
+    <Content Include="ProgramLogic\Recorderjs\src\recorder.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />

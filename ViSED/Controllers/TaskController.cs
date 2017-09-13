@@ -165,7 +165,7 @@ namespace ViSED.Controllers
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-
+            ViewBag.Page = page?? 1;
             if (taskVid == "zadachi")
             {
                 var tasks = from t in vsdEnt.Tasks
@@ -203,7 +203,7 @@ namespace ViSED.Controllers
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-
+            ViewBag.Page = page ?? 1;
             if (taskVid == "zadachi")
             {
                 var tasks = from t in vsdEnt.Tasks
