@@ -36,6 +36,14 @@
           <Property Name="attachedFile" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="attachedName" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
+        <EntityType Name="Audio">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_letter" Type="int" Nullable="false" />
+          <Property Name="audioFile" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
         <EntityType Name="DocType">
           <Key>
             <PropertyRef Name="id" />
@@ -175,6 +183,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Audio_Audio">
+          <End Role="Letters" Type="Self.Letters" Multiplicity="1" />
+          <End Role="Audio" Type="Self.Audio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Letters">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Audio">
+              <PropertyRef Name="id_letter" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Message_DocType">
           <End Role="DocType" Type="Self.DocType" Multiplicity="1" />
           <End Role="Letters" Type="Self.Letters" Multiplicity="*" />
@@ -299,6 +319,7 @@
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Audio" EntityType="Self.Audio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocType" EntityType="Self.DocType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dolgnosti" EntityType="Self.Dolgnosti" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Letters" EntityType="Self.Letters" Schema="dbo" store:Type="Tables" />
@@ -323,6 +344,10 @@
           <AssociationSet Name="FK_Attachments_Attachments" Association="Self.FK_Attachments_Attachments">
             <End Role="Letters" EntitySet="Letters" />
             <End Role="Attachments" EntitySet="Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Audio_Audio" Association="Self.FK_Audio_Audio">
+            <End Role="Letters" EntitySet="Letters" />
+            <End Role="Audio" EntitySet="Audio" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_DocType" Association="Self.FK_Message_DocType">
             <End Role="DocType" EntitySet="DocType" />
@@ -373,6 +398,7 @@
           <EntitySet Name="Accounts" EntityType="ViSedDBModel.Accounts" />
           <EntitySet Name="Admins" EntityType="ViSedDBModel.Admins" />
           <EntitySet Name="Attachments" EntityType="ViSedDBModel.Attachments" />
+          <EntitySet Name="Audio" EntityType="ViSedDBModel.Audio" />
           <EntitySet Name="DocType" EntityType="ViSedDBModel.DocType" />
           <EntitySet Name="Dolgnosti" EntityType="ViSedDBModel.Dolgnosti" />
           <EntitySet Name="Letters" EntityType="ViSedDBModel.Letters" />
@@ -397,6 +423,10 @@
           <AssociationSet Name="FK_Attachments_Attachments" Association="ViSedDBModel.FK_Attachments_Attachments">
             <End Role="Letters" EntitySet="Letters" />
             <End Role="Attachments" EntitySet="Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Audio_Audio" Association="ViSedDBModel.FK_Audio_Audio">
+            <End Role="Letters" EntitySet="Letters" />
+            <End Role="Audio" EntitySet="Audio" />
           </AssociationSet>
           <AssociationSet Name="FK_Message_DocType" Association="ViSedDBModel.FK_Message_DocType">
             <End Role="DocType" EntitySet="DocType" />
@@ -474,6 +504,15 @@
           <Property Name="attachedName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Letters" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Attachments" ToRole="Letters" />
         </EntityType>
+        <EntityType Name="Audio">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_letter" Type="Int32" Nullable="false" />
+          <Property Name="audioFile" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Letters" Relationship="ViSedDBModel.FK_Audio_Audio" FromRole="Audio" ToRole="Letters" />
+        </EntityType>
         <EntityType Name="DocType">
           <Key>
             <PropertyRef Name="id" />
@@ -506,6 +545,7 @@
           <Property Name="dateOfSend" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="dateOfRead" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Attachments" Relationship="ViSedDBModel.FK_Attachments_Attachments" FromRole="Letters" ToRole="Attachments" />
+          <NavigationProperty Name="Audio" Relationship="ViSedDBModel.FK_Audio_Audio" FromRole="Letters" ToRole="Audio" />
           <NavigationProperty Name="DocType" Relationship="ViSedDBModel.FK_Message_DocType" FromRole="Letters" ToRole="DocType" />
           <NavigationProperty Name="Users" Relationship="ViSedDBModel.FK_Message_User_From" FromRole="Letters" ToRole="Users" />
           <NavigationProperty Name="Users1" Relationship="ViSedDBModel.FK_Message_Users_To" FromRole="Letters" ToRole="Users" />
@@ -633,6 +673,18 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Attachments">
+              <PropertyRef Name="id_letter" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Audio_Audio">
+          <End Type="ViSedDBModel.Letters" Role="Letters" Multiplicity="1" />
+          <End Type="ViSedDBModel.Audio" Role="Audio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Letters">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Audio">
               <PropertyRef Name="id_letter" />
             </Dependent>
           </ReferentialConstraint>
@@ -792,6 +844,15 @@
               <MappingFragment StoreEntitySet="Attachments">
                 <ScalarProperty Name="attachedName" ColumnName="attachedName" />
                 <ScalarProperty Name="attachedFile" ColumnName="attachedFile" />
+                <ScalarProperty Name="id_letter" ColumnName="id_letter" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Audio">
+            <EntityTypeMapping TypeName="ViSedDBModel.Audio">
+              <MappingFragment StoreEntitySet="Audio">
+                <ScalarProperty Name="audioFile" ColumnName="audioFile" />
                 <ScalarProperty Name="id_letter" ColumnName="id_letter" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

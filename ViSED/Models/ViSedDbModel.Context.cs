@@ -38,6 +38,8 @@ public partial class ViSedDBEntities : DbContext
 
     public virtual DbSet<Attachments> Attachments { get; set; }
 
+    public virtual DbSet<Audio> Audio { get; set; }
+
     public virtual DbSet<DocType> DocType { get; set; }
 
     public virtual DbSet<Dolgnosti> Dolgnosti { get; set; }

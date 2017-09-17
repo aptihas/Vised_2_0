@@ -24,6 +24,8 @@ public partial class Letters
 
         this.Attachments = new HashSet<Attachments>();
 
+        this.Audio = new HashSet<Audio>();
+
         this.Tasks = new HashSet<Tasks>();
 
     }
@@ -48,6 +50,10 @@ public partial class Letters
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Attachments> Attachments { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Audio> Audio { get; set; }
 
     public virtual DocType DocType { get; set; }
 

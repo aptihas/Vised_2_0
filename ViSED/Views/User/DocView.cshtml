@@ -21,6 +21,9 @@
     var attachs = from a in vsdEnt.Attachments
                   where a.id_letter == id_letter
                   select a;
+    var _audio = (from a in vsdEnt.Audio
+                  where a.id_letter == id_letter
+                  select a).FirstOrDefault();
 }
 @if (attachs != null)
 {
@@ -33,6 +36,13 @@
                 i++;
             }
         }
+    </div>
+}
+@if (_audio != null)
+{
+    <div style="padding-left:30px;padding-top:20px;">
+        <audio src="@Url.Content(_audio.audioFile)">
+        </audio>
     </div>
             }
 @Html.Partial("DocViewPartial")

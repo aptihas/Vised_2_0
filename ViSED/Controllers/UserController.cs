@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NReco.PdfGenerator;
 using PagedList;
+using System.IO;
 
 namespace ViSED.Controllers
 {
@@ -40,6 +41,7 @@ namespace ViSED.Controllers
             var myUser = (from u in vsdEnt.Users
                           where u.id == myAccount.user_id
                           select u).FirstOrDefault();
+            ViewBag.MyUser = myUser;
 
             var doc = (from d in vsdEnt.DocType
                        where d.id == id
@@ -78,6 +80,26 @@ namespace ViSED.Controllers
             return View();
         }
 
+        //этот вариант работает
+        [AllowAnonymous]
+        [HttpPost]
+        public void Sound()
+        {
+            Stream obj = Request.InputStream;
+
+            string audioPathAbsolute = "~/Files/Audio/" + "2" + "/audio_12.wav";
+
+            using (FileStream fileStream = System.IO.File.Create(Server.MapPath(audioPathAbsolute), (int)obj.Length))
+            {
+                // Размещает массив общим размером равным размеру потока
+                // Могут быть трудности с выделением памяти для больших объемов
+                byte[] data = new byte[obj.Length];
+                obj.Read(data, 0, (int)data.Length);
+                fileStream.Write(data, 0, data.Length);
+            }
+
+        }
+
         [HttpPost]
         public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment, int taskType,DateTime deadline)
         {
@@ -91,6 +113,9 @@ namespace ViSED.Controllers
             var docType = (from d in vsdEnt.DocType
                            where d.id == doc_id
                            select d).FirstOrDefault();
+
+
+
             List<Letters> msgList = new List<Letters>();
             for (int i = 0; i < user_to_id.Length; i++)
             {
@@ -146,6 +171,49 @@ namespace ViSED.Controllers
                 }
                 vsdEnt.SaveChanges();
             }
+
+
+            //Голосовое сообщение
+            //Голосое сообещние
+            //Stream obj = Request.InputStream;
+            //нужно просто при отправке формы вызывать функцию отправки аудио файла
+            //if (obj.Length != 0 && obj != null)
+            //{
+            //    if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
+            //    {
+            //        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
+            //    }
+
+            //    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio")))
+            //    {
+            //        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio"));
+            //    }
+
+            //    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio/" + myUser.id.ToString())))
+            //    {
+            //        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio/" + myUser.id.ToString()));
+            //    }
+
+            //    string audioPathAbsolute = "~/Files/Audio/" + myUser.id.ToString() + "/audio_" + msgList[0].id.ToString()+ ".wav";
+
+            //    using (FileStream fileStream = System.IO.File.Create(Server.MapPath("~/Files/Audio/zvuk.wav"), (int)obj.Length))
+            //    {
+            //        // Размещает массив общим размером равным размеру потока
+            //        // Могут быть трудности с выделением памяти для больших объемов
+            //        byte[] data = new byte[obj.Length];
+            //        obj.Read(data, 0, (int)data.Length);
+            //        fileStream.Write(data, 0, data.Length);
+            //    }
+
+            //    foreach (Letters msg in msgList)
+            //    {
+            //        Audio _audio = new Audio { id_letter = msg.id, audioFile = audioPathAbsolute };
+            //        vsdEnt.Audio.Add(_audio);
+            //    }
+
+            //    vsdEnt.SaveChanges();
+            //}
+            //------
 
             if (myDocs?.Length!=null && myDocs.Length > 0)
             {
@@ -506,14 +574,5 @@ namespace ViSED.Controllers
             vsdEnt.SaveChanges();
 
         }
-
-
-
-        [HttpPost]
-        public ActionResult Primer(HttpPostedFileBase file)
-        {
-            return View();
-        }
-
     }
 }
