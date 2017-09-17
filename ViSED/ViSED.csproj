@@ -188,17 +188,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="ProgramLogic\Recorderjs\package.json" />
-    <Content Include="ProgramLogic\Recorderjs\README.md" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
-    <Content Include="ProgramLogic\Recorderjs\dist\recorder.js" />
-    <Content Include="ProgramLogic\Recorderjs\examples\example_simple_exportwav.html" />
-    <Content Include="ProgramLogic\Recorderjs\lib\index.js" />
-    <Content Include="ProgramLogic\Recorderjs\lib\recorder.js" />
-    <Content Include="ProgramLogic\Recorderjs\recordFunctionsjs.js" />
-    <Content Include="ProgramLogic\Recorderjs\src\index.js" />
-    <Content Include="ProgramLogic\Recorderjs\src\recorder.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -211,6 +202,7 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\myScripts.js" />
+    <Content Include="Scripts\recordFunctionsjs.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

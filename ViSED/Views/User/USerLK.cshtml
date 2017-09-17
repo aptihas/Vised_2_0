@@ -1,24 +1,50 @@
 ﻿
+
+
 @{
     ViewBag.Title = "Личный кабинет";
 }
-<script src="~/ProgramLogic/Recorderjs/dist/recorder.js" type="text/javascript"></script>
-<script src="~/ProgramLogic/Recorderjs/recordFunctionsjs.js" type="text/javascript"></script>
+@*<script src="~/ProgramLogic/Recorderjs/dist/recorder.js" type="text/javascript"></script>
+    <script src="~/ProgramLogic/Recorderjs/recordFunctionsjs.js" type="text/javascript"></script>
 
 
-<h4 class="zagolovki">Личный кабинет</h4>
-
+    <h4 class="zagolovki">Личный кабинет</h4>
     <img src="~/Content/icons/record.png" id="rec" onclick="startRecording(this);" style="width:30px;" />
-    <img src="~/Content/icons/stop.png" id="stp" onclick="stopRecording(this);" style="width:30px; display:none;"  />
+    <img src="~/Content/icons/stop.png" id="stp" onclick="stopRecording(this);" style="width:30px; display:none;" />
 
-    <span class="seconds">01:00</span>
-    <br />
 
-    <div id="recordingslist">
-        <audio id="sound">
-        </audio>
-    </div>
+        <span class="seconds">01:00</span>
+        <br />
 
-<button onclick="sendAudio();"></button>
+        <div id="recordingslist">
+            <audio id="sound">
+            </audio>
+        </div>
+
+    <button onclick="sendAudio();"></button>*@
+
+<audio id="sound"></audio>
+
+<button onclick="start();">start</button>
+<button onclick="stop();">stop</button>
+
+<button onclick="upload();">Отправить</button>
+
+
+<script>
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -80,28 +80,8 @@ namespace ViSED.Controllers
             return View();
         }
 
-        //этот вариант работает
-        [AllowAnonymous]
         [HttpPost]
-        public void Sound()
-        {
-            Stream obj = Request.InputStream;
-
-            string audioPathAbsolute = "~/Files/Audio/" + "2" + "/audio_12.wav";
-
-            using (FileStream fileStream = System.IO.File.Create(Server.MapPath(audioPathAbsolute), (int)obj.Length))
-            {
-                // Размещает массив общим размером равным размеру потока
-                // Могут быть трудности с выделением памяти для больших объемов
-                byte[] data = new byte[obj.Length];
-                obj.Read(data, 0, (int)data.Length);
-                fileStream.Write(data, 0, data.Length);
-            }
-
-        }
-
-        [HttpPost]
-        public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment, int taskType,DateTime deadline)
+        public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment, HttpPostedFileBase sound, int taskType,DateTime deadline)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
