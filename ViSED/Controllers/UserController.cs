@@ -81,13 +81,34 @@ namespace ViSED.Controllers
         }
 
         [HttpPost]
-        public void Sound(HttpPostedFileBase sound)
+        public void SoundTemp(HttpPostedFileBase sound)
         {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+
+            if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
+            {
+                System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
+            }
+
+            if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio")))
+            {
+                System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio"));
+            }
+
+            if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString())))
+            {
+                System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString()));
+            }
+
+            // сохраняем файл в папку Files в проекте
+            sound.SaveAs(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString() + "/file_sound_temp"));
 
         }
 
         [HttpPost]
-        public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment, HttpPostedFileBase sound, int taskType,DateTime deadline)
+        public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment, int taskType,DateTime deadline)
         {
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
@@ -163,42 +184,20 @@ namespace ViSED.Controllers
             //Голосое сообещние
             //Stream obj = Request.InputStream;
             //нужно просто при отправке формы вызывать функцию отправки аудио файла
-            //if (obj.Length != 0 && obj != null)
-            //{
-            //    if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
-            //    {
-            //        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
-            //    }
+            if (System.IO.File.Exists(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString() + "/file_sound_temp")))
+            {
+                System.IO.File.Move(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString() + "/file_sound_temp"), Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString() + "/audio_" + msgList[0].id.ToString() + ".webm"));
+                string audioPathAbsolute = "~/Files/Audio/" + myAccount.user_id.ToString() + "/audio_" + msgList[0].id.ToString() + ".webm";
+                System.IO.File.Delete(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString() + "/file_sound_temp"));
 
-            //    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio")))
-            //    {
-            //        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio"));
-            //    }
+                foreach (Letters msg in msgList)
+                {
+                    Audio _audio = new Audio { id_letter = msg.id, audioFile = audioPathAbsolute };
+                    vsdEnt.Audio.Add(_audio);
+                }
 
-            //    if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio/" + myUser.id.ToString())))
-            //    {
-            //        System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio/" + myUser.id.ToString()));
-            //    }
-
-            //    string audioPathAbsolute = "~/Files/Audio/" + myUser.id.ToString() + "/audio_" + msgList[0].id.ToString()+ ".wav";
-
-            //    using (FileStream fileStream = System.IO.File.Create(Server.MapPath("~/Files/Audio/zvuk.wav"), (int)obj.Length))
-            //    {
-            //        // Размещает массив общим размером равным размеру потока
-            //        // Могут быть трудности с выделением памяти для больших объемов
-            //        byte[] data = new byte[obj.Length];
-            //        obj.Read(data, 0, (int)data.Length);
-            //        fileStream.Write(data, 0, data.Length);
-            //    }
-
-            //    foreach (Letters msg in msgList)
-            //    {
-            //        Audio _audio = new Audio { id_letter = msg.id, audioFile = audioPathAbsolute };
-            //        vsdEnt.Audio.Add(_audio);
-            //    }
-
-            //    vsdEnt.SaveChanges();
-            //}
+                vsdEnt.SaveChanges();
+            }
             //------
 
             if (myDocs?.Length!=null && myDocs.Length > 0)
