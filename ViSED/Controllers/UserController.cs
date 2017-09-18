@@ -81,6 +81,12 @@ namespace ViSED.Controllers
         }
 
         [HttpPost]
+        public void Sound(HttpPostedFileBase sound)
+        {
+
+        }
+
+        [HttpPost]
         public ActionResult DocSave(int[] user_to_id, int[] myDocs, string text, int doc_id, HttpPostedFileBase[] attachment, HttpPostedFileBase sound, int taskType,DateTime deadline)
         {
             var myAccount = (from u in vsdEnt.Accounts
