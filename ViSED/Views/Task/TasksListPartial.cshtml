@@ -52,7 +52,7 @@
                 }
                 else
                 {
-                    <td>@item.dateDeadline</td>
+                    <td>@DateTime.Parse(item.dateDeadline.ToString()).ToShortDateString()</td>
                 }
                 @if (item.taskType == 1)
                 {
@@ -81,7 +81,8 @@
                 }
                 @if (item.complete != true)
                 {
-                    <td> @Html.ActionLink("Завершить", "TaskCompleate", "Task", new { id = item.id }, null) 
+                    <td> @Html.ActionLink("Завершить", "TaskCompleate", "Task", new { id = item.id }, null)<br />
+                        @Html.ActionLink("Подробнее", "TaskDetails", "Task", new { id = item.id }, null)
                     </td>
 
                 }
@@ -92,7 +93,8 @@
                         
 
                         <td>
-                            @Html.ActionLink("Удалить", "TaskDelete", "Task", new { id = item.id }, null)
+                            @Html.ActionLink("Удалить", "TaskDelete", "Task", new { id = item.id }, null)<br />
+                            @Html.ActionLink("Подробнее", "TaskDetails", "Task", new { id = item.id }, null)
                         </td>
                     }
                 }
@@ -137,7 +139,7 @@
                 }
                 else
                 {
-                    <td>@item.dateDeadline</td>
+                    <td>@DateTime.Parse(item.dateDeadline.ToString()).ToShortDateString()</td>
                 }
 
             @if (item.taskType == 1)
@@ -157,7 +159,7 @@
                 }
                 @if (item.complete == true)
                 {
-                string str = item.taskType == 1 ? "Исполнено" : "Ознакомлен";
+                    string str = item.taskType == 1 ? "Исполнено" : "Ознакомлен";
                     <td>@str</td>
                 }
                 else
@@ -165,7 +167,9 @@
                 string str = item.taskType == 1 ? "Не исполнено" : "Не ознакомлен";
                     <td>@str</td>
                 }
-                <td>@Html.ActionLink("Удалить", "TaskDelete", "Task", new { id = item.id }, null)</td>
+                <td>@Html.ActionLink("Удалить", "TaskDelete", "Task", new { id = item.id }, null)<br />
+                    @Html.ActionLink("Подробнее", "TaskDetails", "Task", new { id = item.id }, null)
+                </td>
             </tr>
             x++;
         }

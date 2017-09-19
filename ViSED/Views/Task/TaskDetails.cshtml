@@ -1,8 +1,9 @@
 ﻿@model ViSED.Models.Tasks
 
 @{
-    ViewBag.Title = "TaskDetails";
+    ViewBag.Title = "Данные задачи";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViSED.Models.Tasks _task = ViewBag.Task;
 }
 
 <h4>Данные задачи</h4>
@@ -11,27 +12,57 @@
     <dl class="dl-horizontal">
 
         <dt>
-            @Html.DisplayNameFor(model => model.id_letter)
+            Идентификатор
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.id_letter)
+            @_task.id
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.user_id_from)
+            Название задачи
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.user_id_from)
+            @Html.DisplayFor(model => model.taskName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.user_id_to)
+            Прикрепленное письмо
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.user_id_to)
+            @if (_task.id_letter != null)
+            {
+                <a href="@Url.Action("DocView","User", new { doc_id = _task.id_letter } )">@_task.Letters.DocType.Name</a>
+            }
+            else
+            {
+                <span>Прикрепленных писем нет</span>
+            }
+        </dd>
+
+        <dt>
+            Отправитель
+        </dt>
+
+        <dd>
+            @if (_task.user_id_from != null)
+            {
+                <span>@_task.Users.first_name @_task.Users.second_name @_task.Users.third_name</span> 
+            }
+            else
+            {
+                <span>Я</span>
+            }
+        </dd>
+
+        <dt>
+            Получатель
+        </dt>
+
+        <dd>
+            <span>@_task.Users1.first_name @_task.Users1.second_name @_task.Users1.third_name</span>
         </dd>
 
         <dt>
@@ -47,7 +78,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.complete)
+            @if (_task.complete == false)
+            {
+                @Html.ActionLink("Завершить", "TaskCompleate", "Task", new { id = _task.id }, null)
+            }
+            else
+            {
+                <span>Завершено</span>
+            }
         </dd>
 
         <dt>
@@ -55,7 +93,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.dateOfCreate)
+            <span>@_task.dateOfCreate.ToShortDateString()</span>
         </dd>
 
         <dt>
@@ -63,28 +101,29 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.dateDeadline)
+            @if (_task.dateDeadline != null)
+            {
+                <span>@DateTime.Parse(_task.dateDeadline.ToString()).ToShortDateString()</span>
+            }
+            else
+            {
+                <span>Нет срока</span>
+            }
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.taskType)
+            Вид задачи
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.taskType)
+            @if (_task.taskType == 1)
+            {
+                <span>Для выполнения</span>
+            }
+            else
+            {
+                <span>Для ознакомления</span>
+            }
         </dd>
-
-        <dt>
-            Название задачи
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.taskName)
-        </dd>
-
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

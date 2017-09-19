@@ -255,7 +255,7 @@ namespace ViSED.Controllers
             var _task = (from t in vsdEnt.Tasks
                          where t.id == id
                          select t).FirstOrDefault();
-
+            ViewBag.Task = _task;
 
             return View(_task);
         }

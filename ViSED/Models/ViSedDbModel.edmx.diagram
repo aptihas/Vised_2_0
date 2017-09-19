@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d1dc487a7ae345bfa8a40765c022244a" Name="Diagram1" ZoomLevel="58">
+      <Diagram DiagramId="d1dc487a7ae345bfa8a40765c022244a" Name="Diagram1" ZoomLevel="86">
         <EntityTypeShape EntityType="ViSedDBModel.Accounts" Width="1.5" PointX="8.25" PointY="7.875" />
         <EntityTypeShape EntityType="ViSedDBModel.Admins" Width="1.5" PointX="8.25" PointY="0.75" />
         <EntityTypeShape EntityType="ViSedDBModel.Attachments" Width="1.5" PointX="7.5" PointY="13.75" />
