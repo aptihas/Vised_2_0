@@ -250,6 +250,15 @@ namespace ViSED.Controllers
             vsdEnt.SaveChanges();
             return RedirectToAction("TasksList", "Task", null);
         }
+        public ActionResult TaskDetails(int id)
+        {
+            var _task = (from t in vsdEnt.Tasks
+                         where t.id == id
+                         select t).FirstOrDefault();
+
+
+            return View(_task);
+        }
 
         public ActionResult TaskDelete(int id)
         {

@@ -24,7 +24,7 @@
             </th>
             <th style="width:20%;">Действия</th>
         </tr>
-        @{ int x = ViewBag.Page > 1 ? ViewBag.Page - 1 + 10 : 1; }
+        @{ int x = ViewBag.Page > 1 ? ((ViewBag.Page - 1) * 10) + 1 : 1; }
         @foreach (var item in Model)
         {
             <tr>

@@ -23,7 +23,7 @@
             <th>Дата отправления</th>
         }
     </tr>
-    @{ int x = ViewBag.Page >1? ViewBag.Page - 1 + 10:1; }
+    @{ int x = ViewBag.Page > 1 ? ((ViewBag.Page-1) * 10)+1:1; }
     @foreach (ViSED.Models.Letters item in Model)
     {
         string style = ViewBag.Type == "vhod" && item.dateOfRead == null ? "font-weight:600;background-color: #e8f0ff;" : "";

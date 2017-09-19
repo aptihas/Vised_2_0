@@ -15,15 +15,13 @@
             <th>№</th>
             <th>Поручитель</th>
             <th>Название задачи</th>
-            <th>Текст задачи</th>
             <th>Дата</th>
             <th>Срок</th>
             <th>Вид задачи</th>
-            <th>Приложения</th>
             <th>Завершено</th>
             <th></th>
         </tr>
-        int x = ViewBag.Page >1? ViewBag.Page - 1 + 10:1;
+        int x = ViewBag.Page >1 ? ((ViewBag.Page - 1) * 10) + 1 : 1;
         foreach (ViSED.Models.Tasks item in Model)
         {
             var _taskAttachments = from t in vsdEnt.TaskAttachments
@@ -47,7 +45,6 @@
                 {
                     <td>@item.taskName</td>
                 }
-                <td>@item.taskText</td>
                 <td>@item.dateOfCreate.ToShortDateString()</td>
                 @if (item.dateDeadline == null)
                 {
@@ -61,30 +58,17 @@
                 {
                     
                     <td>
-                        <img src="~/Content/icons/vagno.png" style="width:25px;" />
+                        <img src="~/Content/icons/vagno.png" style="width:15px;" />
                         Для исполнения
                     </td>
                 }
                 else
                 {
                     <td>
-                        <img src="~/Content/icons/info.png" style="width:25px;" />
+                        <img src="~/Content/icons/info.png" style="width:15px;" />
                         Для ознакомления
                     </td>
                 }
-                <td>
-                    @if (_taskAttachments != null)
-                    {
-                        foreach (ViSED.Models.TaskAttachments t in _taskAttachments)
-                        {
-                            <a href="@Url.Content(t.attachedFile)">@t.attachedName</a><br />
-                        }
-                    }
-                    else
-                    {
-
-                    }
-                </td>
                 @if (item.complete == true)
                 {
                     string str = item.taskType == 1 ? "Исполнено" : "Ознакомлен";
@@ -97,13 +81,19 @@
                 }
                 @if (item.complete != true)
                 {
-                    <td> @Html.ActionLink("Завершить", "TaskCompleate", "Task", new { id = item.id }, null) </td>
+                    <td> @Html.ActionLink("Завершить", "TaskCompleate", "Task", new { id = item.id }, null) 
+                    </td>
+
                 }
                 else
                 {
                     if (item.user_id_from == null && item.user_id_to == myAccount.user_id)
                     {
-                        <td>@Html.ActionLink("Удалить", "TaskDelete", "Task", new { id = item.id }, null)</td>
+                        
+
+                        <td>
+                            @Html.ActionLink("Удалить", "TaskDelete", "Task", new { id = item.id }, null)
+                        </td>
                     }
                 }
                 
@@ -117,15 +107,13 @@
             <th>№</th>
             <th>Отвественный</th>
             <th>Название задачи</th>
-            <th>Текст задачи</th>
             <th>Дата</th>
             <th>Срок</th>
-            <th>Приложения</th>
             <th>Вид задачи</th>
             <th>Завершено</th>
             <th></th>
         </tr>
-        int x = ViewBag.Page > 1 ? ViewBag.Page - 1 + 10 : 1;
+        int x = ViewBag.Page > 1 ? ((ViewBag.Page - 1) * 10) + 1 : 1;
         foreach (ViSED.Models.Tasks item in Model)
         {
             var _taskAttachments = from t in vsdEnt.TaskAttachments
@@ -142,7 +130,6 @@
                 {
                     <td>@item.taskName</td>
                 }
-                <td>@item.taskText</td>
                 <td>@item.dateOfCreate.ToShortDateString()</td>
                 @if (item.dateDeadline == null)
                 {
@@ -157,31 +144,17 @@
                 {
 
                     <td>
-                        <img src="~/Content/icons/vagno.png" style="width:25px;" />
+                        <img src="~/Content/icons/vagno.png" style="width:15px;" />
                         Для исполнения
                     </td>
                 }
                 else
                 {
                     <td>
-                        <img src="~/Content/icons/info.png" style="width:25px;" />
+                        <img src="~/Content/icons/info.png" style="width:15px;" />
                         Для ознакомления
                     </td>
                 }
-                <td>
-                    @if (_taskAttachments != null)
-                    {
-                foreach (ViSED.Models.TaskAttachments t in _taskAttachments)
-                {
-                            <a href="@Url.Content(t.attachedFile)">@t.attachedName</a><br />
-                        }
-            }
-                    else
-                    {
-
-            }
-
-                </td>
                 @if (item.complete == true)
                 {
                 string str = item.taskType == 1 ? "Исполнено" : "Ознакомлен";

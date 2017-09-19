@@ -1,0 +1,90 @@
+﻿@model ViSED.Models.Tasks
+
+@{
+    ViewBag.Title = "TaskDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Данные задачи</h4>
+
+<div>
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_letter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_letter)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_id_from)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_id_from)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_id_to)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_id_to)
+        </dd>
+
+        <dt>
+            Текст задачи
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.taskText)
+        </dd>
+
+        <dt>
+            Задача выполнена
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.complete)
+        </dd>
+
+        <dt>
+            Дата задачи
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateOfCreate)
+        </dd>
+
+        <dt>
+            Срок
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateDeadline)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.taskType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.taskType)
+        </dd>
+
+        <dt>
+            Название задачи
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.taskName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

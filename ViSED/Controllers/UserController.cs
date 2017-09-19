@@ -34,6 +34,7 @@ namespace ViSED.Controllers
         }
         public ActionResult DocData(int id)//Страница указания данных для документа (получатель и текст)
         {
+            SoundTempDel();
             var myAccount = (from u in vsdEnt.Accounts
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
@@ -87,24 +88,38 @@ namespace ViSED.Controllers
                              where u.login == User.Identity.Name
                              select u).FirstOrDefault();
 
-            if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
+            if (myAccount.Users.Dolgnosti.UseAudio == true)
             {
-                System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
-            }
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files"));
+                }
 
-            if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio")))
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio")))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio"));
+                }
+
+                if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString())))
+                {
+                    System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString()));
+                }
+                // сохраняем файл в папку Files в проекте
+                sound.SaveAs(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString() + "/file_sound_temp"));
+            }
+        }
+        public void SoundTempDel()
+        {
+            var myAccount = (from u in vsdEnt.Accounts
+                             where u.login == User.Identity.Name
+                             select u).FirstOrDefault();
+            if (System.IO.Directory.Exists(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString())))
             {
-                System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio"));
+                if(System.IO.File.Exists(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString() + "/file_sound_temp")))
+                {
+                    System.IO.File.Delete(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString() + "/file_sound_temp"));
+                }
             }
-
-            if (!System.IO.Directory.Exists(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString())))
-            {
-                System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString()));
-            }
-
-            // сохраняем файл в папку Files в проекте
-            sound.SaveAs(Server.MapPath("~/Files/Audio/" + myAccount.user_id.ToString() + "/file_sound_temp"));
-
         }
 
         [HttpPost]

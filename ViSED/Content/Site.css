@@ -530,3 +530,18 @@ body {
     width:20px;
     margin-right:10px;
 }
+
+
+/*Класс стилей для микрофона*/
+.enableTrue{
+    cursor:pointer;
+    width:30px;
+}
+
+.enableFlase {
+    cursor: not-allowed;
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+    width: 30px;
+}
+/*Класс стилей для микрофона*/

@@ -43,8 +43,10 @@
         @if (ViewBag.MyUser.Dolgnosti.UseAudio == true)
         {
             <p>Записать голосовое сообщение</p>
-            <img src="~/Content/icons/record.png" id="rec" onclick="start();" style="width:30px;" />
-            <img src="~/Content/icons/stop.png" id="stp" onclick="stop();" style="width:30px;" />
+            <img src="~/Content/icons/record.png" id="rec" onclick="start();" class="enableTrue"/>
+            <img src="~/Content/icons/stop.png" id="stp" onclick="stop();" hidden="hidden" class="enableFlase" />
+            <img src="~/Content/icons/deleteRec.png" id="delRec" hidden="hidden" onclick="recordDel();" class="enableFlase" />
+            <div id="seconds"></div>
             <br />
             <div id="recordingslist">
                 <audio id="sound"></audio>
