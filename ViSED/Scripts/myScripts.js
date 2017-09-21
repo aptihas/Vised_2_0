@@ -24,7 +24,7 @@ function poluchateli() {
     text.style = "display:inherit;";
 }
 
-function text() {
+function txtShowFun() {
     var text = document.getElementById("text");
     text.style = "display:none;";
     var files = document.getElementById("files");
