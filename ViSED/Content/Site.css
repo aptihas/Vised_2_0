@@ -7,7 +7,7 @@ select {
 }
 
 body {
-    background-color: #f1f4f9 !important;
+    background-color: #fff !important;
 }
 /*Стили для ссылок*/
 .ssilka {
@@ -38,8 +38,8 @@ body {
 
 
 .loginPartial li {
-    text-align: center;
     display: inline-block;
+    border-radius:5px;
 }
 
 .loginPartial li a {
@@ -49,9 +49,7 @@ body {
     padding: 20px 10px 10px 10px;
     margin-left: -4px;
     min-width: 100px;
-    color: #899dc1;
-    font-weight: 600;
-    transition: 0.3s;
+    color: #4E5E6A;
     margin-top:-4px;
 }
 .loginPartial li a img {
@@ -63,12 +61,9 @@ body {
 
 }
 .loginPartial li a:hover {
-    transition: 0.3s;
-    background-color: #2b384e;
     cursor: pointer;
-    color: #fff;
-    margin-top:-4px;
-    text-decoration: none;
+    text-decoration: underline;
+        font-weight: 600;
 }
 .loginPartial li a:hover img {
     -webkit-filter: brightness(1.1);
@@ -83,7 +78,7 @@ body {
 
 .shapkaConteiner {
     width: 100%;
-    background-color: #34425a;
+    background-color: #4EB1BA;
     height: 60px;
 }
 
@@ -93,16 +88,16 @@ body {
     font-weight: 600;
 }
 .profil {
+    border-radius: 5px;
     width: 200px;
-    min-height:150px;
-    max-height:250px;
-    margin:5px;
-    margin-left:0px;
-    margin-top:2px;
-    padding:5px;
+    min-height: 150px;
+    max-height: 250px;
+    margin: 5px;
+    padding: 5px;
     padding-left: -3px;
-    z-index:10;
-    background-color: #34425a;
+    color: #E9E9E9;
+    z-index: 10;
+    background-color: #E9E9E9;
     text-align: center;
 }
 
@@ -115,18 +110,18 @@ body {
 }
 
 .profileFio {
-    color: #899dc1;
-    font-weight:600;
+    color: #4E5E6A;
+    font-weight: 600;
 }
 .profileDolgnost {
-    margin-top:3px;
-    color: #899dc1;
+    margin-top: 3px;
+    color: #4E5E6A;
     font-weight: 600;
-    font-size:12px;
+    font-size: 12px;
 }
 .profilePodrazdeleniya {
     margin-top: 3px;
-    color: #899dc1;
+    color: #4E5E6A;
     font-weight: 600;
     font-size: 10px;
 }
@@ -135,10 +130,11 @@ body {
 
 
 .menuSleva {
+    border-radius: 5px;
+    box-shadow: 0px 0px 1px 1px #dfe4ed;
     width: 200px;
-    margin-top: -3px;
-    padding-left: -3px;
-    background-color: #34425a;
+    margin-left: 6px;
+    background-color: #E9E9E9;
     text-align: left;
 }
 
@@ -150,9 +146,8 @@ body {
 .menuSleva ul li a {
     display: block;
     text-decoration: none;
-    color: #899dc1;
+    color: #4E5E6A;
     font-weight: 500;
-    transition: 0.3s;
     height: 60px;
     padding: 15px 10px 10px 3px;
     margin: 3px;
@@ -168,10 +163,9 @@ body {
 .menuSleva ul li a:hover {
     display: block;
     height: 60px;
-    transition: 0.3s;
-    color: #fff;
-    border-right:3px solid #fff;
-    background-color: #2b384e;
+    background-color: #FFF;
+    box-shadow: 0px 0px 1px 2px #dae2ee;
+    border-radius: 5px;
     padding: 15px 10px 10px 5px;
     margin: 3px;
 }
@@ -185,7 +179,7 @@ body {
     padding: 5px;
     height: 70vh;
     box-shadow: 0px 0px -1px 2px #abc4ed;
-    overflow: auto;
+    overflow:auto;
 }
 .renderBody {
     padding: 20px;
@@ -193,11 +187,11 @@ body {
 }
 
 .logoVised {
-    width: 200px;
+    width: 205px;
     float: left;
     height: 60px;
     padding-left: 20px;
-    background-color: #2b384e;
+    background-color: #E9E9E9;
 }
 
 .gridVised {
@@ -236,9 +230,9 @@ body {
     width: 70%;
     margin: 20px;
     padding: 20px;
-    background-color: #fff;
+    background-color: #E9E9E9;
     border-radius: 0px 15px 15px 15px;
-    box-shadow: 2px 2px 15px 5px #e8f0ff;
+    box-shadow: 1px 1px 1px 1px #e7eaef;
 }
 .bumagaA4 a {
     font-size:11px;
@@ -277,9 +271,9 @@ body {
     margin: 20px;
     margin-left: 30%;
     padding: 20px;
-    background-color: #fff;
-    border-radius:15px 15px 0px 15px;
-    box-shadow: 2px 2px 15px 5px #e8f0ff;
+    background-color: #E9E9E9;
+    border-radius: 15px 15px 0px 15px;
+    box-shadow: 1px 1px 1px 1px #e7eaef;
 }
 .bumagaA4Right a {
     font-size: 11px;
@@ -305,22 +299,22 @@ body {
 .table_col {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
     font-size: 14px;
-    background: white;
+    border-radius: 5px;
+    background-color: #f2f2f2;
     text-align: left;
     border-collapse: collapse;
     color: #4E5E6A;
     margin: 10px;
     width: 95%;
-    box-shadow: 0px 0px 2px 2px #dfe4ed;
+    box-shadow: 0px 0px 1px 1px #dfe4ed;
 }
 
 
 .table_col tr th {
     font-weight: 600;
     border-bottom: 2px solid #4E5E6A;
-    border-right: 20px solid white;
-    border-left: 20px solid white;
-    padding: 8px 10px;
+    padding: 8px;
+    background-color: #4EB1BA;
 }
 
 .table_col tr:nth-child(n+2):hover {
@@ -330,50 +324,49 @@ body {
 
 .table_col tr td {
     padding: 12px 10px;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #4E5E6A !important;
     color: #8b8e91;
 }
 .table_col tr td:hover {
     padding: 12px 10px;
-    border-bottom:1px solid #4E5E6A;
+    border-bottom: 1px solid #4E5E6A;
     color: #8b8e91;
 }
 
+
 .docSelectItem {
     box-shadow: 0px 0px 2px 2px #dfe4ed;
+    border-radius: 5px;
     margin: 10px;
     width: 200px;
-    padding: 10px;
     max-width: 400px;
-    box-shadow: 0px 0px 2px 2px #dfe4ed;
+    height: 70px;
+    color: #4E5E6A;
+    font-size: 12pt;
+    text-align:center;
+    padding-top:25px;
+    float:left;
+    text-transform: uppercase;
+    font-weight: 600;
+    max-height: 150px;
+    background-color: #E9E9E9;
+}
+
+.docSelectItem:hover {
+    margin: 10px;
+    width: 200px;
+    padding-top: 25px;
+    max-width: 400px;
     height: 70px;
     color: #4E5E6A;
     float: left;
     font-weight: 600;
     text-align: center;
-    padding-top: 25px;
     max-height: 150px;
+    cursor: pointer;
     background-color: #fff;
+    box-shadow: 0px 0px 1px 2px #abc4ed;
 }
-
-    .docSelectItem:hover {
-        box-shadow: 0px 0px 2px 2px #dfe4ed;
-        margin: 10px;
-        width: 200px;
-        padding: 10px;
-        max-width: 400px;
-        box-shadow: 0px 0px 2px 2px #dfe4ed;
-        height: 70px;
-        color: #4E5E6A;
-        float: left;
-        font-weight: 600;
-        text-align: center;
-        padding-top: 25px;
-        max-height: 150px;
-        cursor: pointer;
-        background-color: #fff;
-        box-shadow: 0px 0px 1px 2px #abc4ed;
-    }
 
 .knopka {
     background-color: #fff;

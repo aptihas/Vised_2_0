@@ -8,5 +8,6 @@
 <br />
 @foreach (var item in Model)
 {
-    <div class="docSelectItem" onclick="location.href='@Url.Action("DocData","User", new { id=item.id })'" >@item.Name</div>
+    <div class="docSelectItem" onclick="location.href='@Url.Action("DocData","User", new { id=item.id })'">@item.Name</div>
+
 }
