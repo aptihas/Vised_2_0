@@ -13,7 +13,9 @@
                 @if (docType.Use_Blank == true)
                 {
                     <img src="@Url.Content(userFrom.Blank)" />
-                    <div> от @ViewBag.Msg.dateOfSend.ToShortDateString() №@UserForNomer.indexNum/@ViewBag.Msg.id</div>
+
+                    //Это номер документа он состоит из Дата документа, Индекс номер пользователя(он задается при ресгистрации пользователя) и id записи документа
+                    <div> от <span style="border:1px solid black; padding:3px;">@ViewBag.Msg.dateOfSend.ToShortDateString()</span> №<span style="border:1px solid black; padding:3px;">@UserForNomer.indexNum/@ViewBag.Msg.id</span></div>
                 }
                 else
                 {
